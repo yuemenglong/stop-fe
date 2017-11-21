@@ -1,0 +1,37 @@
+doctype html
+html
+    head
+        title #{title}
+        each meta in (metas||[])
+            meta(name=meta.name content=meta.content description=meta.description http-equiv=meta.httpEquiv)
+        script(src='//cdn.bootcss.com/jquery/2.2.3/jquery.js')
+        script(src='//cdn.bootcss.com/react/15.6.1/react.js')
+        script(src='//cdn.bootcss.com/react/15.6.1/react-dom.js')
+        script(src='//cdn.bootcss.com/react-router/4.2.0/react-router.js')
+        script(src='//cdn.bootcss.com/react-router-dom/4.2.2/react-router-dom.js')
+        script(src='//cdn.bootcss.com/mobx/3.2.2/mobx.umd.js')
+        script(src='//cdn.bootcss.com/mobx-react/4.2.2/index.js')
+        script(src='//cdn.bootcss.com/lodash.js/4.12.0/lodash.js')
+        script(src='//cdn.bootcss.com/moment.js/2.18.1/moment.js')
+        script(src='//cdn.bootcss.com/bluebird/3.5.0/bluebird.js')
+        script(src='/deploy/js/jquery.cookie.js')
+        script(src='/deploy/js/datetimepicker.js')
+        script(src='/deploy/js/mask/mask.min.js')
+        link(href='/deploy/js/datetimepicker.css' rel='stylesheet')
+        link(href='/deploy/js/mask/mask.min.css' rel='stylesheet')
+        link(href=`/deploy/bundle/App/bundle.css?v=${v}` rel='stylesheet')
+        script.
+            $.ajaxSetup({contentType: "application/json; charset=utf-8"});
+            window.FetchData = (function () {
+                return !{init}
+            })() || {}
+            window.FetchData = _(window.FetchData).toPairs().map(function (p) {
+                return [decodeURIComponent(p.name), p.value]
+            }).fromPairs().value()
+    body
+        div(id="root") !{html}
+        script(src=`/deploy/bundle/App/bundle.js?v=${v}`)
+        script.
+            var router = React.createElement(ReactRouterDOM.BrowserRouter, null,
+                React.createElement(App, null));
+            ReactDOM.render(router, document.getElementById("root"));

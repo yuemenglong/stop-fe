@@ -1,0 +1,6 @@
+.idea/
+deploy/
+dist/
+logs/
+node_modules/
+stop-fe.iml
