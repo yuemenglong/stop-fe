@@ -30,6 +30,13 @@ app.get("/favicon.ico", (req, res) => {
     res.status(404).end()
 });
 
+app.ajaxPost("/course", transmit);
+app.ajaxGet("/course/:id", transmit);
+app.ajaxPut("/course/:id", transmit);
+app.ajaxGet("/course/list", transmit);
+app.ajaxGet("/course/count", transmit);
+app.ajaxDelete("/course/:id", transmit);
+
 let v = new Date().getTime();
 app.httpGet("/*", (req, res) => {
     res.render("App.pug", {title: "攻防平台", v});
