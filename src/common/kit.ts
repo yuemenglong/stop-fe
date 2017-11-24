@@ -56,7 +56,7 @@ export function ajax(opt: any) {
     let complete = opt.complete || _.noop;
     opt.complete = () => {
         complete();
-        hideLoading(loading)
+        hideLoading()
     };
     $.ajax(opt)
 }

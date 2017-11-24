@@ -1,5 +1,4 @@
 import * as React from "react";
-import {PropsEx} from "../../common/common-type";
 import {ListPageComponent} from "../../common/list-page-component";
 import {Course} from "../../def/entity";
 import {diffMap} from "../../def/data";
@@ -31,7 +30,7 @@ export class CourseList extends ListPageComponent<Course> {
         return 4;
     }
 
-    renderCourse(course: Course, idx: number) {
+    renderCourse(course: Course) {
         let values = [course.name, course.description, diffMap[course.difficulty]].map((value, idx) => {
             return <td key={idx}>{value}</td>
         });
@@ -52,6 +51,7 @@ export class CourseList extends ListPageComponent<Course> {
         return <tr key={course.id}>{values}</tr>
     }
 
+    // noinspection JSMethodCanBeStatic
     createCourse() {
         location.href = "/course/init"
     }
@@ -59,8 +59,6 @@ export class CourseList extends ListPageComponent<Course> {
 
     renderPage(opt: { curPage: number; maxPage: number; pages: number[]; firstPage: boolean; lastPage: boolean },
                refresh: (e?: any) => void, swtch: (page: number) => void): any {
-        console.log(this.state.list);
-        console.log(opt);
         let headers = ["课程名", "描述", "难度", "操作"];
         return <div>
             <h1>课程列表</h1>

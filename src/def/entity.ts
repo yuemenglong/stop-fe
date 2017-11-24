@@ -24,9 +24,6 @@ export class CourseType {
 	id: number = undefined;
 	crTime: string = undefined;
 	name: string = undefined;
-	difficulty: string = undefined;
-	courseType: CourseType = new CourseType();
-	students: Array<Student> = [];
 }
 
 export class Courseware {
@@ -34,6 +31,9 @@ export class Courseware {
 	crTime: string = undefined;
 	name: string = undefined;
 	courseId: number = undefined;
+	fileId: string = undefined;
+	size: number = undefined;
+	ext: string = undefined;
 }
 
 export class Question {

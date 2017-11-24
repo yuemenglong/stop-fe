@@ -3,11 +3,21 @@ import {RenderComponent} from "../../common/render-component";
 import {ajax} from "../../common/kit";
 import {PropsEx} from "../../common/common-type";
 import {diffMap} from "../../def/data";
+import {Table} from "../../common/Table";
+import {Course} from "../../def/entity";
 
-export class CourseEdit extends RenderComponent<PropsEx, any> {
+class State {
+    course: Course = new Course();
+
+    constructor() {
+        this.course.difficulty = "normal"
+    }
+}
+
+export class CourseEdit extends RenderComponent<PropsEx, State> {
     constructor() {
         super();
-        this.state = {difficulty: "normal"};
+        this.state = new State();
     }
 
     componentDidMount() {
@@ -16,7 +26,7 @@ export class CourseEdit extends RenderComponent<PropsEx, any> {
                 url: "/course/" + this.props.match.params.id,
                 type: "GET",
                 success: (res) => {
-                    this.setState(res)
+                    this.setState({course: res})
                 }
             })
         }
@@ -42,11 +52,11 @@ export class CourseEdit extends RenderComponent<PropsEx, any> {
 
     render() {
         let submit = () => {
-            if (this.props.match.params.id) {
+            if (/\d+/.test(this.props.match.params.id)) {
                 ajax({
                     url: "/course/" + this.props.match.params.id,
                     type: "PUT",
-                    data: JSON.stringify(this.state),
+                    data: JSON.stringify(this.state.course),
                     success: () => {
                         location.href = "/course"
                     }
@@ -55,7 +65,7 @@ export class CourseEdit extends RenderComponent<PropsEx, any> {
                 ajax({
                     url: "/course",
                     type: "POST",
-                    data: JSON.stringify(this.state),
+                    data: JSON.stringify(this.state.course),
                     success: () => {
                         location.href = "/course"
                     }
@@ -64,9 +74,9 @@ export class CourseEdit extends RenderComponent<PropsEx, any> {
         };
         return <div>
             <h1>课程</h1>
-            {this.renderPairInput("name", "课程名")}
-            {this.renderPairInput("description", "课程描述")}
-            {this.renderPairSelect("difficulty", "难度", diffMap)}
+            {this.renderPairInput("course.name", "课程名")}
+            {this.renderPairInput("course.description", "课程描述")}
+            {this.renderPairSelect("course.difficulty", "难度", diffMap)}
             <button onClick={submit}>保存</button>
         </div>
     }

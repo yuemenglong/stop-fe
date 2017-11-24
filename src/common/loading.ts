@@ -18,7 +18,7 @@ export function showLoading() {
     return
 }
 
-export function hideLoading(node: any) {
+export function hideLoading() {
     counter--;
     if (counter == 0) {
         document.body.removeChild(document.getElementById("-loading-container"));

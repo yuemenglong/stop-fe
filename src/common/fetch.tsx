@@ -102,7 +102,7 @@ function fetchLoop() {
                 window.alert("页面加载异常");
                 console.log(err);
             }, complete: function () {
-                hideLoading(loading);
+                hideLoading();
             }
         })
     }

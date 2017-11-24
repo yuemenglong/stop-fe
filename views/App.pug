@@ -14,11 +14,14 @@ html
         script(src='//cdn.bootcss.com/lodash.js/4.12.0/lodash.js')
         script(src='//cdn.bootcss.com/moment.js/2.18.1/moment.js')
         script(src='//cdn.bootcss.com/bluebird/3.5.0/bluebird.js')
+        link(href='//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css' rel='stylesheet')
+        link(href=`/deploy/bundle/App/bundle.css?v=${v}` rel='stylesheet')
+
         script(src='/deploy/js/jquery.cookie.js')
         script(src='/deploy/js/datetimepicker.js')
-        link(href='//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css' rel='stylesheet')
         link(href='/deploy/js/datetimepicker.css' rel='stylesheet')
-        link(href=`/deploy/bundle/App/bundle.css?v=${v}` rel='stylesheet')
+        script(type="text/javascript" src="/deploy/webuploader/webuploader.js")
+        link(rel="stylesheet" type="text/css" href="/deploy/webuploader/webuploader.css")
         script.
             $.ajaxSetup({contentType: "application/json; charset=utf-8"});
             window.FetchData = (function () {
