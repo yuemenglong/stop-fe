@@ -82,18 +82,29 @@ export class VideoList extends RenderPairComponent<RouteComponentProps<any>, Sta
             "ext": "类型",
             "size": "大小",
         };
+        let onDelete = (item: Video) => {
+            ajax({
+                url: `/course/${this.getCid()}/video/${item.id}`,
+                type: "DELETE",
+                success: () => {
+                    // noinspection SillyAssignmentJS
+                    location.href = location.href;
+                }
+            })
+        };
         let extHeaders = [{
             name: "操作", render: (item: Video) => {
                 return <div>
                     <a href={`/upload/${item.fileId}`}>下载</a>
-                    <a href={`/course/${this.getCid()}/video/${item.id}`}>删除</a>
+                    <a href="javascript:void(0)" onClick={onDelete.bind(this, item)}>删除</a>
                 </div>
             }
         }];
         return <div>
-            <h1>课件</h1>
+            <h1>视频</h1>
             <Table list={this.state.course.videos}
                    headerMap={headerMap}
+                   extHeaders={extHeaders}
                    props={{className: "table"}}/>
             <button className="btn btn-primary" onClick={this.create.bind(this)}>新增</button>
             {this.renderModal()}
