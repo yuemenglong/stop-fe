@@ -32,6 +32,7 @@ export class Courseware {
 	name: string = undefined;
 	courseId: number = undefined;
 	fileId: string = undefined;
+	fileName: string = undefined;
 	size: number = undefined;
 	ext: string = undefined;
 }
