@@ -1,7 +1,7 @@
 import * as React from "react";
 import {RenderComponent} from "../../common/render-component";
 import {ajax} from "../../common/kit";
-import {diffMap} from "../../def/data";
+import {courseDifficultyMap} from "../../def/data";
 import {Course} from "../../def/entity";
 import {RouteComponentProps} from "react-router";
 
@@ -83,7 +83,7 @@ export class CourseInfo extends RenderComponent<RouteComponentProps<any>, State>
             <h1>课程</h1>
             {this.renderPairInput("course.name", "课程名")}
             {this.renderPairInput("course.description", "课程描述")}
-            {this.renderPairSelect("course.difficulty", "难度", diffMap)}
+            {this.renderPairSelect("course.difficulty", "难度", courseDifficultyMap)}
             <button onClick={submit}>保存</button>
         </div>
     }

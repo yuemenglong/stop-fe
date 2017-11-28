@@ -5,6 +5,8 @@ import {CourseList} from "../Course/List/index";
 import {CourseInfo} from "./Info/index";
 import {CoursewareList} from "./Courseware/index";
 import {VideoList} from "./Video/index";
+import {QuestionList} from "./Question/index";
+import {QuestionInfo} from "./QuestionInfo/index";
 
 export class CourseRouter extends Component {
     render() {
@@ -23,8 +25,10 @@ export class CourseRouter extends Component {
                 <Route path="/course" exact={true} component={CourseList}/>
                 <Route path="/course/:id" render={renderHeader}/>
                 <Route path="/course/:id" exact={true} component={CourseInfo}/>
-                <Route path="/course/:id/courseware" exact={true} component={CoursewareList}/>
-                <Route path="/course/:id/video" exact={true} component={VideoList}/>
+                <Route path="/course/:id/courseware" component={CoursewareList}/>
+                <Route path="/course/:id/video" component={VideoList}/>
+                <Route path="/course/:id/question" component={QuestionList}/>
+                <Route path="/course/:id/question/:qid" component={QuestionInfo}/>
             </switch>
         </div>
     }

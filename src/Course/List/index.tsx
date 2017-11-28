@@ -1,7 +1,7 @@
 import * as React from "react";
 import {ListPageComponent} from "../../common/list-page-component";
 import {Course} from "../../def/entity";
-import {diffMap} from "../../def/data";
+import {courseDifficultyMap} from "../../def/data";
 
 export class CourseList extends ListPageComponent<Course> {
 
@@ -31,7 +31,7 @@ export class CourseList extends ListPageComponent<Course> {
     }
 
     renderCourse(course: Course) {
-        let values = [course.name, course.description, diffMap[course.difficulty]].map((value, idx) => {
+        let values = [course.name, course.description, courseDifficultyMap[course.difficulty]].map((value, idx) => {
             return <td key={idx}>{value}</td>
         });
         let onDelete = () => {

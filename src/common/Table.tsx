@@ -4,8 +4,7 @@ import {Component} from "react";
 
 export interface TableProps<T> {
     list: Array<T>,
-    headerMap: any, // {"name":"姓名"}
-    extHeaders?: Array<{ name: string, render: (item: T, idx?: number) => any }>, //{name:"操作", render: ()=><div/>}
+    headers: Array<{ name: string, render: any }>, // {"name":"姓名"}
     props?: any,
 }
 
@@ -13,24 +12,20 @@ export class Table<T, P extends TableProps<T> = TableProps<T>, S={}>
     extends Component<P, S> {
 
     static defaultProps = {
-        extHeaders: [],
         props: {},
     };
 
     headers() {
-        return _.values(this.props.headerMap)
-            .concat(this.props.extHeaders.map(o => o.name))
+        return this.props.headers.map(h => h.name);
     }
 
     renderItem(item: any, idx: number) {
-        let tds = _.keys(this.props.headerMap).map(n => {
-            return <td key={n}>{item[n]}</td>;
-        });
-        let ext = this.props.extHeaders.map(e => {
-            return <td key={e.name}>{e.render(item, idx)}</td>
+        let tds = this.props.headers.map(p => {
+            let render = (_.isString(p.render) ? () => _.get(item, p.render.toString()) : p.render) as any;
+            return <td key={p.name}>{render(item)}</td>;
         });
         return <tr key={idx}>
-            {tds.concat(ext)}
+            {tds}
         </tr>
     }
 

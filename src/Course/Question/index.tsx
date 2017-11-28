@@ -1,20 +1,22 @@
 import * as React from "react";
 import {Table} from "../../common/Table";
 import {ajax} from "../../common/kit";
-import {Course, Courseware} from "../../def/entity";
+import {Course, Courseware, Question, Video} from "../../def/entity";
 import {Modal} from "../../common/modal";
 import {RenderPairComponent} from "../../component/RenderPair/index";
 import {FileInfo, WebUploader} from "../../component/WebUploader/index";
 import * as _ from "lodash";
 import {RouteComponentProps} from "react-router";
+import {Link} from "react-router-dom";
+import {questionTypeMap} from "../../def/data";
 
 class State {
     course: Course = new Course();
-    courseware: Courseware = null;
+    question: Question = null;
 }
 
 
-export class CoursewareList extends RenderPairComponent<RouteComponentProps<any>, State> {
+export class QuestionList extends RenderPairComponent<RouteComponentProps<any>, State> {
     getRenderRootMode(): { root: any; mode: string } {
         return {root: this.state, mode: "state"};
     }
@@ -38,48 +40,33 @@ export class CoursewareList extends RenderPairComponent<RouteComponentProps<any>
         })
     }
 
-    create() {
-        this.setState({courseware: new Courseware()});
-    }
-
     renderModal() {
-        if (!this.state.courseware) {
+        if (!this.state.question) {
             return;
         }
         let submit = () => {
             ajax({
-                url: `/course/${this.getCid()}/courseware`,
+                url: `/course/${this.getCid()}/question`,
                 type: "POST",
-                data: JSON.stringify(this.state.courseware),
+                data: JSON.stringify(this.state.question),
                 success: (res) => {
                     let course = _.cloneDeep(this.state.course);
-                    course.coursewares.push(res);
-                    course.coursewareCount = course.coursewares.length;
-                    this.setState({course, courseware: null});
+                    course.questions.push(res);
+                    course.questionCount = course.questions.length;
+                    this.setState({course, question: null});
                 }
             })
         };
         return <Modal>
-            {this.renderPairInputText("courseware.name", "名字")}
-            <WebUploader id="uploader" onChange={this.onUpload.bind(this)}/>
+            {this.renderPairInputText("question.name", "名字")}
             <button onClick={submit}>确定</button>
         </Modal>
     }
 
-    onUpload(file: FileInfo) {
-        let courseware = _.clone(this.state.courseware);
-        courseware.fileId = file.fileId;
-        courseware.fileName = file.fileName;
-        courseware.ext = file.ext;
-        courseware.size = file.size;
-        this.setState({courseware});
-    }
-
-
     render() {
-        let onDelete = (item: Courseware) => {
+        let onDelete = (item: Video) => {
             ajax({
-                url: `/course/${this.getCid()}/courseware/${item.id}`,
+                url: `/course/${this.getCid()}/question/${item.id}`,
                 type: "DELETE",
                 success: () => {
                     // noinspection SillyAssignmentJS
@@ -88,23 +75,23 @@ export class CoursewareList extends RenderPairComponent<RouteComponentProps<any>
             })
         };
         let headers = [{
-            name: "名称", render: "name",
+            name: "题目", render: "title",
         }, {
-            name: "类型", render: "ext",
+            name: "类型", render: (item) => questionTypeMap[item.ty],
         }, {
-            name: "大小", render: "size",
+            name: "分值", render: "score",
         }, {
-            name: "操作", render: (item: Courseware) => <div>
-                <a href={`/upload/${item.fileId}`}>下载</a>
+            name: "操作", render: (item: Question) => <div>
+                <Link to={`/course/${this.getCid()}/question/${item.id}`}>查看</Link>
                 <a href="javascript:void(0)" onClick={onDelete.bind(this, item)}>删除</a>
             </div>
         }];
         return <div>
-            <h1>课件</h1>
-            <Table list={this.state.course.coursewares}
+            <h1>题目</h1>
+            <Table list={this.state.course.questions}
                    headers={headers}
                    props={{className: "table"}}/>
-            <button className="btn btn-primary" onClick={this.create.bind(this)}>新增</button>
+            <Link to={`/course/${this.getCid()}/question/init`} className="btn btn-primary">新增</Link>
             {this.renderModal()}
         </div>
     }

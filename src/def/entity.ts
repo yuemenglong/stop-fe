@@ -40,9 +40,30 @@ export class Courseware {
 export class Question {
 	id: number = undefined;
 	crTime: string = undefined;
-	name: string = undefined;
-	difficulty: string = undefined;
-	students: Array<Student> = [];
+	courseId: number = undefined;
+	title: string = undefined;
+	score: number = undefined;
+	ty: string = undefined;
+	sc: QuestionChoice = new QuestionChoice();
+	tf: QuestionTrueFalse = new QuestionTrueFalse();
+}
+
+export class QuestionChoice {
+	id: number = undefined;
+	crTime: string = undefined;
+	opt1: string = undefined;
+	opt2: string = undefined;
+	opt3: string = undefined;
+	opt4: string = undefined;
+	answer: number = undefined;
+	qt: Question = undefined;
+}
+
+export class QuestionTrueFalse {
+	id: number = undefined;
+	crTime: string = undefined;
+	answer: boolean = undefined;
+	qt: Question = undefined;
 }
 
 export class Student {

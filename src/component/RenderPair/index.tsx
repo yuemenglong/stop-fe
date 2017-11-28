@@ -3,18 +3,26 @@ import {RenderComponent} from "../../common/render-component";
 
 export abstract class RenderPairComponent<P={}, S={}> extends RenderComponent<P, S> {
     // noinspection JSUnusedGlobalSymbols
-    renderPairInputText(name: string, ph: string) {
+    renderPairInputText(name: string, ph: string, className?: string) {
         return <div>
             <span>{ph}</span>
-            <span>{this.renderInputText(name, ph)}</span>
+            <span>{this.renderInputText(name, ph, className)}</span>
         </div>
     }
 
     // noinspection JSUnusedGlobalSymbols
-    renderPairSelect(name: string, ph: string, args: any) {
+    renderPairSelect(name: string, ph: string, args: any, className?: string) {
         return <div>
             <span>{ph}</span>
-            <span>{this.renderSelect(name, args)}</span>
+            <span>{this.renderSelect(name, args, className)}</span>
+        </div>
+    }
+
+    // noinspection JSUnusedGlobalSymbols
+    renderPairTextArea(name: string, ph: string, className?: string) {
+        return <div>
+            <span>{ph}</span>
+            <span>{this.renderTextarea(name, ph, className)}</span>
         </div>
     }
 }
