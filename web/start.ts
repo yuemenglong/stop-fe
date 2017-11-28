@@ -23,6 +23,7 @@ process.on('uncaughtException', function (err) {
 app.set('view engine', 'pug');
 app.use(cookieParser());
 app.use("/deploy", express.static(P.resolve(BASEDIR, "deploy")));
+app.use("/upload", express.static(conf.uploadPath));
 app.post("/upload", Upload(conf.uploadPath, "file"));
 app.use("/memberfiles", express.static(conf.uploadPath));
 
@@ -39,9 +40,9 @@ app.ajaxDelete("/course/:id", transmit);
 app.ajaxPost("/course/:id/courseware", transmit);
 app.ajaxPost("/course/:id/video", transmit);
 app.ajaxPost("/course/:id/questionware", transmit);
-app.ajaxDelete("/course/:id/course", transmit);
-app.ajaxDelete("/course/:id/video", transmit);
-app.ajaxDelete("/course/:id/question", transmit);
+app.ajaxDelete("/course/:cid/courseware/:id", transmit);
+app.ajaxDelete("/course/:cid/video/:id", transmit);
+app.ajaxDelete("/course/:cid/question/:id", transmit);
 
 let v = new Date().getTime();
 app.httpGet("/*", (req, res) => {

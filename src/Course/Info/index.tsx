@@ -1,10 +1,9 @@
 import * as React from "react";
-import {RenderComponent} from "../../../common/render-component";
-import {ajax} from "../../../common/kit";
-import {BaseProps} from "../../../common/common-type";
-import {diffMap} from "../../../def/data";
-import {Table} from "../../../common/Table";
-import {Course} from "../../../def/entity";
+import {RenderComponent} from "../../common/render-component";
+import {ajax} from "../../common/kit";
+import {diffMap} from "../../def/data";
+import {Course} from "../../def/entity";
+import {RouteComponentProps} from "react-router";
 
 class State {
     course: Course = new Course();
@@ -18,16 +17,20 @@ interface Props {
     cid: string,
 }
 
-export class CourseInfo extends RenderComponent<Props, State> {
+export class CourseInfo extends RenderComponent<RouteComponentProps<any>, State> {
     constructor() {
         super();
         this.state = new State();
     }
 
+    getCid() {
+        return this.props.match.params.id;
+    }
+
     componentDidMount() {
-        if (this.props.cid != "init") {
+        if (this.getCid() != "init") {
             ajax({
-                url: "/course/" + this.props.cid,
+                url: "/course/" + this.getCid(),
                 type: "GET",
                 success: (res) => {
                     this.setState({course: res})
@@ -56,9 +59,9 @@ export class CourseInfo extends RenderComponent<Props, State> {
 
     render() {
         let submit = () => {
-            if (/\d+/.test(this.props.cid)) {
+            if (/\d+/.test(this.getCid())) {
                 ajax({
-                    url: "/course/" + this.props.cid,
+                    url: "/course/" + this.getCid(),
                     type: "PUT",
                     data: JSON.stringify(this.state.course),
                     success: () => {

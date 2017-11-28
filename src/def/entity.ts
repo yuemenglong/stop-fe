@@ -75,6 +75,9 @@ export class Video {
 	id: number = undefined;
 	crTime: string = undefined;
 	name: string = undefined;
-	difficulty: string = undefined;
-	students: Array<Student> = [];
+	courseId: number = undefined;
+	fileId: string = undefined;
+	fileName: string = undefined;
+	size: number = undefined;
+	ext: string = undefined;
 }

@@ -1,24 +1,26 @@
 import * as React from "react";
-import {Table} from "../../../common/Table";
-import {ajax} from "../../../common/kit";
-import {Course, Courseware} from "../../../def/entity";
-import {Modal} from "../../../common/modal";
-import {RenderPairComponent} from "../../../component/RenderPair/index";
-import {FileInfo, WebUploader} from "../../../component/WebUploader/index";
+import {Table} from "../../common/Table";
+import {ajax} from "../../common/kit";
+import {Course, Courseware} from "../../def/entity";
+import {Modal} from "../../common/modal";
+import {RenderPairComponent} from "../../component/RenderPair/index";
+import {FileInfo, WebUploader} from "../../component/WebUploader/index";
 import * as _ from "lodash";
+import {RouteComponentProps} from "react-router";
 
 class State {
     course: Course = new Course();
     courseware: Courseware = null;
 }
 
-interface Props {
-    cid: string
-}
 
-export class CoursewareList extends RenderPairComponent<Props, State> {
+export class CoursewareList extends RenderPairComponent<RouteComponentProps<any>, State> {
     getRenderRootMode(): { root: any; mode: string } {
         return {root: this.state, mode: "state"};
+    }
+
+    getCid() {
+        return this.props.match.params.id;
     }
 
     constructor() {
@@ -28,7 +30,7 @@ export class CoursewareList extends RenderPairComponent<Props, State> {
 
     componentDidMount() {
         ajax({
-            url: "/course/" + this.props.cid,
+            url: "/course/" + this.getCid(),
             type: "GET",
             success: (res) => {
                 this.setState({course: res})
@@ -46,7 +48,7 @@ export class CoursewareList extends RenderPairComponent<Props, State> {
         }
         let submit = () => {
             ajax({
-                url: `/course/${this.props.cid}/courseware`,
+                url: `/course/${this.getCid()}/courseware`,
                 type: "POST",
                 data: JSON.stringify(this.state.courseware),
                 success: (res) => {
@@ -65,14 +67,12 @@ export class CoursewareList extends RenderPairComponent<Props, State> {
     }
 
     onUpload(file: FileInfo) {
-        console.log(file);
         let courseware = _.clone(this.state.courseware);
         courseware.fileId = file.fileId;
         courseware.fileName = file.fileName;
         courseware.ext = file.ext;
         courseware.size = file.size;
         this.setState({courseware});
-
     }
 
 
@@ -82,11 +82,21 @@ export class CoursewareList extends RenderPairComponent<Props, State> {
             "ext": "类型",
             "size": "大小",
         };
+        let onDelete = (item: Courseware) => {
+            ajax({
+                url: `/course/${this.getCid()}/courseware/${item.id}`,
+                type: "DELETE",
+                success: () => {
+                    // noinspection SillyAssignmentJS
+                    location.href = location.href;
+                }
+            })
+        };
         let extHeaders = [{
             name: "操作", render: (item: Courseware) => {
                 return <div>
                     <a href={`/upload/${item.fileId}`}>下载</a>
-                    <a href={`/course/${this.props.cid}/courseware/${item.id}`}>删除</a>
+                    <a href="javascript:void(0)" onClick={onDelete.bind(this, item)}>删除</a>
                 </div>
             }
         }];
@@ -94,6 +104,7 @@ export class CoursewareList extends RenderPairComponent<Props, State> {
             <h1>课件</h1>
             <Table list={this.state.course.coursewares}
                    headerMap={headerMap}
+                   extHeaders={extHeaders}
                    props={{className: "table"}}/>
             <button className="btn btn-primary" onClick={this.create.bind(this)}>新增</button>
             {this.renderModal()}
