@@ -60,3 +60,33 @@ export function ajax(opt: any) {
     };
     $.ajax(opt)
 }
+
+export function ajaxGet(url: String, success: Function, error?: Function) {
+    let type = "GET";
+    let opt = {url, type, success, error};
+    return ajax(opt);
+}
+
+export function ajaxPost(url: String, data: any, success: Function, error?: Function) {
+    if (!_.isString(data)) {
+        data = JSON.stringify(data)
+    }
+    let type = "POST";
+    let opt = {url, type, data, success, error};
+    return ajax(opt);
+}
+
+export function ajaxPut(url: String, data: any, success: Function, error?: Function) {
+    if (!_.isString(data)) {
+        data = JSON.stringify(data)
+    }
+    let type = "PUT";
+    let opt = {url, type, data, success, error};
+    return ajax(opt);
+}
+
+export function ajaxDelete(url: String, success: Function, error?: Function) {
+    let type = "DELETE";
+    let opt = {url, type, success, error};
+    return ajax(opt);
+}

@@ -39,10 +39,7 @@ export abstract class ListPageComponent<T, P=undefined, S extends ListPageState<
 
     abstract getPageRange(): number
 
-    abstract renderPage(opt: {
-                            curPage: number, maxPage: number, pages: number[],
-                            firstPage: boolean, lastPage: boolean
-                        },
+    abstract renderPage(renderPagination: () => any,
                         refresh: (e?: any) => void,
                         swtch: (page: number) => void): any
 
@@ -79,6 +76,32 @@ export abstract class ListPageComponent<T, P=undefined, S extends ListPageState<
         this.$refresh(filter);
     }
 
+    renderPagination(curPage: number, maxPage: number, pages: number[],
+                     firstPage: boolean, lastPage: boolean,
+                     refresh: () => void, swtch: (page: number) => void) {
+        if (maxPage == 1) {
+            return <ol/>
+        }
+        let ret = pages.map((p) => {
+            let middleClassName = curPage === p ? "active" : "";
+            return <li key={p}><a onClick={swtch.bind(this, p)} className={middleClassName}>{p}</a></li>
+        });
+        if (firstPage) {
+            let firstClassName = curPage === 1 ? "active" : "";
+            let first = <li key={1}><a onClick={swtch.bind(this, 1)} className={firstClassName}>{1}</a></li>;
+            ret.unshift(<li key="first">...</li>);
+            ret.unshift(first);
+        }
+        if (lastPage) {
+            let lastClassName = curPage === maxPage ? "active" : "";
+            let last = <li key={maxPage}><a onClick={swtch.bind(this, maxPage)}
+                                            className={lastClassName}>{maxPage}</a></li>;
+            ret.push(<li key="last">...</li>);
+            ret.push(last);
+        }
+        return <ol className="pagination">{ret}</ol>
+    }
+
     render(): any {
         let curPage = _.floor(this.state.filter.offset / this.state.filter.limit) + 1;
         let maxPage = _.ceil(this.state.count as number / this.state.filter.limit);
@@ -87,8 +110,10 @@ export abstract class ListPageComponent<T, P=undefined, S extends ListPageState<
         });
         let firstPage = pages[0] != 1 && pages.length > 0;
         let lastPage = pages.slice(-1)[0] != maxPage && maxPage > 0;
-        return this.renderPage({curPage, maxPage, pages, firstPage, lastPage},
-            this.$refresh.bind(this, this.state.filter),
-            this.$switch)
+        let refresh = this.$refresh.bind(this, this.state.filter);
+        let swtch = this.$switch.bind(this);
+        let renderpagination = this.renderPagination.bind(this, curPage, maxPage,
+            pages, firstPage, lastPage, refresh, swtch);
+        return this.renderPage(renderpagination, refresh, swtch);
     }
 }

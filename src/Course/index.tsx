@@ -20,16 +20,14 @@ export class CourseRouter extends Component {
             </div>;
         };
         // let renderCourseInfo = (props) => <CourseInfo {...props}/>;
-        return <div className="container">
-            <switch>
-                <Route path="/course" exact={true} component={CourseList}/>
-                <Route path="/course/:id" render={renderHeader}/>
-                <Route path="/course/:id" exact={true} component={CourseInfo}/>
-                <Route path="/course/:id/courseware" component={CoursewareList}/>
-                <Route path="/course/:id/video" component={VideoList}/>
-                <Route path="/course/:id/question" component={QuestionList}/>
-                <Route path="/course/:id/question/:qid" component={QuestionInfo}/>
-            </switch>
+        return <div>
+            <Route path="/course" exact={true} component={CourseList}/>
+            <Route path="/course/:id" render={renderHeader}/>
+            <Route path="/course/:id" exact={true} component={CourseInfo}/>
+            <Route path="/course/:id/courseware" component={CoursewareList}/>
+            <Route path="/course/:id/video" component={VideoList}/>
+            <Route path="/course/:id/question" component={QuestionList}/>
+            <Route path="/course/:id/question/:qid" component={QuestionInfo}/>
         </div>
     }
 }

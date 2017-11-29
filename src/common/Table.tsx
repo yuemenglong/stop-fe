@@ -5,6 +5,8 @@ import {Component} from "react";
 export interface TableProps<T> {
     list: Array<T>,
     headers: Array<{ name: string, render: any }>, // {"name":"姓名"}
+    getKey?: Function,
+    className?: String,
     props?: any,
 }
 
@@ -24,9 +26,8 @@ export class Table<T, P extends TableProps<T> = TableProps<T>, S={}>
             let render = (_.isString(p.render) ? () => _.get(item, p.render.toString()) : p.render) as any;
             return <td key={p.name}>{render(item)}</td>;
         });
-        return <tr key={idx}>
-            {tds}
-        </tr>
+        let key = this.props.getKey ? this.props.getKey(item, idx) : idx;
+        return <tr key={key}>{tds}</tr>
     }
 
     renderHeader() {
@@ -38,7 +39,7 @@ export class Table<T, P extends TableProps<T> = TableProps<T>, S={}>
     }
 
     render() {
-        return <table {...this.props.props}>
+        return <table className={this.props.className} {...this.props.props}>
             <thead>
             {this.renderHeader()}
             </thead>

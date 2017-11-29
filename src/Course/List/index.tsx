@@ -57,8 +57,7 @@ export class CourseList extends ListPageComponent<Course> {
     }
 
 
-    renderPage(opt: { curPage: number; maxPage: number; pages: number[]; firstPage: boolean; lastPage: boolean },
-               refresh: (e?: any) => void, swtch: (page: number) => void): any {
+    renderPage(renderPagination: () => any, refresh: (e?: any) => void, swtch: (page: number) => void): any {
         let headers = ["课程名", "描述", "难度", "操作"];
         return <div>
             <h1>课程列表</h1>
@@ -73,19 +72,7 @@ export class CourseList extends ListPageComponent<Course> {
                 {this.state.list.map(this.renderCourse.bind(this))}
                 </tbody>
             </table>
-            {this.renderPagination(opt, swtch)}
-        </div>
-    }
-
-    renderPagination(opt: { curPage: number; maxPage: number; pages: number[]; firstPage: boolean; lastPage: boolean },
-                     swtch: (page: number) => void) {
-        // if(opt.pages.length == 1 && opt.pages[0] == 1){
-        //     return;
-        // }
-        return <div>
-            {opt.pages.map(p => {
-                return <a key={p} onClick={swtch.bind(this, p)}>{p}</a>
-            })}
+            {renderPagination()}
         </div>
     }
 }

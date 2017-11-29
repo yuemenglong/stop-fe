@@ -37,6 +37,7 @@ app.ajaxPut("/course/:id", transmit);
 app.ajaxGet("/course/list", transmit);
 app.ajaxGet("/course/count", transmit);
 app.ajaxDelete("/course/:id", transmit);
+
 app.ajaxPost("/course/:id/courseware", transmit);
 app.ajaxPost("/course/:id/video", transmit);
 app.ajaxPost("/course/:id/question", transmit);
@@ -45,6 +46,14 @@ app.ajaxPut("/course/:id/question/:qid", transmit);
 app.ajaxDelete("/course/:id/courseware/:cid", transmit);
 app.ajaxDelete("/course/:id/video/:vid", transmit);
 app.ajaxDelete("/course/:id/question/:qid", transmit);
+
+
+app.ajaxPost("/student", transmit);
+app.ajaxDelete("/student/:id", transmit);
+app.ajaxPut("/student/:id", transmit);
+app.ajaxGet("/student/:id", transmit);
+app.ajaxGet("/student/list", transmit);
+app.ajaxGet("/student/count", transmit);
 
 let v = new Date().getTime();
 app.httpGet("/*", (req, res) => {
