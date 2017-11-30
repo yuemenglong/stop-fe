@@ -55,6 +55,15 @@ app.ajaxGet("/student/:id", transmit);
 app.ajaxGet("/student/list", transmit);
 app.ajaxGet("/student/count", transmit);
 
+app.ajaxPost("/clazz", transmit);
+app.ajaxDelete("/clazz/:id", transmit);
+app.ajaxPut("/clazz/:id", transmit);
+app.ajaxGet("/clazz/:id", transmit);
+app.ajaxGet("/clazz/:id/students", transmit);
+app.ajaxPost("/clazz/:id/students", transmit);
+app.ajaxGet("/clazz/list", transmit);
+app.ajaxGet("/clazz/count", transmit);
+
 let v = new Date().getTime();
 app.httpGet("/*", (req, res) => {
     res.render("App.pug", {title: "攻防平台", v});

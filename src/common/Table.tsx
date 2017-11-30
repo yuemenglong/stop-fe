@@ -4,7 +4,7 @@ import {Component} from "react";
 
 export interface TableProps<T> {
     list: Array<T>,
-    headers: Array<{ name: string, render: any }>, // {"name":"姓名"}
+    headers: Array<{ name: string, render: any }>, // {name:"姓名", render:"username"}
     getKey?: Function,
     className?: String,
     props?: any,
