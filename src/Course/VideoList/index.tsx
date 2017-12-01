@@ -6,7 +6,9 @@ import {Modal} from "../../common/modal";
 import {RenderPairComponent} from "../../component/RenderPair/index";
 import {FileInfo, WebUploader} from "../../component/WebUploader/index";
 import * as _ from "lodash";
-import {RouteComponentProps} from "react-router";
+import {Route, RouteComponentProps} from "react-router";
+import {Link} from "react-router-dom";
+import {VideoInfo} from "../VideoInfo/index";
 
 class State {
     course: Course = new Course();
@@ -38,44 +40,6 @@ export class VideoList extends RenderPairComponent<RouteComponentProps<any>, Sta
         })
     }
 
-    create() {
-        this.setState({video: new Video()});
-    }
-
-    renderModal() {
-        if (!this.state.video) {
-            return;
-        }
-        let submit = () => {
-            ajax({
-                url: `/course/${this.getCid()}/video`,
-                type: "POST",
-                data: JSON.stringify(this.state.video),
-                success: (res) => {
-                    let course = _.cloneDeep(this.state.course);
-                    course.videos.push(res);
-                    course.videoCount = course.videos.length;
-                    this.setState({course, video: null});
-                }
-            })
-        };
-        return <Modal>
-            {this.renderPairInputText("video.name", "名字")}
-            <WebUploader id="uploader" onChange={this.onUpload.bind(this)}/>
-            <button onClick={submit}>确定</button>
-        </Modal>
-    }
-
-    onUpload(file: FileInfo) {
-        let video = _.clone(this.state.video);
-        video.fileId = file.fileId;
-        video.fileName = file.fileName;
-        video.ext = file.ext;
-        video.size = file.size;
-        this.setState({video});
-    }
-
-
     render() {
         let onDelete = (item: Video) => {
             ajax({
@@ -95,17 +59,43 @@ export class VideoList extends RenderPairComponent<RouteComponentProps<any>, Sta
             name: "大小", render: "size",
         }, {
             name: "操作", render: (item: Video) => <div>
-                <a href={`/upload/${item.fileId}`}>下载</a>
+                <Link to={`/course/${this.getCid()}/video/${item.id}`}>修改</Link>
+                <a href={`/upload/${item.fileId}`} target="_blank">下载</a>
                 <a href="javascript:void(0)" onClick={onDelete.bind(this, item)}>删除</a>
             </div>
         }];
+        let create = (video) => {
+            let course = _.cloneDeep(this.state.course);
+            course.videos.push(video);
+            this.setState({course});
+        };
+        let update = (video) => {
+            let course = _.cloneDeep(this.state.course);
+            course.videos.map(v => v.id == video.id ? video : v);
+            this.setState({course});
+        };
+        let render = (props) => {
+            console.log(this.state.course);
+            let vid = props.match.params.vid;
+            if (vid == "init") {
+                return <VideoInfo video={new Video()} cid={this.getCid()} onChange={create}/>
+            } else {
+                let video = this.state.course.videos.filter(v => v.id == vid)[0];
+                if (video) {
+                    return <VideoInfo video={video} cid={this.getCid()} onChange={update}/>
+                } else {
+                    return <div/>;
+                }
+            }
+        };
         return <div>
             <h1>视频</h1>
             <Table list={this.state.course.videos}
                    headers={headers}
                    props={{className: "table"}}/>
-            <button className="btn btn-primary" onClick={this.create.bind(this)}>新增</button>
-            {this.renderModal()}
+            <Link to={`/course/${this.getCid()}/video/init`}>新增</Link>
+            {/*<button className="btn btn-primary" onClick={this.create.bind(this)}>新增</button>*/}
+            <Route path="/course/:cid/video/:vid" render={render}/>
         </div>
     }
 }

@@ -3,9 +3,9 @@ import {Component} from "react";
 import {Route, RouteComponentProps} from "react-router";
 import {CourseList} from "../Course/List/index";
 import {CourseInfo} from "./Info/index";
-import {CoursewareList} from "./Courseware/index";
-import {VideoList} from "./Video/index";
-import {QuestionList} from "./Question/index";
+import {CoursewareList} from "./CoursewareList/index";
+import {VideoList} from "./VideoList/index";
+import {QuestionList} from "./QuestionList/index";
 import {QuestionInfo} from "./QuestionInfo/index";
 
 export class CourseRouter extends Component {

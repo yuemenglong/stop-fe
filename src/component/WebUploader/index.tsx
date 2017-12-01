@@ -7,6 +7,7 @@ interface Props {
     className?: string,
     onChange: (file: FileInfo) => void,
     onError?: (err: any) => void,
+    text?: string,
 }
 
 export interface FileInfo {
@@ -26,6 +27,14 @@ export class WebUploader extends Component<Props, State> {
         this.state = new State();
     }
 
+    // noinspection JSUnusedGlobalSymbols
+    static defaultProps = {
+        className: "",
+        onError: (err) => alert(err),
+        text: "选择文件",
+    };
+
+
     componentDidMount() {
         let uploader = (window as any).WebUploader.create({
             // swf文件路径
@@ -43,21 +52,19 @@ export class WebUploader extends Component<Props, State> {
             showLoading()
         });
         uploader.on('uploadSuccess', (file, res) => {
+            hideLoading()
             let info = {fileId: res._raw, fileName: file.name, size: file.size, ext: file.ext}
             this.props.onChange(info)
         });
 
         uploader.on('uploadError', function (file, err) {
-            if (this.props.onError) {
-                this.props.onError(err)
-            } else {
-                alert(err)
-            }
-        });
-
-        uploader.on('uploadComplete', function () {
             hideLoading()
+            this.props.onError(err)
         });
+    }
+
+    componentWillUnmount() {
+        this.state.uploader.destroy();
     }
 
     upload() {
@@ -68,7 +75,7 @@ export class WebUploader extends Component<Props, State> {
         return <div id={this.props.id} className={this.props.className}>
             <div id="thelist" className="uploader-list"/>
             <div className="btns">
-                <div id={`${this.props.id}-picker`}>选择文件</div>
+                <div id={`${this.props.id}-picker`}>{this.props.text}</div>
                 {/*<button className="btn btn-default" onClick={this.upload.bind(this)}>开始上传</button>*/}
             </div>
         </div>

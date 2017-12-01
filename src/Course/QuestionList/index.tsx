@@ -4,7 +4,6 @@ import {ajax} from "../../common/kit";
 import {Course, Courseware, Question, Video} from "../../def/entity";
 import {Modal} from "../../common/modal";
 import {RenderPairComponent} from "../../component/RenderPair/index";
-import {FileInfo, WebUploader} from "../../component/WebUploader/index";
 import * as _ from "lodash";
 import {RouteComponentProps} from "react-router";
 import {Link} from "react-router-dom";

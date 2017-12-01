@@ -95,7 +95,7 @@ export class CoursewareList extends RenderPairComponent<RouteComponentProps<any>
             name: "大小", render: "size",
         }, {
             name: "操作", render: (item: Courseware) => <div>
-                <a href={`/upload/${item.fileId}`}>下载</a>
+                <a href={`/upload/${item.fileId}`} target="_blank">下载</a>
                 <a href="javascript:void(0)" onClick={onDelete.bind(this, item)}>删除</a>
             </div>
         }];
