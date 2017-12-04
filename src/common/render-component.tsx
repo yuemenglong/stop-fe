@@ -7,8 +7,8 @@ export class OptionItem {
     option: string = null;
 }
 
-export type EH = (e?: any) => void
-export type TEH<T> = (item: T) => void
+export type EH = (e?: any) => any
+export type TEH<T> = (item: T) => any
 
 export function validateRegex(re: RegExp, msg: string, allowNull: boolean = false): (v: any, ac: number[]) => string {
     return (value: any, ac: number[]) => {
