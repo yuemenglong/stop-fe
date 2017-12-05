@@ -2,6 +2,7 @@ export class Clazz {
 	id: number = undefined;
 	crTime: string = undefined;
 	name: string = undefined;
+	studentCount: number = undefined;
 	students: Array<Student> = [];
 }
 
@@ -14,16 +15,20 @@ export class Course {
 	questionCount: number = undefined;
 	coursewareCount: number = undefined;
 	videoCount: number = undefined;
-	courseType: CourseType = new CourseType();
+	category: CourseCategory = new CourseCategory();
 	questions: Array<Question> = [];
 	coursewares: Array<Courseware> = [];
 	videos: Array<Video> = [];
 }
 
-export class CourseType {
+export class CourseCategory {
 	id: number = undefined;
 	crTime: string = undefined;
 	name: string = undefined;
+	level: number = undefined;
+	parentId: number = undefined;
+	parent: CourseCategory = undefined;
+	children: Array<CourseCategory> = [];
 }
 
 export class Courseware {
@@ -75,6 +80,8 @@ export class Student {
 	password: string = undefined;
 	email: string = undefined;
 	avatar: string = undefined;
+	clazzId: number = undefined;
+	clazz: Clazz = new Clazz();
 }
 
 export class StudyTask {

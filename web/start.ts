@@ -66,6 +66,11 @@ app.ajaxPost("/clazz/:id/students", transmit);
 app.ajaxGet("/clazz/list", transmit);
 app.ajaxGet("/clazz/count", transmit);
 
+app.ajaxPost("/course-category", transmit);
+app.ajaxPut("/course-category/:id", transmit);
+app.ajaxGet("/course-category", transmit);
+app.ajaxDelete("/course-category/:id", transmit);
+
 let v = new Date().getTime();
 app.httpGet("/*", (req, res) => {
     res.render("App.pug", {title: "攻防平台", v});

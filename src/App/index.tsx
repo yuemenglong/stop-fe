@@ -5,6 +5,7 @@ import {CourseRouter} from "../Admin/Course/index";
 import {StudentRouter} from "../Admin/Student/index";
 import {ClazzRouter} from "../Admin/Clazz/index";
 import {Link} from "react-router-dom";
+import {CourseCategoryList} from "../Admin/CourseCategory/index";
 
 export class App extends Component {
     render() {
@@ -13,11 +14,13 @@ export class App extends Component {
                 <Link to="/course">课程列表</Link>
                 <Link to="/student">学生列表</Link>
                 <Link to="/clazz">班级列表</Link>
+                <Link to="/course-category">课程体系</Link>
             </div>
             <switch>
                 <Route path="/course" component={CourseRouter}/>
                 <Route path="/student" component={StudentRouter}/>
                 <Route path="/clazz" component={ClazzRouter}/>
+                <Route path="/course-category" component={CourseCategoryList}/>
             </switch>
         </div>
     }

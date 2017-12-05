@@ -125,10 +125,7 @@ export class StudentList extends ListPageComponent<Student, any, State> {
         // let getKey = (s) => s.id;
         let onChange = (list) => {
             console.log("onChange", list);
-            // this.setState(list);
-            // TODO 这里用setState不起作用，还没有搞清楚原因
-            (this.state as any).list = list;
-            this.setState(list);
+            this.setState({list});
         };
         console.log("render", this.state.list);
         return <div>

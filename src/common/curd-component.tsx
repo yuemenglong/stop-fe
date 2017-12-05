@@ -15,10 +15,12 @@ export interface CurdProps<T> {
     list: Array<T>,
     onChange: (list: Array<T>) => void,
     history: any,
+    params?: any,
 }
 
 export class CurdState<T> {
     item: T = null;
+    params: any = {};
 }
 
 export abstract class CurdComponent<T, //
@@ -75,9 +77,13 @@ export abstract class CurdComponent<T, //
         };
         let headers = this.getHeaderRender(onCreate, onUpdate, onDelete);
         let renderTable = () => {
-            return <Table className="table" list={this.props.list} headers={headers}/>
+            return <Table className="table" list={this.props.list}
+                          headers={headers} getKey={this.$getId.bind(this)}/>
         };
         let renderModal = (props) => {
+            if (!this.state.item) {
+                return <div/>;
+            }
             let onChange = (item: T) => {
                 this.setState({item})
             };
