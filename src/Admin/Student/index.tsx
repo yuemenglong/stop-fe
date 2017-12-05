@@ -2,7 +2,6 @@ import * as React from "react";
 import {Component} from "react";
 import {Route} from "react-router";
 import {StudentList} from "./List/index";
-import {StudentEdit} from "./Edit/index";
 
 export class StudentRouter extends Component {
     render() {

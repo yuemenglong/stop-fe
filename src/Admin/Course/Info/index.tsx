@@ -1,8 +1,8 @@
 import * as React from "react";
-import {RenderComponent} from "../../common/render-component";
-import {ajax} from "../../common/kit";
-import {courseDifficultyMap} from "../../def/data";
-import {Course} from "../../def/entity";
+import {RenderComponent} from "../../../common/render-component";
+import {ajax} from "../../../common/kit";
+import {courseDifficultyMap} from "../../../def/data";
+import {Course} from "../../../def/entity";
 import {RouteComponentProps} from "react-router";
 
 class State {

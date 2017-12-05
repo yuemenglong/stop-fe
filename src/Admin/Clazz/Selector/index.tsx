@@ -1,16 +1,16 @@
 import * as React from "react";
 import {Component} from "react";
 import {Route, RouteComponentProps} from "react-router";
-import {RenderPairComponent} from "../../component/RenderPair/index";
-import {Modal} from "../../common/modal";
-import {WebUploader} from "../../component/WebUploader/index";
-import {Clazz, Student} from "../../def/entity";
+import {RenderPairComponent} from "../../../component/RenderPair/index";
+import {Modal} from "../../../common/modal";
+import {WebUploader} from "../../../component/WebUploader/index";
+import {Clazz, Student} from "../../../def/entity";
 import _ = require("lodash");
-import {ajax, ajaxGet, ajaxPost, ajaxPut} from "../../common/kit";
+import {ajax, ajaxGet, ajaxPost, ajaxPut} from "../../../common/kit";
 import {Link} from "react-router-dom";
-import {Table} from "../../common/Table";
-import {SelectorComponent} from "../../common/selector-component";
-import {EH} from "../../common/render-component";
+import {Table} from "../../../common/Table";
+import {SelectorComponent} from "../../../common/selector-component";
+import {EH} from "../../../common/render-component";
 
 
 class Selector extends SelectorComponent<Student> {

@@ -1,10 +1,10 @@
 import * as React from "react";
 import {RouteComponentProps} from "react-router";
-import {RenderPairComponent} from "../../component/RenderPair/index";
-import {Student} from "../../def/entity";
-import {ajaxDelete, ajaxGet, ajaxPost, ajaxPut} from "../../common/kit";
+import {RenderPairComponent} from "../../../component/RenderPair/index";
+import {Student} from "../../../def/entity";
+import {ajaxDelete, ajaxGet, ajaxPost, ajaxPut} from "../../../common/kit";
 import {Link} from "react-router-dom";
-import {Table} from "../../common/Table";
+import {Table} from "../../../common/Table";
 
 class State {
     students: Array<Student> = [];

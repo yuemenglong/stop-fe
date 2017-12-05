@@ -1,7 +1,7 @@
 import * as React from "react";
 import {Component} from "react";
 import {Route, RouteComponentProps} from "react-router";
-import {CourseList} from "../Course/List/index";
+import {CourseList} from "./List/index";
 import {CourseInfo} from "./Info/index";
 import {CoursewareList} from "./CoursewareList/index";
 import {VideoList} from "./VideoList/index";

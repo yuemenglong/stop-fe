@@ -1,12 +1,12 @@
 import * as React from "react";
 import {Component} from "react";
 import {Route, RouteComponentProps} from "react-router";
-import {RenderPairComponent} from "../../component/RenderPair/index";
-import {Modal} from "../../common/modal";
-import {WebUploader} from "../../component/WebUploader/index";
-import {Clazz} from "../../def/entity";
+import {RenderPairComponent} from "../../../component/RenderPair/index";
+import {Modal} from "../../../common/modal";
+import {WebUploader} from "../../../component/WebUploader/index";
+import {Clazz} from "../../../def/entity";
 import _ = require("lodash");
-import {ajax, ajaxGet, ajaxPost, ajaxPut} from "../../common/kit";
+import {ajax, ajaxGet, ajaxPost, ajaxPut} from "../../../common/kit";
 import {Link} from "react-router-dom";
 
 class State {

@@ -1,16 +1,16 @@
 import * as React from "react";
 import {Component} from "react";
 import {Route} from "react-router";
-import {ListPageComponent, ListPageState} from "../../common/list-page-component";
-import {Student} from "../../def/entity";
+import {ListPageComponent, ListPageState} from "../../../common/list-page-component";
+import {Student} from "../../../def/entity";
 import {Link} from "react-router-dom";
-import {Table} from "../../common/Table";
-import {ajaxDelete} from "../../common/kit";
-import {CurdComponent} from "../../common/curd-component";
-import {EH, TEH} from "../../common/render-component";
-import {JVOID0} from "../../def/data";
-import {update} from "../../common/updater";
-import {WebUploader} from "../../component/WebUploader/index";
+import {Table} from "../../../common/Table";
+import {ajaxDelete} from "../../../common/kit";
+import {CurdComponent} from "../../../common/curd-component";
+import {EH, TEH} from "../../../common/render-component";
+import {JVOID0} from "../../../def/data";
+import {update} from "../../../common/updater";
+import {WebUploader} from "../../../component/WebUploader/index";
 
 class State extends ListPageState<Student> {
 

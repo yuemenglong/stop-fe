@@ -1,11 +1,11 @@
 import * as React from "react";
 import {Component} from "react";
 import {Route} from "react-router";
-import {ListPageComponent, ListPageState} from "../../common/list-page-component";
-import {Clazz} from "../../def/entity";
+import {ListPageComponent, ListPageState} from "../../../common/list-page-component";
+import {Clazz} from "../../../def/entity";
 import {Link} from "react-router-dom";
-import {Table} from "../../common/Table";
-import {ajaxDelete} from "../../common/kit";
+import {Table} from "../../../common/Table";
+import {ajaxDelete} from "../../../common/kit";
 import {ClazzEdit} from "../Edit/index";
 
 class State extends ListPageState<Clazz> {

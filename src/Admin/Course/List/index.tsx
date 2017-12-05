@@ -1,7 +1,7 @@
 import * as React from "react";
-import {ListPageComponent} from "../../common/list-page-component";
-import {Course} from "../../def/entity";
-import {courseDifficultyMap} from "../../def/data";
+import {ListPageComponent} from "../../../common/list-page-component";
+import {Course} from "../../../def/entity";
+import {courseDifficultyMap} from "../../../def/data";
 
 export class CourseList extends ListPageComponent<Course> {
 

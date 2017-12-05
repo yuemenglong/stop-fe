@@ -1,13 +1,13 @@
 import * as React from "react";
-import {ajax} from "../../common/kit";
-import {Course, Courseware} from "../../def/entity";
-import {RenderPairComponent} from "../../component/RenderPair/index";
+import {ajax} from "../../../common/kit";
+import {Course, Courseware} from "../../../def/entity";
+import {RenderPairComponent} from "../../../component/RenderPair/index";
 import {RouteComponentProps} from "react-router";
-import {CurdComponent, CurdState} from "../../common/curd-component";
-import {EH, TEH} from "../../common/render-component";
-import {update} from "../../common/updater";
-import {JVOID0} from "../../def/data";
-import {FileInfo, WebUploader} from "../../component/WebUploader/index";
+import {CurdComponent, CurdState} from "../../../common/curd-component";
+import {EH, TEH} from "../../../common/render-component";
+import {update} from "../../../common/updater";
+import {JVOID0} from "../../../def/data";
+import {FileInfo, WebUploader} from "../../../component/WebUploader/index";
 import _ = require("lodash");
 
 class State {

@@ -1,10 +1,10 @@
 import * as React from "react";
-import {Table} from "../../common/Table";
-import {ajax} from "../../common/kit";
-import {Course, Courseware, Video} from "../../def/entity";
-import {Modal} from "../../common/modal";
-import {RenderPairComponent} from "../../component/RenderPair/index";
-import {FileInfo, WebUploader} from "../../component/WebUploader/index";
+import {Table} from "../../../common/Table";
+import {ajax} from "../../../common/kit";
+import {Course, Courseware, Video} from "../../../def/entity";
+import {Modal} from "../../../common/modal";
+import {RenderPairComponent} from "../../../component/RenderPair/index";
+import {FileInfo, WebUploader} from "../../../component/WebUploader/index";
 import * as _ from "lodash";
 import {Route, RouteComponentProps} from "react-router";
 import {Link} from "react-router-dom";

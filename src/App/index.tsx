@@ -1,9 +1,9 @@
 import * as React from "react";
 import {Component} from "react";
 import {Route} from "react-router";
-import {CourseRouter} from "../Course/index";
-import {StudentRouter} from "../Student/index";
-import {ClazzRouter} from "../Clazz/index";
+import {CourseRouter} from "../Admin/Course/index";
+import {StudentRouter} from "../Admin/Student/index";
+import {ClazzRouter} from "../Admin/Clazz/index";
 import {Link} from "react-router-dom";
 
 export class App extends Component {
