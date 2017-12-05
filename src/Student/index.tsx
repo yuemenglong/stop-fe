@@ -8,7 +8,6 @@ export class StudentRouter extends Component {
     render() {
         return <div>
             <Route path="/student" component={StudentList}/>
-            <Route path="/student/:id" component={StudentEdit}/>
         </div>
     }
 }
