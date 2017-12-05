@@ -7,120 +7,107 @@ import {ajax, ajaxDelete, ajaxGet, ajaxPost, ajaxPut} from "./kit";
 import {Table} from "./Table";
 import {Link} from "react-router-dom";
 import {RenderPairComponent} from "../component/RenderPair/index";
+import {hostname} from "os";
+import {Route} from "react-router";
+import {Modal} from "./modal";
 
 export interface CurdProps<T> {
     list: Array<T>,
-    onChange?: (list: Array<T>) => void,
-}
-
-export interface CurdModalProps<T> {
-    item: T,
-    baseUrl: string,
-    onChange: TEH<T>,
-}
-
-export class CurdModalState<T> {
-    item: T = null;
-}
-
-export abstract class CurdModal<T,
-    P extends CurdModalProps<T> = CurdModalProps<T>,
-    S extends CurdModalState<T> = CurdModalState<T>> extends RenderPairComponent<P, S> {
-
-    abstract getId(): any
-
-    abstract createItem(): T
-
-    componentDidMount() {
-        if (!this.getId()) {
-            this.setState({item: this.createItem()})
-        } else {
-            let url = this.props.baseUrl + "/" + this.getId();
-            ajaxGet(url, (res) => {
-                this.setState({item: res});
-            })
-        }
-    }
-
-    abstract renderContent(submit: TEH<T>): any
-
-    render() {
-        if (!this.state.item) {
-            return <div/>;
-        }
-        let submit = () => {
-            if (!this.getId()) {
-                let url = this.props.baseUrl;
-                ajaxPost(url, this.state.item, (res) => {
-                    this.props.onChange(res);
-                    location.href = url;
-                })
-            } else {
-                let url = this.props.baseUrl + "/" + this.getId();
-                ajaxPut(url, this.state.item, (res) => {
-                    this.props.onChange(res);
-                    location.href = url;
-                })
-            }
-        };
-        return this.renderContent(submit);
-    }
+    onChange: (list: Array<T>) => void,
+    history: any,
 }
 
 export abstract class CurdComponent<T, P extends CurdProps<T> = CurdProps<T>, S={}>
     extends RenderPairComponent<P, S> {
 
-    static defaultProps = {
-        onChange: () => {
-        }
-    };
+    static defaultProps = {};
 
-    abstract getIdField(): string
+    abstract idField(): string
 
-    $getId(item: T): any {
-        return item[this.getIdField()];
+    abstract urlSlice(): number
+
+    $getBaseUrl(): string {
+        return location.pathname.split("/").slice(0, this.urlSlice()).join("/")
     }
 
-    abstract getBaseUrl(): string
+    $getId(item: T): any {
+        return item[this.idField()];
+    }
 
-    abstract getHeaderRender(onCreate: TEH<T>, onUpdate: TEH<T>, onDelete: TEH<T>): Array<{ name: string, render: any }>
+    abstract getHeaderRender(onCreate: EH, //
+                             onUpdate: TEH<T>, //
+                             onDelete: TEH<T>, //
+    ): Array<{ name: string, render: any }>
 
-    abstract renderContent(renderTable: () => any, createLink: EH, updateLink: TEH<T>, deleteLink: TEH<T>): any
+    abstract renderContent(renderTable: () => any, //
+                           renderRoute: () => any, //
+                           onCreate: EH, //
+                           onUpdate: TEH<T>, //
+                           onDelete: TEH<T>, //
+    ): any
+
+    abstract itemConstructor(): T
+
+    abstract renderModalContent(item: T, onSubmit: TEH<T>, onCancel: EH): any
 
     render(): any {
-        let onCreate = (item: T) => {
-            // let url = this.getBaseUrl();
-            // ajaxPost(url, item, (res) => {
-            //     let props = update(this.props, "list[]", res);
-            //     this.props.onChange(props.list);
-            // })
-
+        let onCreate = () => {
+            (this.props.history as any).push(`${this.$getBaseUrl()}/init`)
         };
         let onUpdate = (item: T) => {
-            // let id = this.$getId(item);
-            // let url = this.getBaseUrl() + "/" + id;
-            // ajaxPut(url, item, (res) => {
-            //     let props = update(this.props, `list[${this.getIdField()}]`, res, [id]);
-            //     this.props.onChange(props.list);
-            // })
+            (this.props.history as any).push(`${this.$getBaseUrl()}/${this.$getId(item)}`)
         };
         let onDelete = (item: T) => {
             let id = this.$getId(item);
-            let url = this.getBaseUrl() + "/" + id;
+            let url = this.$getBaseUrl() + "/" + id;
             ajaxDelete(url, () => {
-                let props = update(this.props, `list[-${this.getIdField()}]`, null, [item[id]]);
+                let props = update(this.props, `list[-${this.idField()}]`, null, [item[id]]);
                 this.props.onChange(props.list);
             });
         };
-        let createLink = () => <Link to={`${this.getBaseUrl()}/init`}>添加</Link>;
-        let updateLink = (item: T) => <Link to={`${this.getBaseUrl()}/${this.$getId(item)}`}>修改</Link>;
-        let deleteLink = (item: T) => {
-            return <a href="javascript:void(0)" onClick={onDelete.bind(this.$getId(item))}>删除</a>
-        };
         let headers = this.getHeaderRender(onCreate, onUpdate, onDelete);
         let renderTable = () => {
-            return <Table list={this.props.list} headers={headers}/>
+            return <Table className="table" list={this.props.list} headers={headers}/>
         };
-        return this.renderContent(renderTable, createLink, updateLink, deleteLink)
+        let renderModal = (props) => {
+            let onSubmit = (item: T) => {
+                if (this.$getId(item)) {
+                    //update
+                    let url = `${this.$getBaseUrl()}/${id}`;
+                    ajaxPut(url, item, (res) => {
+                        let list = update(this.props.list, "[id]", res, [id]);
+                        this.props.onChange(list);
+                        props.history.replace(this.$getBaseUrl());
+                    });
+                } else {
+                    //create
+                    let url = this.$getBaseUrl();
+                    ajaxPost(url, item, (res) => {
+                        let list = update(this.props.list, "[]", res);
+                        this.props.onChange(list);
+                        props.history.replace(this.$getBaseUrl());
+                    })
+                }
+            };
+            let onCancel = () => {
+                props.history.replace(this.$getBaseUrl());
+            };
+            let id = props.match.params.id;
+            let item = this.props.list.filter(o => {
+                return this.$getId(o) == id
+            })[0] || this.itemConstructor();
+            return <Modal>
+                {this.renderModalContent(item, onSubmit, onCancel)}
+            </Modal>
+        };
+        let renderRoute = () => {
+            return <Route path={`${this.$getBaseUrl()}/:id`} render={renderModal}/>
+        };
+        return this.renderContent(//
+            renderTable, //
+            renderRoute, //
+            onCreate, //
+            onUpdate, //
+            onDelete)
     }
 }

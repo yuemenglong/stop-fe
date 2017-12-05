@@ -9,4 +9,6 @@ let questionTypeMap = {
     "tf": "判断题",
 };
 
-export {courseDifficultyMap, questionTypeMap};
+let JVOID0 = "javascript:void(0)";
+
+export {courseDifficultyMap, questionTypeMap, JVOID0};

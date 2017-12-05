@@ -1,18 +1,68 @@
 import * as React from "react";
-import {Table} from "../../common/Table";
 import {ajax} from "../../common/kit";
 import {Course, Courseware} from "../../def/entity";
-import {Modal} from "../../common/modal";
 import {RenderPairComponent} from "../../component/RenderPair/index";
-import {FileInfo, WebUploader} from "../../component/WebUploader/index";
-import * as _ from "lodash";
 import {RouteComponentProps} from "react-router";
+import {CurdComponent} from "../../common/curd-component";
+import {EH, TEH} from "../../common/render-component";
+import {update} from "../../common/updater";
+import {JVOID0} from "../../def/data";
 
 class State {
     course: Course = new Course();
     courseware: Courseware = null;
 }
 
+class CoursewareListInner extends CurdComponent<Courseware> {
+    itemConstructor(): Courseware {
+        return new Courseware();
+    }
+
+    renderModalContent(item: Courseware, onSubmit: TEH<Courseware>, onCancel: EH): any {
+        return <h1>Modal</h1>;
+    }
+
+    urlSlice(): number {
+        return 4;
+    }
+
+    idField(): string {
+        return "id";
+    }
+
+    getHeaderRender(onCreate: EH, onUpdate: TEH<Courseware>, onDelete: TEH<Courseware>): Array<{ name: string; render: any }> {
+        return [{
+            name: "名称", render: "name",
+        }, {
+            name: "类型", render: "ext",
+        }, {
+            name: "大小", render: "size",
+        }, {
+            name: "操作", render: (item: Courseware) => <div>
+                <a href={`/upload/${item.fileId}`} target="_blank">下载</a>
+                <a href={JVOID0} onClick={onUpdate.bind(null, item)}>修改</a>
+                <a href={JVOID0} onClick={onDelete.bind(null, item)}>删除</a>
+            </div>
+        }];
+    }
+
+    renderContent(renderTable: () => any,
+                  renderRoute: () => any,
+                  onCreate: EH,
+                  onUpdate: TEH<Courseware>,
+                  onDelete: TEH<Courseware>): any {
+        return <div>
+            <h1>课件</h1>
+            {renderTable()}
+            <button onClick={onCreate}>添加</button>
+            {renderRoute()}
+        </div>
+    }
+
+    getRenderRootMode(): { root: any; mode: string } {
+        return {root: this.state, mode: "state"};
+    }
+}
 
 export class CoursewareList extends RenderPairComponent<RouteComponentProps<any>, State> {
     getRenderRootMode(): { root: any; mode: string } {
@@ -20,7 +70,7 @@ export class CoursewareList extends RenderPairComponent<RouteComponentProps<any>
     }
 
     getCid() {
-        return this.props.match.params.id;
+        return location.pathname.split("/")[2];
     }
 
     constructor() {
@@ -38,75 +88,16 @@ export class CoursewareList extends RenderPairComponent<RouteComponentProps<any>
         })
     }
 
-    create() {
-        this.setState({courseware: new Courseware()});
-    }
-
-    renderModal() {
-        if (!this.state.courseware) {
-            return;
-        }
-        let submit = () => {
-            ajax({
-                url: `/course/${this.getCid()}/courseware`,
-                type: "POST",
-                data: JSON.stringify(this.state.courseware),
-                success: (res) => {
-                    let course = _.cloneDeep(this.state.course);
-                    course.coursewares.push(res);
-                    course.coursewareCount = course.coursewares.length;
-                    this.setState({course, courseware: null});
-                }
-            })
-        };
-        return <Modal>
-            {this.renderPairInputText("courseware.name", "名字")}
-            <WebUploader id="uploader" onChange={this.onUpload.bind(this)}/>
-            <button onClick={submit}>确定</button>
-        </Modal>
-    }
-
-    onUpload(file: FileInfo) {
-        let courseware = _.clone(this.state.courseware);
-        courseware.fileId = file.fileId;
-        courseware.fileName = file.fileName;
-        courseware.ext = file.ext;
-        courseware.size = file.size;
-        this.setState({courseware});
-    }
-
-
     render() {
-        let onDelete = (item: Courseware) => {
-            ajax({
-                url: `/course/${this.getCid()}/courseware/${item.id}`,
-                type: "DELETE",
-                success: () => {
-                    // noinspection SillyAssignmentJS
-                    location.href = location.href;
-                }
-            })
+        let onChange = (list) => {
+            let state = update(this.state, "course.courseware", list)
+            this.setState(state);
+            console.log(state);
         };
-        let headers = [{
-            name: "名称", render: "name",
-        }, {
-            name: "类型", render: "ext",
-        }, {
-            name: "大小", render: "size",
-        }, {
-            name: "操作", render: (item: Courseware) => <div>
-                <a href={`/upload/${item.fileId}`} target="_blank">下载</a>
-                <a href="javascript:void(0)" onClick={onDelete.bind(this, item)}>删除</a>
-            </div>
-        }];
-        return <div>
-            <h1>课件</h1>
-            <Table list={this.state.course.coursewares}
-                   headers={headers}
-                   props={{className: "table"}}/>
-            <button className="btn btn-primary" onClick={this.create.bind(this)}>新增</button>
-            {this.renderModal()}
-        </div>
+        return <CoursewareListInner
+            list={this.state.course.coursewares}
+            onChange={onChange}
+            history={this.props.history}/>
     }
 }
 
