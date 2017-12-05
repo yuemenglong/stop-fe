@@ -114,9 +114,12 @@ export abstract class CurdComponent<T, //
                 this.setState({item: null});
                 props.history.replace(this.$getBaseUrl());
             };
-            return <Modal>
-                {this.renderModalContent(onChange, onSubmit, onCancel)}
-            </Modal>
+            let content = this.renderModalContent(onChange, onSubmit, onCancel);
+            if (content) {
+                return <Modal>{content}</Modal>
+            } else {
+                return <div/>
+            }
         };
         let renderRoute = () => {
             return <Route path={`${this.$getBaseUrl()}/:id`} render={renderModal}/>
