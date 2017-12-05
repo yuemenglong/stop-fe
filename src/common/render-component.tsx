@@ -70,7 +70,7 @@ export function validate(obj: any, validator: any): String[] {
 // validate属性
 // invalid样式
 export abstract class RenderComponent<P={}, S={}> extends ComponentEx<P, S> {
-    abstract getRenderRootMode(): { root: any, mode: string }
+    abstract getRenderRootMode(): { root: any, mode: string, onChange?: Function }
 
     // noinspection JSMethodCanBeStatic
     getRenderValidator(): any {
@@ -112,7 +112,7 @@ export abstract class RenderComponent<P={}, S={}> extends ComponentEx<P, S> {
     }
 
     $setValue(key: string, value: any) {
-        let {root, mode} = this.getRenderRootMode();
+        let {root, mode, onChange} = this.getRenderRootMode();
         if (mode == "state") {
             // state
             if (this.state != root) throw Error("State Must Be The Root");
@@ -123,7 +123,12 @@ export abstract class RenderComponent<P={}, S={}> extends ComponentEx<P, S> {
             // props
             let item = _.cloneDeep(root);
             _.set(item, key, value);
-            ((this as any).onChange || (this.props as any).onChange).call(this, item);
+            (onChange || (this as any).onChange || (this.props as any).onChange).call(this, item);
+        } else if (mode == "custom") {
+            // 自定义
+            let item = _.cloneDeep(root);
+            _.set(item, key, value);
+            onChange(item)
         } else if (mode == "mobx") {
             // mobx
             _.set(root, key, value);

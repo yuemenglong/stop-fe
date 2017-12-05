@@ -39,7 +39,7 @@ app.ajaxGet("/course/count", transmit);
 app.ajaxDelete("/course/:id", transmit);
 
 app.ajaxPost("/course/:id/courseware", transmit);
-app.ajaxPut("/course/:id/courseware/:wid", transmit);
+app.ajaxPut("/course/:id/courseware/:cid", transmit);
 app.ajaxPost("/course/:id/video", transmit);
 app.ajaxPut("/course/:id/video/:vid", transmit);
 app.ajaxPost("/course/:id/question", transmit);
