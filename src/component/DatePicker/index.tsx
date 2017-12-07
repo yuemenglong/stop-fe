@@ -1,11 +1,14 @@
+///<reference path="../../../node_modules/@types/lodash/index.d.ts"/>
 import * as React from "react"
 import {Component} from "react";
 import {hideLoading, showLoading} from "../../common/loading";
+import _ = require("lodash");
 
 interface Props {
     className?: string,
     onChange: (date: string) => void,
     placeholder?: string,
+    value: string
 }
 
 class State {
@@ -36,8 +39,9 @@ export class DatePicker extends Component<Props, State> {
     }
 
     render() {
-        return <div className={this.props.className}>
-            <input type="text" id={this.state.id} placeholder={this.props.placeholder}/>
-        </div>
+        console.log(this.props.value);
+        return <input className={this.props.className} onChange={_.noop}
+                      type="text" id={this.state.id} value={this.props.value}
+                      placeholder={this.props.placeholder}/>
     }
 }

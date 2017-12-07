@@ -228,9 +228,9 @@ export abstract class RenderComponent<P={}, S={}> extends ComponentEx<P, S> {
 
     renderDatePicker(name: string, placeholder?: string,
                      className?: string, props?: any) {
-        let onChange = (e: any) => {
+        let onChange = (date: string) => {
             if (!this.$validateChangeField(name)) {
-                this.$setValue(name, e.target.value);
+                this.$setValue(name, date);
             }
         };
         if (this.$needValidate() && this.$validateField(name)) {
