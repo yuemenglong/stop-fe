@@ -9,6 +9,7 @@ import {JVOID0} from "../../../def/data";
 import {ajaxGet, Kit} from "../../../common/kit";
 import {update} from "../../../common/updater";
 import {DatePicker} from "../../../component/DatePicker/index";
+import {Link} from "react-router-dom";
 
 class StudyJobListInner extends CurdComponent<StudyJob> {
 
@@ -45,6 +46,7 @@ class StudyJobListInner extends CurdComponent<StudyJob> {
                 return <div>
                     <a href={JVOID0} onClick={onUpdate.bind(null, job)}>编辑</a>
                     <a href={JVOID0} onClick={onDelete.bind(null, job)}>删除</a>
+                    <Link to={`/study-job/${job.id}/student`}>完成情况</Link>
                 </div>
             }
             }

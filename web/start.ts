@@ -73,6 +73,7 @@ app.ajaxDelete("/course-category/:id", transmit);
 
 app.ajaxGet("/study-job/list", transmit);
 app.ajaxGet("/study-job/count", transmit);
+app.ajaxGet("/study-job/:id", transmit);
 app.ajaxPost("/study-job", transmit);
 app.ajaxPut("/study-job/:id", transmit);
 app.ajaxDelete("/study-job/:id", transmit);

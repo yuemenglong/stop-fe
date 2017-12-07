@@ -8,7 +8,6 @@ export class StudyJobRouter extends Component {
     render() {
         return <div>
             <Route path="/study-job" exact={true} component={StudyJobList}/>
-            <Route path="/study-job/:id" exact={true} component={StudyJobList}/>
             <Route path="/study-job/:id/student" component={StudyJobStudentList}/>
         </div>
     }
