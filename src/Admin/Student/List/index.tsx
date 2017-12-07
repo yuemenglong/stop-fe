@@ -80,8 +80,8 @@ class StudentListInner extends CurdComponent<Student> {
 }
 
 export class StudentList extends ListPageComponent<Student, any, State> {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = new State();
     }
 

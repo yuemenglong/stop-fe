@@ -1,6 +1,7 @@
 import * as React from "react"
 import * as _ from "lodash";
 import {ComponentEx} from "./component-ex";
+import {DatePicker} from "../component/DatePicker/index";
 
 export class OptionItem {
     value: string | number = null;
@@ -223,5 +224,22 @@ export abstract class RenderComponent<P={}, S={}> extends ComponentEx<P, S> {
         let value = this.$getValue(name) as string;
         return <input type="checkbox" className={className} name={name} checked={checked} value={value}
                       {...props}/>
+    }
+
+    renderDatePicker(name: string, placeholder?: string,
+                     className?: string, props?: any) {
+        let onChange = (e: any) => {
+            if (!this.$validateChangeField(name)) {
+                this.$setValue(name, e.target.value);
+            }
+        };
+        if (this.$needValidate() && this.$validateField(name)) {
+            className = [className, "invalid"].filter(_.isString).join(" ");
+        }
+        props = _.merge({onChange}, props);
+
+        let value = this.$getValue(name) as string;
+        return <DatePicker className={className} value={value}
+                           placeholder={placeholder} {...props}/>
     }
 }

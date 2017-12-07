@@ -15,12 +15,13 @@ export interface CurdProps<T> {
     list: Array<T>,
     onChange: (list: Array<T>) => void,
     history: any,
-    params?: any,
+    match?: any,
+    data?: any,
 }
 
 export class CurdState<T> {
     item: T = null;
-    params: any = {};
+    data: any = {};
 }
 
 export abstract class CurdComponent<T, //

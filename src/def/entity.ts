@@ -12,6 +12,7 @@ export class Course {
 	name: string = undefined;
 	description: string = undefined;
 	difficulty: string = undefined;
+	categoryId: number = undefined;
 	questionCount: number = undefined;
 	coursewareCount: number = undefined;
 	videoCount: number = undefined;
@@ -82,14 +83,38 @@ export class Student {
 	avatar: string = undefined;
 	clazzId: number = undefined;
 	clazz: Clazz = new Clazz();
+	jobs: Array<StudentStudyJob> = [];
 }
 
-export class StudyTask {
+export class StudentStudyJob {
 	id: number = undefined;
 	crTime: string = undefined;
-	dateLimit: string = undefined;
-	clazz: Clazz = new Clazz();
+	jobId: number = undefined;
+	studentId: number = undefined;
+	job: StudyJob = new StudyJob();
+	student: Student = new Student();
+	jobItems: Array<StudentStudyJobRel> = [];
+}
+
+export class StudentStudyJobRel {
+	id: number = undefined;
+	crTime: string = undefined;
+	studentStudyJobId: number = undefined;
+	targetId: number = undefined;
+	ty: string = undefined;
+	status: string = undefined;
+}
+
+export class StudyJob {
+	id: number = undefined;
+	crTime: string = undefined;
+	name: string = undefined;
+	courseId: number = undefined;
+	clazzId: number = undefined;
+	limitDate: string = undefined;
 	course: Course = new Course();
+	clazz: Clazz = new Clazz();
+	jobs: Array<StudentStudyJob> = [];
 }
 
 export class Team {

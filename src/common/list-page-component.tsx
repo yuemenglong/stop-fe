@@ -9,7 +9,15 @@ export class ListPageState<T> {
     count: number = 0;
 }
 
-export abstract class ListPageComponent<T, P=undefined, S extends ListPageState<T> = ListPageState<T>>
+export interface ListPageProps {
+    match?: any;
+    history?: any;
+    data?: any;
+}
+
+export abstract class ListPageComponent<T,
+    P extends ListPageProps = ListPageProps,
+    S extends ListPageState<T> = ListPageState<T>>
     extends RenderComponent<P, S> {
 
     abstract getDataUrl(): string
@@ -18,10 +26,12 @@ export abstract class ListPageComponent<T, P=undefined, S extends ListPageState<
 
     abstract initFilter(): Object
 
-    abstract errorHandler(res: any): any
+    errorHandler(res: any) {
+        alert(res.responseText);
+    }
 
-    constructor() {
-        super();
+    constructor(props?) {
+        super(props);
     }
 
     componentWillMount() {

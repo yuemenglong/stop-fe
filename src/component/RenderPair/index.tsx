@@ -33,4 +33,12 @@ export abstract class RenderPairComponent<P={}, S={}> extends RenderComponent<P,
             <span>{this.renderTextarea(name, ph, className)}</span>
         </div>
     }
+
+    // noinspection JSUnusedGlobalSymbols
+    renderPairDatePicker(name: string, ph: string, className?: string) {
+        return <div>
+            <span>{ph}</span>
+            <span>{this.renderDatePicker(name, ph, className)}</span>
+        </div>
+    }
 }

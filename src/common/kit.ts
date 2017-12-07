@@ -90,3 +90,16 @@ export function ajaxDelete(url: String, success: Function, error?: Function) {
     let opt = {url, type, success, error};
     return ajax(opt);
 }
+
+export class Kit {
+    static optionValueList(arr: Array<any>, optionField: string = "name", valueField: string = "id"): Array<{ value: string, option: string }> {
+        if (arr == null) {
+            return [];
+        }
+        let ret = arr.map(o => {
+            return {value: o[valueField], option: o[optionField]}
+        });
+        ret.unshift({value: "", option: "请选择"})
+        return ret;
+    }
+}

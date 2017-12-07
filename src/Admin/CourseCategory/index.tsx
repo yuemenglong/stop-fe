@@ -78,19 +78,19 @@ class CourseCategoryListInner extends CurdComponent<CourseCategory> {
         let table = <Table list={item.children} headers={headerRender} getKey={(c) => c.id}/>;
         let onSave = () => {
             let c = new CourseCategory();
-            c.name = this.state.params.name;
+            c.name = this.state.data.name;
             c.parentId = this.state.item.id;
             c.level = this.state.item.level + 1;
             ajaxPost(`/course-category`, c, (res) => {
                 let item = update(this.state.item, "children[]", res);
-                this.setState({item: item, params: {}})
+                this.setState({item: item, data: {}})
             })
         };
         return <div>
             {this.renderPairInputText("item.name", "名称")}
             {table}
             <div>
-                {this.renderPairInputText("params.name", "名称")}
+                {this.renderPairInputText("data.name", "名称")}
                 <button onClick={onSave}>新增子体系</button>
             </div>
             <button onClick={onSubmit}>保存</button>
