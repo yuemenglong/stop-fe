@@ -39,7 +39,6 @@ export class DatePicker extends Component<Props, State> {
     }
 
     render() {
-        console.log(this.props.value);
         return <input className={this.props.className} onChange={_.noop}
                       type="text" id={this.state.id} value={this.props.value}
                       placeholder={this.props.placeholder}/>

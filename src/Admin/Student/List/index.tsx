@@ -106,34 +106,12 @@ export class StudentList extends ListPageComponent<Student, any, State> {
     }
 
     renderPage(renderPagination: () => any, refresh: (e?: any) => void, swtch: (page: number) => void): any {
-        // let onDelete = (id) => {
-        //     ajaxDelete(`/student/${id}`, refresh)
-        // };
-        // let op = (s: Student) => {
-        //     return <div>
-        //         <Link to={`/student/${s.id}`}>查看</Link>
-        //         <a href="javascript:void(0)" onClick={onDelete.bind(null, s.id)}>删除</a>
-        //     </div>
-        // };
-        // let headers = [
-        //     {name: "登录名", render: "loginName"},
-        //     {name: "姓名", render: "userName"},
-        //     {name: "手机", render: "mobile"},
-        //     {name: "邮箱", render: "email"},
-        //     {name: "操作", render: op}
-        // ];
-        // let getKey = (s) => s.id;
         let onChange = (list) => {
-            console.log("onChange", list);
             this.setState({list});
         };
-        console.log("render", this.state.list);
         return <div>
             <StudentListInner history={this.props.history} list={this.state.list}
                               onChange={onChange}/>
-            {/*<Link className="btn" to={"/student/init"}>新增</Link>*/}
-            {/*<Table list={this.state.list} headers={headers} getKey={getKey}*/}
-            {/*props={{className: "table"}}/>*/}
         </div>;
     }
 }

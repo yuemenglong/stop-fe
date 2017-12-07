@@ -49,7 +49,7 @@ export abstract class CurdComponent<T, //
     ): Array<{ name: string, render: any }>
 
     abstract renderContent(renderTable: () => any, //
-                           renderRoute: () => any, //
+                           renderModal: () => any, //
                            onCreate: EH, //
                            onUpdate: TEH<T>, //
                            onDelete: TEH<T>, //
@@ -62,11 +62,11 @@ export abstract class CurdComponent<T, //
     render(): any {
         let onCreate = () => {
             this.setState({item: this.itemConstructor()});
-            (this.props.history as any).push(`${this.$getBaseUrl()}/init`)
+            // (this.props.history as any).push(`${this.$getBaseUrl()}/init`)
         };
         let onUpdate = (item: T) => {
             this.setState({item});
-            (this.props.history as any).push(`${this.$getBaseUrl()}/${this.$getId(item)}`)
+            // (this.props.history as any).push(`${this.$getBaseUrl()}/${this.$getId(item)}`)
         };
         let onDelete = (item: T) => {
             let id = this.$getId(item);
@@ -81,9 +81,10 @@ export abstract class CurdComponent<T, //
             return <Table className="table" list={this.props.list}
                           headers={headers} getKey={this.$getId.bind(this)}/>
         };
-        let renderModal = (props) => {
+        let renderModal = () => {
             if (!this.state.item) {
-                return <div/>;
+                // location.href = this.$getBaseUrl();
+                return <div/>
             }
             let onChange = (item: T) => {
                 this.setState({item})
@@ -98,7 +99,7 @@ export abstract class CurdComponent<T, //
                         let props = update(this.props, "list[id]", res, [id]);
                         this.props.onChange(props.list);
                         this.setState({item: null});
-                        props.history.replace(this.$getBaseUrl());
+                        // props.history.push(this.$getBaseUrl());
                     });
                 } else {
                     //create
@@ -107,13 +108,13 @@ export abstract class CurdComponent<T, //
                         let props = update(this.props, "list[]", res);
                         this.props.onChange(props.list);
                         this.setState({item: null});
-                        props.history.replace(this.$getBaseUrl());
+                        // props.history.push(this.$getBaseUrl());
                     })
                 }
             };
             let onCancel = () => {
                 this.setState({item: null});
-                props.history.replace(this.$getBaseUrl());
+                // (this.props.history as any).push(this.$getBaseUrl());
             };
             let content = this.renderModalContent(onChange, onSubmit, onCancel);
             if (content) {
@@ -123,11 +124,14 @@ export abstract class CurdComponent<T, //
             }
         };
         let renderRoute = () => {
-            return <Route path={`${this.$getBaseUrl()}/:id`} render={renderModal}/>
+            return;
+            {/*<Route path={`${this.$getBaseUrl()}/:id`} exact={true} render={renderModal}/>*/
+            }
         };
+
         return this.renderContent(//
             renderTable, //
-            renderRoute, //
+            renderModal, //
             onCreate, //
             onUpdate, //
             onDelete)
