@@ -3,7 +3,6 @@ import {Component} from "react";
 import {hideLoading, showLoading} from "../../common/loading";
 
 interface Props {
-    id: string,
     className?: string,
     onChange: (date: string) => void,
     placeholder?: string,
@@ -11,6 +10,8 @@ interface Props {
 
 class State {
     datepicker: any = {};
+    id: string = "_DATE_PICKER_-" + new Date().valueOf().toString().slice(-5)
+        + "-" + (Math.random() * 10000).toFixed(0)
 }
 
 export class DatePicker extends Component<Props, State> {
@@ -26,18 +27,17 @@ export class DatePicker extends Component<Props, State> {
     };
 
     componentDidMount() {
-        ($(`#${this.props.id}`) as any).datepicker({
+        ($(`#${this.state.id}`) as any).datepicker({
             format: "yyyy-mm-dd",
             autoclose: true,
         }).on("changeDate", (e) => {
             this.props.onChange(e.target.value);
-            console.log(e)
         });
     }
 
     render() {
         return <div className={this.props.className}>
-            <input type="text" id={this.props.id} placeholder={this.props.placeholder}/>
+            <input type="text" id={this.state.id} placeholder={this.props.placeholder}/>
         </div>
     }
 }

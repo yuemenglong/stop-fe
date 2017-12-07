@@ -71,7 +71,7 @@ class StudyJobListInner extends CurdComponent<StudyJob> {
             {this.renderPairSelect("item.courseId", "课程", courseList)}
             {this.renderPairSelect("item.clazzId", "班级", clazzList)}
             {/*{this.renderPairDatePicker("item.limitDate", "截止日期")}*/}
-            <DatePicker id="datepicker" onChange={() => {
+            <DatePicker onChange={() => {
             }}/>
             <button onClick={onSubmit}>确定</button>
             <button onClick={onCancel}>取消</button>
