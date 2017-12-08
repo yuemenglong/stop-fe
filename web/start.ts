@@ -78,6 +78,13 @@ app.ajaxPost("/study-job", transmit);
 app.ajaxPut("/study-job/:id", transmit);
 app.ajaxDelete("/study-job/:id", transmit);
 
+app.ajaxGet("/user/:uid/study-job", transmit);
+app.ajaxGet("/user/:uid/study-job/:id", transmit);
+app.ajaxGet("/user/:uid/study-job-item/:id", transmit);
+app.ajaxGet("/user/:uid/question/:id", transmit);
+app.ajaxGet("/user/:uid/courseware/:id", transmit);
+app.ajaxGet("/user/:uid/video/:id", transmit);
+
 let v = new Date().getTime();
 app.httpGet("/*", (req, res) => {
     res.render("App.pug", {title: "攻防平台", v});

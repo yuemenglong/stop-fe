@@ -6,7 +6,7 @@ import {Student} from "../../../def/entity";
 import {Link} from "react-router-dom";
 import {Table} from "../../../common/Table";
 import {ajaxDelete} from "../../../common/kit";
-import {CurdComponent} from "../../../common/curd-component";
+import {CurdComponent, CurdState} from "../../../common/curd-component";
 import {EH, TEH} from "../../../common/render-component";
 import {JVOID0} from "../../../def/data";
 import {update} from "../../../common/updater";
@@ -17,6 +17,11 @@ class State extends ListPageState<Student> {
 }
 
 class StudentListInner extends CurdComponent<Student> {
+    constructor() {
+        super();
+        this.state = new CurdState<Student>();
+    }
+
     idField(): string {
         return "id";
     }

@@ -7,23 +7,23 @@ import {ClazzRouter} from "../Admin/Clazz/index";
 import {Link} from "react-router-dom";
 import {CourseCategoryList} from "../Admin/CourseCategory/index";
 import {StudyJobRouter} from "../Admin/StudyJob/index";
+import {AdminRoute} from "../Admin/index";
+import {UserRoute} from "../User/index";
 
 export class App extends Component {
     render() {
         return <div className="container">
             <div>
-                <Link to="/course">课程列表</Link>
-                <Link to="/student">学生列表</Link>
-                <Link to="/clazz">班级列表</Link>
-                <Link to="/course-category">课程体系</Link>
-                <Link to="/study-job">学习任务</Link>
+                <Link to={`/course`}>管理</Link>
+                <Link to={`/user/22`}>用户</Link>
             </div>
             <switch>
-                <Route path="/course" component={CourseRouter}/>
-                <Route path="/student" component={StudentRouter}/>
-                <Route path="/clazz" component={ClazzRouter}/>
-                <Route path="/course-category" component={CourseCategoryList}/>
-                <Route path="/study-job" component={StudyJobRouter}/>
+                <Route path="/course" component={AdminRoute}/>
+                <Route path="/student" component={AdminRoute}/>
+                <Route path="/clazz" component={AdminRoute}/>
+                <Route path="/course-category" component={AdminRoute}/>
+                <Route path="/study-job" component={AdminRoute}/>
+                <Route path="/user/:uid" component={UserRoute}/>
             </switch>
         </div>
     }

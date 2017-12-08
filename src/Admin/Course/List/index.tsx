@@ -28,9 +28,8 @@ class CourseListInner extends CurdComponent<Course> {
             {
                 name: "操作", render: (item) => {
                 return <div>
-                    <a href={JVOID0} onClick={onUpdate.bind(null, item)}>查看</a>
+                    <a href={`/course/${item.id}`}>查看</a>
                     <a href={JVOID0} onClick={onDelete.bind(null, item)}>删除</a>
-                    {/*<a href="javascript:void(0)" onClick={onDelete}>删除</a>*/}
                 </div>
             }
             },
@@ -41,7 +40,6 @@ class CourseListInner extends CurdComponent<Course> {
         return <div>
             <h1>课程列表</h1>
             <Link to={`/course/init`}>新增课程</Link>
-            {/*<button onClick={this.createCourse.bind(this)}>新增课程</button>*/}
             {renderTable()}
         </div>
     }
@@ -108,31 +106,12 @@ export class CourseList extends ListPageComponent<Course> {
         return <tr key={course.id}>{values}</tr>
     }
 
-    // noinspection JSMethodCanBeStatic
-    createCourse() {
-        location.href = "/course/init"
-    }
-
-
     renderPage(renderPagination: () => any, refresh: (e?: any) => void, swtch: (page: number) => void): any {
-        // let headers = ["课程名", "描述", "难度", "操作"];
         let onChange = (list) => {
             this.setState({list: list})
         };
         let history = (this.props as any).history;
         return <div>
-            {/*<h1>课程列表</h1>*/}
-            {/*<button onClick={this.createCourse.bind(this)}>新增课程</button>*/}
-            {/*<table className="table">*/}
-            {/*<thead>*/}
-            {/*<tr>*/}
-            {/*{headers.map((n, i) => <th key={i}>{n}</th>)}*/}
-            {/*</tr>*/}
-            {/*</thead>*/}
-            {/*<tbody>*/}
-            {/*{this.state.list.map(this.renderCourse.bind(this))}*/}
-            {/*</tbody>*/}
-            {/*</table>*/}
             <CourseListInner history={history} onChange={onChange} list={this.state.list}/>
             {renderPagination()}
         </div>

@@ -29,7 +29,7 @@ export class StudyJobStudentList extends Component<RouteComponentProps<any>, { j
             {name: "姓名", render: "student.userName"},
             {
                 name: "完成情况", render: (job: StudentStudyJob) => {
-                return _(job.jobItems).groupBy(item => item.ty).toPairs().map((p) => {
+                return _(job.items).groupBy(item => item.ty).toPairs().map((p) => {
                     let ty: string = p[0];
                     let items: Array<StudentStudyJobItem> = p[1];
                     let total = items.length;

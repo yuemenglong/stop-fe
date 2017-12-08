@@ -91,9 +91,10 @@ export class StudentStudyJob {
 	crTime: string = undefined;
 	jobId: number = undefined;
 	studentId: number = undefined;
+	status: string = undefined;
 	job: StudyJob = new StudyJob();
 	student: Student = new Student();
-	jobItems: Array<StudentStudyJobItem> = [];
+	items: Array<StudentStudyJobItem> = [];
 }
 
 export class StudentStudyJobItem {
