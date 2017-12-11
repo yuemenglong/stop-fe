@@ -81,9 +81,10 @@ app.ajaxDelete("/study-job/:id", transmit);
 app.ajaxGet("/user/:uid/study-job", transmit);
 app.ajaxGet("/user/:uid/study-job/:id", transmit);
 app.ajaxGet("/user/:uid/study-job/:sid/item/:id", transmit);
-app.ajaxGet("/user/:uid/question/:id", transmit);
-app.ajaxGet("/user/:uid/courseware/:id", transmit);
-app.ajaxGet("/user/:uid/video/:id", transmit);
+app.ajaxGet("/user/:uid/study-job/:sid/courseware/:id", transmit);
+app.ajaxGet("/user/:uid/study-job/:sid/video/:id", transmit);
+app.ajaxGet("/user/:uid/study-job/:sid/question/:id", transmit);
+app.ajaxPost("/user/:uid/study-job/:sid/question/:id", transmit);
 
 let v = new Date().getTime();
 app.httpGet("/*", (req, res) => {

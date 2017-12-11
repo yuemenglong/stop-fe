@@ -72,7 +72,7 @@ export class VideoInfo extends RenderPairComponent<Props, State> {
         };
         return <Modal>
             {this.renderPairInputText("video.name", "名字")}
-            <WebUploader key={this.state.video.fileId || ""} id="uploader" onChange={onChange}/>
+            <WebUploader key={this.state.video.fileId || ""} onChange={onChange}/>
             <button onClick={submit}>确定</button>
             <Link to={`/course/${this.getCid()}/video`}>取消</Link>
         </Modal>

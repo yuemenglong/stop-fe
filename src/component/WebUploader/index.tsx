@@ -1,9 +1,9 @@
 import * as React from "react"
 import {Component} from "react";
 import {hideLoading, showLoading} from "../../common/loading";
+import {Kit} from "../../common/kit";
 
 interface Props {
-    id: string,
     className?: string,
     onChange: (file: FileInfo) => void,
     onError?: (err: any) => void,
@@ -19,6 +19,7 @@ export interface FileInfo {
 
 class State {
     uploader: any = {};
+    id: string = Kit.randomId();
 }
 
 export class WebUploader extends Component<Props, State> {
@@ -40,7 +41,7 @@ export class WebUploader extends Component<Props, State> {
             // swf文件路径
             swf: '/bundle/webuploader/Uploader.swf',
             server: '/upload',
-            pick: `#${this.props.id}-picker`,
+            pick: {id: `#${this.state.id}`, multiple: false},
             resize: false
         });
         this.setState({uploader: uploader});
@@ -49,16 +50,16 @@ export class WebUploader extends Component<Props, State> {
             uploader.upload();
         });
         uploader.on('startUpload', () => {
-            showLoading()
+            showLoading();
         });
         uploader.on('uploadSuccess', (file, res) => {
-            hideLoading()
+            hideLoading();
             let info = {fileId: res._raw, fileName: file.name, size: file.size, ext: file.ext}
             this.props.onChange(info)
         });
 
         uploader.on('uploadError', function (file, err) {
-            hideLoading()
+            hideLoading();
             this.props.onError(err)
         });
     }
@@ -72,12 +73,8 @@ export class WebUploader extends Component<Props, State> {
     }
 
     render() {
-        return <div id={this.props.id} className={this.props.className}>
-            <div id="thelist" className="uploader-list"/>
-            <div className="btns">
-                <div id={`${this.props.id}-picker`}>{this.props.text}</div>
-                {/*<button className="btn btn-default" onClick={this.upload.bind(this)}>开始上传</button>*/}
-            </div>
+        return <div className={this.props.className}>
+            <div id={this.state.id}>{this.props.text}</div>
         </div>
     }
 }

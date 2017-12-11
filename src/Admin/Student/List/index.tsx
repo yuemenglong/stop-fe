@@ -73,7 +73,7 @@ class StudentListInner extends CurdComponent<Student> {
             {this.renderPairInputText("item.userName", "姓名")}
             {this.renderPairInputText("item.mobile", "手机")}
             {this.renderPairInputText("item.email", "邮箱")}
-            <WebUploader id="uploader" onChange={onUpload}/>
+            <WebUploader onChange={onUpload}/>
             <button className="btn" onClick={onSubmit}>确定</button>
             <button className="btn" onClick={onCancel}>取消</button>
         </div>

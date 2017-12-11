@@ -1,7 +1,7 @@
 import * as React from "react";
 import {RouteComponentProps} from "react-router";
 import {Component} from "react";
-import {ajax, ajaxGet, ajaxPost} from "../../common/kit";
+import {ajaxGet, ajaxPost} from "../../common/kit";
 import {Courseware, Question, StudentStudyJobItem, Video} from "../../def/entity";
 import {CheckGroup} from "../../component/CheckGroup/index";
 
@@ -65,22 +65,32 @@ export class UserStudyJobItem extends Component<RouteComponentProps<any>, { ques
         return this.props.match.params.id;
     }
 
+    getJobId() {
+        return this.props.match.params.jid;
+    }
+
     getUid() {
         return this.props.match.params.uid;
     }
 
     componentDidMount() {
-        ajaxGet(`/user/${this.getUid()}/study-job-item/${this.getItemId()}`, (res: StudentStudyJobItem) => {
+        ajaxGet(`/user/${this.getUid()}/study-job/${this.getJobId()}/item/${this.getItemId()}`, (res: StudentStudyJobItem) => {
             if (res.ty == "courseware") {
-                ajaxGet(`/user/${this.getUid()}/courseware/${res.targetId}`, (courseware: Courseware) => {
+                ajaxGet(`/user/${this.getUid()}/study-job/${this.getJobId()}/courseware/${res.targetId}`, (courseware: Courseware) => {
+                    console.log(courseware);
+                    alert();
                     location.href = `/upload/${courseware.fileId}`
                 })
             } else if (res.ty == "video") {
-                ajaxGet(`/user/${this.getUid()}/video/${res.targetId}`, (video: Video) => {
+                ajaxGet(`/user/${this.getUid()}/study-job/${this.getJobId()}/video/${res.targetId}`, (video: Video) => {
+                    console.log(video);
+                    alert();
                     location.href = `/upload/${video.fileId}`
                 })
             } else if (res.ty == "question") {
-                ajaxGet(`/user/${this.getUid()}/question/${res.targetId}`, (question: Question) => {
+                ajaxGet(`/user/${this.getUid()}/study-job/${this.getJobId()}/question/${res.targetId}`, (question: Question) => {
+                    console.log(question);
+                    alert();
                     this.setState({question});
                 })
             }

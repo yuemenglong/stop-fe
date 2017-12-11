@@ -17,8 +17,8 @@ export class UserRoute extends Component<RouteComponentProps<any>> {
                 <Link to={`/user/${this.getUid()}/study-job`}>学习任务</Link>
             </div>
             <Route path="/user/:uid/study-job" exact={true} component={UserStudyJobList}/>
-            <Route path="/user/:uid/study-job/:jid" component={UserStudyJob}/>
-            <Route path="/user/:uid/study-job-item/:id" component={UserStudyJobItem}/>
+            <Route path="/user/:uid/study-job/:jid" exact={true} component={UserStudyJob}/>
+            <Route path="/user/:uid/study-job/:jid/item/:id" component={UserStudyJobItem}/>
         </div>
     }
 }

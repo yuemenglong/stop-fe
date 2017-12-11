@@ -5,6 +5,7 @@ import {RouteComponentProps} from "react-router";
 import {ajaxGet} from "../../common/kit";
 import {studyJobTypeMap, studyStatusMap} from "../../def/data";
 import {Table} from "../../common/Table";
+import {Link} from "react-router-dom";
 
 class State {
     job: StudentStudyJob = new StudentStudyJob();
@@ -45,8 +46,7 @@ export class UserStudyJob extends Component<RouteComponentProps<any>, State> {
             {
                 name: "操作", render: (item: StudentStudyJobItem) => {
                 return <div>
-                    <a target="_blank"
-                       href={`/user/${this.getUid()}/study-job/${item.studentStudyJobId}/item/${item.id}`}>去完成</a>
+                    <Link to={`/user/${this.getUid()}/study-job/${item.studentStudyJobId}/item/${item.id}`}>去完成</Link>
                 </div>
             }
             },

@@ -112,4 +112,8 @@ export class Kit {
             }
         }
     }
+
+    static randomId() {
+        return (Math.random() * 10000).toFixed(0) + "-" + (new Date().valueOf().toString()).slice(-5)
+    }
 }
