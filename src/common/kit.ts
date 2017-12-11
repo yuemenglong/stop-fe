@@ -42,10 +42,6 @@ export function encodeObject(obj: Object) {
     return res.join("&");
 }
 
-export function joinClassName(propsClassName: string, defaultClassName: string) {
-    return _.flattenDeep(arguments).join(" ");
-}
-
 export function ajax(opt: any) {
     let loading = showLoading();
     opt = _.merge({contentType: 'application/json', dataType: 'json',}, opt);
@@ -101,5 +97,19 @@ export class Kit {
         });
         ret.unshift({value: "", option: "请选择"})
         return ret;
+    }
+
+    static emptyStringToNull(obj: any) {
+        if (_.isArray(obj)) {
+            obj.map(Kit.emptyStringToNull)
+        } else if (_.isPlainObject(obj)) {
+            for (let name in obj) {
+                if (_.isString(obj[name]) && obj[name] == "") {
+                    obj[name] = null;
+                } else {
+                    Kit.emptyStringToNull(obj[name])
+                }
+            }
+        }
     }
 }

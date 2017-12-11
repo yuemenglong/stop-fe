@@ -87,7 +87,6 @@ export class CourseInfo extends RenderComponent<RouteComponentProps<any>, State>
             return {value: c.id, option: c.name};
         });
         categorys.unshift({value: "" as any, option: "请选择"});
-        console.log(this.state.course);
         return <div>
             <h1>课程</h1>
             {this.renderPairInput("course.name", "课程名")}

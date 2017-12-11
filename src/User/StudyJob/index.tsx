@@ -1,14 +1,9 @@
 import * as React from "react";
-import {ListPageComponent, ListPageState} from "../../common/list-page-component";
 import {StudentStudyJob, StudentStudyJobItem, StudyJob} from "../../def/entity";
-import {CurdComponent, CurdState} from "../../common/curd-component";
-import {EH, TEH} from "../../common/render-component";
-import _ = require("lodash");
-import {Link} from "react-router-dom";
 import {Component} from "react";
 import {RouteComponentProps} from "react-router";
 import {ajaxGet} from "../../common/kit";
-import {courseDifficultyMap, studyJobTypeMap, studyStatusMap} from "../../def/data";
+import {studyJobTypeMap, studyStatusMap} from "../../def/data";
 import {Table} from "../../common/Table";
 
 class State {
@@ -50,7 +45,8 @@ export class UserStudyJob extends Component<RouteComponentProps<any>, State> {
             {
                 name: "操作", render: (item: StudentStudyJobItem) => {
                 return <div>
-                    <Link to={`/user/${this.getUid()}/study-job-item/${item.id}`}>去完成</Link>
+                    <a target="_blank"
+                       href={`/user/${this.getUid()}/study-job/${item.studentStudyJobId}/item/${item.id}`}>去完成</a>
                 </div>
             }
             },

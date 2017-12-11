@@ -80,7 +80,7 @@ app.ajaxDelete("/study-job/:id", transmit);
 
 app.ajaxGet("/user/:uid/study-job", transmit);
 app.ajaxGet("/user/:uid/study-job/:id", transmit);
-app.ajaxGet("/user/:uid/study-job-item/:id", transmit);
+app.ajaxGet("/user/:uid/study-job/:sid/item/:id", transmit);
 app.ajaxGet("/user/:uid/question/:id", transmit);
 app.ajaxGet("/user/:uid/courseware/:id", transmit);
 app.ajaxGet("/user/:uid/video/:id", transmit);

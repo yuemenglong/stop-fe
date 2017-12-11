@@ -49,27 +49,18 @@ export class Question {
 	courseId: number = undefined;
 	title: string = undefined;
 	score: number = undefined;
+	answer: string = undefined;
 	ty: string = undefined;
 	sc: QuestionChoice = new QuestionChoice();
-	tf: QuestionTrueFalse = new QuestionTrueFalse();
 }
 
 export class QuestionChoice {
 	id: number = undefined;
 	crTime: string = undefined;
-	opt1: string = undefined;
-	opt2: string = undefined;
-	opt3: string = undefined;
-	opt4: string = undefined;
-	answer: number = undefined;
-	qt: Question = undefined;
-}
-
-export class QuestionTrueFalse {
-	id: number = undefined;
-	crTime: string = undefined;
-	answer: boolean = undefined;
-	qt: Question = undefined;
+	a: string = undefined;
+	b: string = undefined;
+	c: string = undefined;
+	d: string = undefined;
 }
 
 export class Student {
@@ -104,6 +95,9 @@ export class StudentStudyJobItem {
 	targetId: number = undefined;
 	ty: string = undefined;
 	status: string = undefined;
+	answer: string = undefined;
+	correct: boolean = undefined;
+	score: number = undefined;
 }
 
 export class StudyJob {

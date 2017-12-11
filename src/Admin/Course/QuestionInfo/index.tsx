@@ -54,17 +54,17 @@ export class QuestionInfo extends RenderPairComponent<RouteComponentProps<any>, 
         if (this.state.question.ty == "sc") {
             let answerMap = {
                 "": "请选择",
-                "1": "选项1",
-                "2": "选项2",
-                "3": "选项3",
-                "4": "选项4",
+                "a": "选项1",
+                "b": "选项2",
+                "c": "选项3",
+                "d": "选项4",
             };
             return <div>
-                {this.renderPairInputText("question.sc.opt1", "选项1")}
-                {this.renderPairInputText("question.sc.opt2", "选项2")}
-                {this.renderPairInputText("question.sc.opt3", "选项3")}
-                {this.renderPairInputText("question.sc.opt4", "选项4")}
-                {this.renderPairSelect("question.sc.answer", "正确答案", answerMap)}
+                {this.renderPairInputText("question.sc.a", "选项1")}
+                {this.renderPairInputText("question.sc.b", "选项2")}
+                {this.renderPairInputText("question.sc.c", "选项3")}
+                {this.renderPairInputText("question.sc.d", "选项4")}
+                {this.renderPairSelect("question.answer", "正确答案", answerMap)}
             </div>
         } else if (this.state.question.ty == "tf") {
             let answerMap = {
@@ -73,7 +73,7 @@ export class QuestionInfo extends RenderPairComponent<RouteComponentProps<any>, 
                 "false": "错误",
             };
             return <div>
-                {this.renderPairSelect("question.tf.answer", "正确答案", answerMap)}
+                {this.renderPairSelect("question.answer", "正确答案", answerMap)}
             </div>
         }
     }
@@ -94,9 +94,7 @@ export class QuestionInfo extends RenderPairComponent<RouteComponentProps<any>, 
         let submit = () => {
             let qt = this.state.question;
             console.log(qt);
-            if (qt.ty == "sc") {
-                delete qt.tf;
-            } else if (qt.ty == "tf") {
+            if (qt.ty == "tf") {
                 delete qt.sc;
             }
             if (this.getQid() == "init") {

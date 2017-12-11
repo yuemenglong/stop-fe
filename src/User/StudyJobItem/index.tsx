@@ -1,27 +1,57 @@
 import * as React from "react";
 import {RouteComponentProps} from "react-router";
 import {Component} from "react";
-import {ajax, ajaxGet} from "../../common/kit";
+import {ajax, ajaxGet, ajaxPost} from "../../common/kit";
 import {Courseware, Question, StudentStudyJobItem, Video} from "../../def/entity";
+import {CheckGroup} from "../../component/CheckGroup/index";
 
-class QuestionJob extends Component<{ question: Question }, { answer: string }> {
+interface Props {
+    jobItemId: string,
+    userId: string,
+    question: Question,
+    history: any,
+}
+
+class QuestionJob extends Component<Props, { answer: string }> {
     constructor() {
         super();
         this.state = {answer: ""};
     }
 
-    renderSingleChoice() {
+    submit() {
+        ajaxPost(`/user/${this.props.userId}/study-job-item`, {answer: this.state.answer}, (res) => {
+            console.log(res);
+        })
+    }
 
+    renderSingleChoice() {
+        let sc = this.props.question.sc;
+        let list = ["a", "b", "c", "d"].map(no => {
+            return {value: no, option: sc[no]}
+        });
+        let onChange = (value) => {
+            this.setState({answer: value})
+        };
+        return <div>
+            {this.props.question.title}
+            <CheckGroup list={list} value={this.state.answer} onChange={onChange}/>
+            <button onClick={this.submit.bind(this)}>提交</button>
+        </div>
     }
 
     renderTrueFalse() {
-
-    }
-
-    render() {
         return <div>
             {this.props.question.title}
         </div>
+    }
+
+    render() {
+        console.log(this.props.question);
+        if (this.props.question.ty == "sc") {
+            return this.renderSingleChoice();
+        } else if (this.props.question.ty == "tf") {
+            return this.renderTrueFalse();
+        }
     }
 }
 
@@ -51,16 +81,18 @@ export class UserStudyJobItem extends Component<RouteComponentProps<any>, { ques
                 })
             } else if (res.ty == "question") {
                 ajaxGet(`/user/${this.getUid()}/question/${res.targetId}`, (question: Question) => {
-                    console.log(question)
+                    this.setState({question});
                 })
-
             }
         })
     }
 
     render() {
         if (this.state.question) {
-            return <QuestionJob question={this.state.question}/>
+            return <QuestionJob question={this.state.question}
+                                jobItemId={this.getItemId()}
+                                userId={this.getUid()}
+                                history={this.props.history}/>
         }
         return <div/>
     }

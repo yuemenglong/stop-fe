@@ -75,7 +75,6 @@ export class VideoList extends RenderPairComponent<RouteComponentProps<any>, Sta
             this.setState({course});
         };
         let render = (props) => {
-            console.log(this.state.course);
             let vid = props.match.params.vid;
             if (vid == "init") {
                 return <VideoInfo video={new Video()} cid={this.getCid()} onChange={create}/>

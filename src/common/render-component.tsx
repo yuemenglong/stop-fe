@@ -2,6 +2,7 @@ import * as React from "react"
 import * as _ from "lodash";
 import {ComponentEx} from "./component-ex";
 import {DatePicker} from "../component/DatePicker/index";
+import {CheckGroup} from "../component/CheckGroup/index";
 
 export class OptionItem {
     value: string | number = null;
@@ -207,10 +208,29 @@ export abstract class RenderComponent<P={}, S={}> extends ComponentEx<P, S> {
         let value = this.$getValue(name) as string;
         return <select className={className} title={value} value={value}
                        name={name} {...props}>
-            {(list as any).map(({value, option}) => {
-                return <option key={value} value={value}>{option}</option>
+            {(list as any).map(o => {
+                return <option key={o.value} value={o.value}>{o.option}</option>
             })}
         </select>
+    }
+
+    renderCheckGroup(name: string, list: Array<{ value: string | number, option: string | number }> | Object,
+                     className?: string, props?: any) {
+        let onChange = (e: any) => {
+            this.$setValue(name, e.target.value)
+        };
+        if (this.$needValidate() && this.$validateField(name)) {
+            className = [className, "invalid"].filter(_.isString).join(" ")
+        }
+        props = _.merge({onChange}, props);
+        if (_.isPlainObject(list)) {
+            list = _(list).toPairs().map(p => {
+                return {value: p[0], option: p[1]};
+            }).value();
+        }
+
+        let value = this.$getValue(name) as string;
+        return <CheckGroup className={className} value={value} list={list} {...props}/>
     }
 
     // 复选框
