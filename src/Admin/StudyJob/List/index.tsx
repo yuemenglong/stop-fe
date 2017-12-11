@@ -41,6 +41,7 @@ class StudyJobListInner extends CurdComponent<StudyJob> {
     getHeaderRender(onCreate: EH, onUpdate: TEH<StudyJob>, onDelete: TEH<StudyJob>): Array<{ name: string; render: any }> {
         return [
             {name: "名称", render: "name"},
+            {name: "课程", render: "course.name"},
             {
                 name: "操作", render: (job: StudyJob) => {
                 return <div>
@@ -54,6 +55,7 @@ class StudyJobListInner extends CurdComponent<StudyJob> {
     }
 
     renderContent(renderTable: () => any, renderRoute: () => any, onCreate: EH, onUpdate: TEH<StudyJob>, onDelete: TEH<StudyJob>): any {
+        console.log(this.props.list);
         return <div>
             {renderTable()}
             {renderRoute()}

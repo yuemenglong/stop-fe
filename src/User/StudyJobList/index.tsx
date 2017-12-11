@@ -27,6 +27,7 @@ class UserStudyJobListInner extends CurdComponent<StudyJob> {
 
     getHeaderRender(onCreate: EH, onUpdate: TEH<StudyJob>, onDelete: TEH<StudyJob>): Array<{ name: string; render: any }> {
         return [
+            {name: "名称", render: "job.name"},
             {name: "课程", render: "job.course.name"},
             {name: "截止时间", render: "job.limitDate"},
             {

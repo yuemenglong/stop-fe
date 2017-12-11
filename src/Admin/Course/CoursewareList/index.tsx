@@ -37,7 +37,7 @@ class CoursewareListInner extends CurdComponent<Courseware> {
             onChange(courseware);
         };
         return <div>
-            {this.renderPairInputText("item.name", "名字")}
+            {this.renderPairInputText("item.name", "名称")}
             <WebUploader onChange={onUpload}/>
             <button onClick={onSubmit}>确定</button>
             <button onClick={onCancel}>取消</button>
