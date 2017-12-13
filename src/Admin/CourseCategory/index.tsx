@@ -6,7 +6,6 @@ import {Category} from "../../def/entity";
 import {CurdComponent, CurdState} from "../../common/curd-component";
 import {EH, TEH} from "../../common/render-component";
 import {JVOID0} from "../../def/data";
-import {RenderPairComponent} from "../../component/RenderPair/index";
 import {Table} from "../../common/Table";
 import {update} from "../../common/updater";
 
@@ -54,7 +53,9 @@ class CourseCategoryInner extends CurdComponent<Category> {
     }
 
     itemConstructor(): Category {
-        return new Category();
+        let ret = new Category();
+        ret.ty = "course";
+        return ret;
     }
 
     renderModalContent(onChange: TEH<Category>, onSubmit: EH, onCancel: EH): any {
@@ -73,17 +74,22 @@ class CourseCategoryInner extends CurdComponent<Category> {
             ajaxDelete(`/course-category/${c.id}`, () => {
                 let item = update(this.state.item, "children[-id]", null, [c.id])
                 this.setState({item});
+                let props = update(this.props, "list[id].children", item.children, [item.id]);
+                this.props.onChange(props.list)
             })
         };
         let table = <Table list={item.children} headers={headerRender} getKey={(c) => c.id}/>;
         let onSave = () => {
             let c = new Category();
+            c.ty = "course";
             c.name = this.state.data.name;
             c.parentId = this.state.item.id;
             c.level = this.state.item.level + 1;
             ajaxPost(`/course-category`, c, (res) => {
                 let item = update(this.state.item, "children[]", res);
-                this.setState({item: item, data: {}})
+                this.setState({item: item, data: {}});
+                let props = update(this.props, "list[id].children", item.children, [item.id]);
+                this.props.onChange(props.list)
             })
         };
         return <div>
@@ -115,7 +121,7 @@ export class CourseCategoryList extends Component<RouteComponentProps<any>, Stat
     }
 
     componentDidMount() {
-        ajaxGet("/course-category", (res) => {
+        ajaxGet("/course-category?ty=course", (res) => {
             this.setState({list: res})
         })
     }

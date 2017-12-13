@@ -69,6 +69,10 @@ app.ajaxPost("/course-category", transmit);
 app.ajaxPut("/course-category/:id", transmit);
 app.ajaxGet("/course-category", transmit);
 app.ajaxDelete("/course-category/:id", transmit);
+app.ajaxPost("/question-category", transmit);
+app.ajaxPut("/question-category/:id", transmit);
+app.ajaxGet("/question-category", transmit);
+app.ajaxDelete("/question-category/:id", transmit);
 
 app.ajaxGet("/study-job/list", transmit);
 app.ajaxGet("/study-job/count", transmit);

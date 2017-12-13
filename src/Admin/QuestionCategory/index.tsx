@@ -8,7 +8,7 @@ import {EH, TEH} from "../../common/render-component";
 import {JVOID0} from "../../def/data";
 import {RenderPairComponent} from "../../component/RenderPair/index";
 import {Table} from "../../common/Table";
-import {update} from "../../common/updater";
+import {update, updates} from "../../common/updater";
 
 class QuestionCategoryListInner extends CurdComponent<Category> {
     constructor(props) {
@@ -26,9 +26,9 @@ class QuestionCategoryListInner extends CurdComponent<Category> {
 
     getHeaderRender(onCreate: EH, onUpdate: TEH<Category>, onDelete: TEH<Category>): Array<{ name: string; render: any }> {
         return [
-            {name: "培训方案", render: "name"},
+            {name: "题目类别", render: "name"},
             {
-                name: "课程", render: (item: Category) => {
+                name: "子类别", render: (item: Category) => {
                 return item.children.map(c => {
                     return <a key={c.id}>{c.name}</a>
                 })
@@ -54,7 +54,9 @@ class QuestionCategoryListInner extends CurdComponent<Category> {
     }
 
     itemConstructor(): Category {
-        return new Category();
+        let ret = new Category();
+        ret.ty = "question";
+        return ret;
     }
 
     renderModalContent(onChange: TEH<Category>, onSubmit: EH, onCancel: EH): any {
@@ -70,20 +72,25 @@ class QuestionCategoryListInner extends CurdComponent<Category> {
             }
         ];
         let onDelete = (c: Category) => {
-            ajaxDelete(`/course-category/${c.id}`, () => {
-                let item = update(this.state.item, "children[-id]", null, [c.id])
+            ajaxDelete(`/question-category/${c.id}`, () => {
+                let item = update(this.state.item, "children[-id]", null, [c.id]);
                 this.setState({item});
+                let props = update(this.props, "list[id].children", item.children, [item.id]);
+                this.props.onChange(props.list)
             })
         };
         let table = <Table list={item.children} headers={headerRender} getKey={(c) => c.id}/>;
         let onSave = () => {
             let c = new Category();
+            c.ty = "question";
             c.name = this.state.data.name;
             c.parentId = this.state.item.id;
             c.level = this.state.item.level + 1;
-            ajaxPost(`/course-category`, c, (res) => {
+            ajaxPost(`/question-category`, c, (res) => {
                 let item = update(this.state.item, "children[]", res);
-                this.setState({item: item, data: {}})
+                this.setState({item: item, data: {}});
+                let props = update(this.props, "list[id].children", item.children, [item.id]);
+                this.props.onChange(props.list)
             })
         };
         return <div>
@@ -91,7 +98,7 @@ class QuestionCategoryListInner extends CurdComponent<Category> {
             {table}
             <div>
                 {this.renderPairInputText("data.name", "名称")}
-                <button onClick={onSave}>新增子体系</button>
+                <button onClick={onSave}>新增子类别</button>
             </div>
             <button onClick={onSubmit}>保存</button>
             <button onClick={onCancel}>取消</button>
@@ -115,17 +122,15 @@ export class QuestionCategoryList extends Component<RouteComponentProps<any>, St
     }
 
     componentDidMount() {
-        ajaxGet("/course-category", (res) => {
+        ajaxGet("/question-category?ty=question", (res) => {
             this.setState({list: res})
         })
     }
 
     render() {
         let onChange = (list) => {
-            console.log("OnChange", list);
             this.setState({list})
         };
-        console.log("Render", this.state.list);
         return <QuestionCategoryListInner
             list={this.state.list}
             history={this.props.history} onChange={onChange}/>

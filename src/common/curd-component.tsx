@@ -35,7 +35,7 @@ export abstract class CurdComponent<T, //
 
     abstract urlSlice(): number
 
-    $getBaseUrl(): string {
+    getBaseUrl(): string {
         return location.pathname.split("/").slice(0, this.urlSlice()).join("/")
     }
 
@@ -62,15 +62,15 @@ export abstract class CurdComponent<T, //
     render(): any {
         let onCreate = () => {
             this.setState({item: this.itemConstructor()});
-            // (this.props.history as any).push(`${this.$getBaseUrl()}/init`)
+            // (this.props.history as any).push(`${this.getBaseUrl()}/init`)
         };
         let onUpdate = (item: T) => {
             this.setState({item});
-            // (this.props.history as any).push(`${this.$getBaseUrl()}/${this.$getId(item)}`)
+            // (this.props.history as any).push(`${this.getBaseUrl()}/${this.$getId(item)}`)
         };
         let onDelete = (item: T) => {
             let id = this.$getId(item);
-            let url = this.$getBaseUrl() + "/" + id;
+            let url = this.getBaseUrl() + "/" + id;
             ajaxDelete(url, () => {
                 let props = update(this.props, `list[-${this.idField()}]`, null, [id]);
                 this.props.onChange(props.list);
@@ -83,7 +83,7 @@ export abstract class CurdComponent<T, //
         };
         let renderModal = () => {
             if (!this.state.item) {
-                // location.href = this.$getBaseUrl();
+                // location.href = this.getBaseUrl();
                 return <div/>
             }
             let onChange = (item: T) => {
@@ -94,27 +94,27 @@ export abstract class CurdComponent<T, //
                 let id = this.$getId(item);
                 if (id) {
                     //update
-                    let url = `${this.$getBaseUrl()}/${id}`;
+                    let url = `${this.getBaseUrl()}/${id}`;
                     ajaxPut(url, item, (res) => {
                         let props = update(this.props, "list[id]", res, [id]);
                         this.props.onChange(props.list);
                         this.setState({item: null});
-                        // props.history.push(this.$getBaseUrl());
+                        // props.history.push(this.getBaseUrl());
                     });
                 } else {
                     //create
-                    let url = this.$getBaseUrl();
+                    let url = this.getBaseUrl();
                     ajaxPost(url, item, (res) => {
                         let props = update(this.props, "list[]", res);
                         this.props.onChange(props.list);
                         this.setState({item: null});
-                        // props.history.push(this.$getBaseUrl());
+                        // props.history.push(this.getBaseUrl());
                     })
                 }
             };
             let onCancel = () => {
                 this.setState({item: null});
-                // (this.props.history as any).push(this.$getBaseUrl());
+                // (this.props.history as any).push(this.getBaseUrl());
             };
             let content = this.renderModalContent(onChange, onSubmit, onCancel);
             if (content) {
@@ -123,12 +123,6 @@ export abstract class CurdComponent<T, //
                 return <div/>
             }
         };
-        let renderRoute = () => {
-            return;
-            {/*<Route path={`${this.$getBaseUrl()}/:id`} exact={true} render={renderModal}/>*/
-            }
-        };
-
         return this.renderContent(//
             renderTable, //
             renderModal, //

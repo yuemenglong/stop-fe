@@ -38,7 +38,7 @@ export class CourseInfo extends RenderComponent<RouteComponentProps<any>, State>
                 }
             })
         }
-        ajaxGet("/course-category?level=1", (res) => {
+        ajaxGet("/course-category?level=1&ty=course", (res) => {
             this.setState({categorys: res})
         })
     }

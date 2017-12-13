@@ -23,6 +23,7 @@ export class App extends Component {
                 <Route path="/student" component={AdminRoute}/>
                 <Route path="/clazz" component={AdminRoute}/>
                 <Route path="/course-category" component={AdminRoute}/>
+                <Route path="/question-category" component={AdminRoute}/>
                 <Route path="/study-job" component={AdminRoute}/>
                 <Route path="/user/:uid" component={UserRoute}/>
             </switch>
