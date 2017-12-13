@@ -10,7 +10,7 @@ import {RenderPairComponent} from "../../component/RenderPair/index";
 import {Table} from "../../common/Table";
 import {update} from "../../common/updater";
 
-class CourseCategoryInner extends CurdComponent<Category> {
+class QuestionCategoryListInner extends CurdComponent<Category> {
     constructor(props) {
         super(props);
         this.state = new CurdState<Category>();
@@ -108,7 +108,7 @@ class State {
     list: Array<Category> = []
 }
 
-export class CourseCategoryList extends Component<RouteComponentProps<any>, State> {
+export class QuestionCategoryList extends Component<RouteComponentProps<any>, State> {
     constructor(props) {
         super(props);
         this.state = new State();
@@ -126,7 +126,7 @@ export class CourseCategoryList extends Component<RouteComponentProps<any>, Stat
             this.setState({list})
         };
         console.log("Render", this.state.list);
-        return <CourseCategoryInner
+        return <QuestionCategoryListInner
             list={this.state.list}
             history={this.props.history} onChange={onChange}/>
     }

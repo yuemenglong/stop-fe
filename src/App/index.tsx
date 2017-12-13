@@ -15,7 +15,8 @@ export class App extends Component {
         return <div className="container">
             <div>
                 <Link to={`/course`}>管理</Link>
-                <Link to={`/user/22`}>用户</Link>
+                <Link to={`/user/22`}>用户A</Link>
+                <Link to={`/user/23`}>用户B</Link>
             </div>
             <switch>
                 <Route path="/course" component={AdminRoute}/>

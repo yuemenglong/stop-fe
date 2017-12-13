@@ -2,12 +2,12 @@ import * as React from "react";
 import {RenderComponent} from "../../../common/render-component";
 import {ajax, ajaxGet} from "../../../common/kit";
 import {courseDifficultyMap} from "../../../def/data";
-import {Course, CourseCategory} from "../../../def/entity";
+import {Course, Category} from "../../../def/entity";
 import {RouteComponentProps} from "react-router";
 
 class State {
     course: Course = new Course();
-    categorys: Array<CourseCategory> = [];
+    categorys: Array<Category> = [];
 
     constructor() {
         this.course.difficulty = "normal"

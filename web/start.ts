@@ -49,7 +49,6 @@ app.ajaxDelete("/course/:id/courseware/:cid", transmit);
 app.ajaxDelete("/course/:id/video/:vid", transmit);
 app.ajaxDelete("/course/:id/question/:qid", transmit);
 
-
 app.ajaxPost("/student", transmit);
 app.ajaxDelete("/student/:id", transmit);
 app.ajaxPut("/student/:id", transmit);
@@ -85,6 +84,18 @@ app.ajaxGet("/user/:uid/study-job/:sid/courseware/:id", transmit);
 app.ajaxGet("/user/:uid/study-job/:sid/video/:id", transmit);
 app.ajaxGet("/user/:uid/study-job/:sid/question/:id", transmit);
 app.ajaxPost("/user/:uid/study-job/:sid/question/:id", transmit);
+
+app.ajaxPost("/team", transmit);
+app.ajaxDelete("/team/:tid", transmit);
+app.ajaxPut("/team/:tid", transmit);
+app.ajaxGet("/team/list", transmit);
+app.ajaxGet("/team/count", transmit);
+app.ajaxGet("/team/:tid", transmit);
+
+app.ajaxPut("/user/:uid/team", transmit);// 加入team
+app.ajaxDelete("/user/:uid/team", transmit);//退出
+app.ajaxGet("/user/:uid/team", transmit);// team详情
+app.ajaxPut("/user/:uid/team/students/:aid", transmit);// 操作加入申请
 
 let v = new Date().getTime();
 app.httpGet("/*", (req, res) => {
