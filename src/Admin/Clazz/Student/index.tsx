@@ -45,7 +45,7 @@ export class ClazzStudent extends RenderPairComponent<RouteComponentProps<any>, 
             {name: "班级", render: "clazzId"},
             {
                 name: "操作", render: (s) => {
-                return <a href="javascript:void(0)" onClick={onDelete}>删除</a>
+                return <a href="javascript:void(0)" onClick={onDelete.bind(null, s)}>删除</a>
             }
             },
         ];

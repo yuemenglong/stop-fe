@@ -62,6 +62,7 @@ app.ajaxPut("/clazz/:id", transmit);
 app.ajaxGet("/clazz/:id", transmit);
 app.ajaxGet("/clazz/:id/students", transmit);
 app.ajaxPost("/clazz/:id/students", transmit);
+app.ajaxDelete("/clazz/:id/student/:sid", transmit);
 app.ajaxGet("/clazz/list", transmit);
 app.ajaxGet("/clazz/count", transmit);
 
