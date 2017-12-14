@@ -43,11 +43,15 @@ export function encodeObject(obj: Object) {
 }
 
 export function ajax(opt: any) {
-    let loading = showLoading();
+    showLoading();
     opt = _.merge({contentType: 'application/json', dataType: 'json',}, opt);
-    opt.error = opt.error || ((err: any) => {
+    let error = opt.error;
+    opt.error = ((err: any) => {
+        if (err.status == "403") {
+            location.href = "/login"
+        }
         // ajax返回为空时，认为是有问题的（delete成功，可返回空对象）
-        alert(err.responseText);
+        error ? error(err) : alert(err.responseText);
     });
     let complete = opt.complete || _.noop;
     opt.complete = () => {

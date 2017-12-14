@@ -8,9 +8,12 @@ import {Link} from "react-router-dom";
 import {CourseCategoryList} from "./CourseCategory/index";
 import {StudyJobRouter} from "./StudyJob/index";
 import {QuestionCategoryList} from "./QuestionCategory/index";
+import {JVOID0} from "../def/data";
+import {ajaxGet} from "../common/kit";
 
 export class AdminRoute extends Component {
     render() {
+
         return <div className="container">
             <div>
                 <Link to="/course">课程列表</Link>

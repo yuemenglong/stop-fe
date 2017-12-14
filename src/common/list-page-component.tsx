@@ -64,8 +64,12 @@ export abstract class ListPageComponent<T,
             type: "GET",
             success: (res: any) => {
                 this.setState({list: res})
-            }, error: (res: any) => {
-                this.errorHandler(res)
+            }, error: (err: any) => {
+                if (err.status == "403") {
+                    location.href = "/login"
+                } else {
+                    this.errorHandler(err)
+                }
             }
         });
         ajax({
@@ -73,8 +77,12 @@ export abstract class ListPageComponent<T,
             type: "GET",
             success: (count: number) => {
                 this.setState({count})
-            }, error: (res: any) => {
-                this.errorHandler(res)
+            }, error: (err: any) => {
+                if (err.status == "403") {
+                    location.href = "/login"
+                } else {
+                    this.errorHandler(err)
+                }
             }
         })
 

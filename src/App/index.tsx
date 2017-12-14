@@ -1,22 +1,26 @@
 import * as React from "react";
 import {Component} from "react";
 import {Route} from "react-router";
-import {CourseRouter} from "../Admin/Course/index";
-import {StudentRouter} from "../Admin/Student/index";
-import {ClazzRouter} from "../Admin/Clazz/index";
 import {Link} from "react-router-dom";
-import {CourseCategoryList} from "../Admin/CourseCategory/index";
-import {StudyJobRouter} from "../Admin/StudyJob/index";
-import {AdminRoute} from "../Admin/index";
+import {AdminRoute} from "../Teacher/index";
 import {UserRoute} from "../User/index";
+import {LoginPage} from "../Page/Login/index";
+import {ajaxGet} from "../common/kit";
+import {JVOID0} from "../def/data";
 
 export class App extends Component {
     render() {
+        let logout = () => {
+            ajaxGet(`/user/logout`, () => {
+                location.href = `/login`
+            })
+        };
         return <div className="container">
             <div>
                 <Link to={`/course`}>管理</Link>
                 <Link to={`/user/22`}>用户A</Link>
                 <Link to={`/user/23`}>用户B</Link>
+                <a href={JVOID0} onClick={logout}>注销</a>
             </div>
             <switch>
                 <Route path="/course" component={AdminRoute}/>
@@ -26,6 +30,7 @@ export class App extends Component {
                 <Route path="/question-category" component={AdminRoute}/>
                 <Route path="/study-job" component={AdminRoute}/>
                 <Route path="/user/:uid" component={UserRoute}/>
+                <Route path="/login" component={LoginPage}/>
             </switch>
         </div>
     }

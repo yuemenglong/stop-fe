@@ -77,10 +77,6 @@ export class CourseList extends ListPageComponent<Course> {
         return {limit: 20, offset: 0};
     }
 
-    errorHandler(res: any): any {
-        alert(res)
-    }
-
     getPageRange(): number {
         return 4;
     }
