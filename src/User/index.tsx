@@ -9,6 +9,8 @@ import {UserTeam} from "./Team/index";
 import {UserTeamJoin} from "./TeamJoin/index";
 import {UserTeamInit} from "./TeamInit/index";
 import {UserLogin} from "./UserLogin/index";
+import {JVOID0} from "../def/data";
+import {ajaxGet} from "../common/kit";
 
 export class UserApp extends Component {
     getUid() {
@@ -22,10 +24,16 @@ export class UserApp extends Component {
 
     renderNavs() {
         let uid = this.getUid();
+        let logout = () => {
+            ajaxGet(`/user/logout`, () => {
+                location.href = `/login`
+            })
+        };
         if (uid) {
             return <div>
                 <Link to={`/user/${uid}/study-job`}>学习任务</Link>
                 <Link to={`/user/${uid}/team`}>查看队伍</Link>
+                <a href={JVOID0} onClick={logout}>注销</a>
             </div>
         } else {
             return null;
@@ -36,12 +44,12 @@ export class UserApp extends Component {
         return <div className="container">
             {this.renderNavs()}
             <switch>
-                <Route path="/user/:uid/study-job/:jid/item/:id" component={UserStudyJobItem}/>
-                <Route path="/user/:uid/study-job/:jid" component={UserStudyJob}/>
-                <Route path="/user/:uid/study-job" component={UserStudyJobList}/>
+                <Route path="/user/:uid/study-job" exact={true} component={UserStudyJobList}/>
+                <Route path="/user/:uid/study-job/:jid" exact={true} component={UserStudyJob}/>
+                <Route path="/user/:uid/study-job/:jid/item/:id" exact={true} component={UserStudyJobItem}/>
+                <Route path="/user/:uid/team" exact={true} component={UserTeam}/>
                 <Route path="/user/:uid/team/init" component={UserTeamInit}/>
                 <Route path="/user/:uid/team/join" component={UserTeamJoin}/>
-                <Route path="/user/:uid/team" component={UserTeam}/>
                 <Route path="/login" component={UserLogin}/>
             </switch>
         </div>

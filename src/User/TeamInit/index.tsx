@@ -22,7 +22,7 @@ export class UserTeamInit extends RenderPairComponent<RouteComponentProps<any>, 
 
     render() {
         let submit = () => {
-            ajaxPost(`/team`, this.state.team, () => {
+            ajaxPost(`/user/${this.getUid()}/team`, this.state.team, () => {
                 this.props.history.push(`/user/${this.getUid()}/team`)
             })
         };

@@ -49,10 +49,13 @@ app.ajaxPost("/user/:uid/study-job/:sid/question/:id", transmit);
 // app.ajaxGet("/teacher/team/count", transmit);
 // app.ajaxGet("/teacher/team/:tid", transmit);
 
+app.ajaxPost("/user/:uid/team", transmit);// 加入team
 app.ajaxPut("/user/:uid/team", transmit);// 加入team
 app.ajaxDelete("/user/:uid/team", transmit);//退出
 app.ajaxGet("/user/:uid/team", transmit);// team详情
 app.ajaxPut("/user/:uid/team/students/:aid", transmit);// 操作加入申请
+
+app.ajaxGet("/teacher/team/list", transmit);// team列表
 
 let v = new Date().getTime();
 app.httpGet("/*", (req, res) => {
