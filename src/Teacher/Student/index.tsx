@@ -35,8 +35,8 @@ class StudentListInner extends CurdComponent<Student> {
             </div>
         };
         return [
-            {name: "登录名", render: "loginName"},
-            {name: "姓名", render: "userName"},
+            {name: "登录名", render: "user.username"},
+            {name: "姓名", render: "name"},
             {name: "手机", render: "mobile"},
             {name: "邮箱", render: "email"},
             {name: "操作", render: op}
@@ -70,8 +70,9 @@ class StudentListInner extends CurdComponent<Student> {
             </div>
         }
         return <div>
-            {this.renderPairInputText("item.loginName", "登录名")}
-            {this.renderPairInputText("item.userName", "姓名")}
+            {this.renderPairInputText("item.user.username", "登录名")}
+            {this.renderPairInputPassword("item.user.password", "密码")}
+            {this.renderPairInputText("item.name", "姓名")}
             {this.renderPairInputText("item.mobile", "手机")}
             {this.renderPairInputText("item.email", "邮箱")}
             {file}

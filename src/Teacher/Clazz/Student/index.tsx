@@ -28,7 +28,7 @@ class ClazzStudentInner extends CurdComponent<Student> {
 
     getHeaderRender(onCreate: EH, onUpdate: TEH<Student>, onDelete: TEH<Student>): Array<{ name: string; render: any }> {
         return [
-            {name: "姓名", render: "userName"},
+            {name: "姓名", render: "name"},
             {name: "电话", render: "mobile"},
             {name: "邮箱", render: "email"},
             {name: "班级", render: "clazzId"},
@@ -89,28 +89,10 @@ export class ClazzStudent extends RenderPairComponent<RouteComponentProps<any>, 
     }
 
     render() {
-        // let onDelete = (s) => {
-        //     ajaxDelete(`/clazz/${this.getId()}/student/${s.id}`, () => {
-        //         location.href = location.href;
-        //     })
-        // };
-        // let headers = [
-        //     {name: "姓名", render: "userName"},
-        //     {name: "电话", render: "mobile"},
-        //     {name: "邮箱", render: "email"},
-        //     {name: "班级", render: "clazzId"},
-        //     {
-        //         name: "操作", render: (s) => {
-        //         return <a href="javascript:void(0)" onClick={onDelete.bind(null, s)}>删除</a>
-        //     }
-        //     },
-        // ];
         let onChange = (students) => {
             this.setState({students})
         };
         return <div>
-            {/*<Link to={`/teacher/clazz/${this.getId()}/student/select`}>添加学生</Link>*/}
-            {/*<Table className="table" list={this.state.students} headers={headers}/>*/}
             <ClazzStudentInner history={this.props.history} list={this.state.students} onChange={onChange}
                                match={this.props.match}/>
         </div>

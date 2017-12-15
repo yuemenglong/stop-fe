@@ -55,7 +55,6 @@ class StudyJobListInner extends CurdComponent<StudyJob> {
     }
 
     renderContent(renderTable: () => any, renderRoute: () => any, onCreate: EH, onUpdate: TEH<StudyJob>, onDelete: TEH<StudyJob>): any {
-        console.log(this.props.list);
         return <div>
             {renderTable()}
             {renderRoute()}

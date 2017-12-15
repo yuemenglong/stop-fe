@@ -26,7 +26,7 @@ export class StudyJobStudentList extends Component<RouteComponentProps<any>, { j
 
     renderTable() {
         let headers = [
-            {name: "姓名", render: "student.userName"},
+            {name: "姓名", render: "student.name"},
             {
                 name: "完成情况", render: (job: StudentStudyJob) => {
                 return _(job.items).groupBy(item => item.ty).toPairs().map((p) => {

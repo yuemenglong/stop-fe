@@ -20,7 +20,7 @@ class Selector extends SelectorComponent<Student> {
     }
 
     renderItem(item: Student, idx: number, key: string, checked: boolean, onChange: EH): any {
-        let tds = ["userName", "mobile", "email"].map(key => {
+        let tds = ["name", "mobile", "email"].map(key => {
             return <td key={key}>{item[key]}</td>;
         });
         let chk = <td key={"chk"}><input type="checkbox" checked={checked} onChange={onChange}/></td>;

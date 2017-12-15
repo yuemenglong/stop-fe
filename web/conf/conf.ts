@@ -12,6 +12,8 @@ class Conf {
     }
 }
 
-const conf = new Conf(80, "localhost", 8080, "D:\\upload");
+const userConf = new Conf(80, "localhost", 8080, "D:\\upload");
+const teacherConf = new Conf(81, "localhost", 8080, "D:\\upload");
+// const userConf = new Conf(80, "localhost", 8080, "D:\\upload");
 
-export {conf}
+export {userConf, teacherConf}
