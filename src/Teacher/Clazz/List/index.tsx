@@ -4,12 +4,68 @@ import {Route} from "react-router";
 import {ListPageComponent, ListPageState} from "../../../common/list-page-component";
 import {Clazz} from "../../../def/entity";
 import {Link} from "react-router-dom";
-import {Table} from "../../../common/Table";
-import {ajaxDelete} from "../../../common/kit";
-import {ClazzEdit} from "../Edit/index";
+import {CurdComponent, CurdState} from "../../../common/curd-component";
+import {EH, TEH} from "../../../common/render-component";
+import {JVOID0} from "../../../def/data";
 
 class State extends ListPageState<Clazz> {
 
+}
+
+class ClazzListInner extends CurdComponent<Clazz> {
+    constructor() {
+        super();
+        this.state = new CurdState<Clazz>();
+    }
+
+    idField(): string {
+        return "id"
+    }
+
+    urlSlice(): number {
+        return 3;
+    }
+
+    getHeaderRender(onCreate: EH, onUpdate: TEH<Clazz>, onDelete: TEH<Clazz>): Array<{ name: string; render: any }> {
+        let op = (clazz: Clazz) => {
+            return <div>
+                <a href={JVOID0} onClick={onUpdate.bind(null, clazz)}>修改名称</a>
+                <a href={JVOID0} onClick={onDelete.bind(null, clazz)}>删除</a>
+                <Link to={`/teacher/clazz/${clazz.id}/student`}>学生管理</Link>
+            </div>
+        };
+        return [
+            {name: "班级名称", render: "name"},
+            {name: "班级人数", render: "studentCount"},
+            {name: "操作", render: op}
+        ];
+    }
+
+    renderContent(renderTable: () => any, renderModal: () => any, onCreate: EH, onUpdate: TEH<Clazz>, onDelete: TEH<Clazz>): any {
+        return <div>
+            {renderTable()}
+            {renderModal()}
+            <button onClick={onCreate}>新增</button>
+        </div>;
+    }
+
+    itemConstructor(): Clazz {
+        let ret = new Clazz();
+        ret.studentCount = 0;
+        return ret;
+    }
+
+    renderModalContent(onChange: TEH<Clazz>, onSubmit: EH, onCancel: EH): any {
+        return <div>
+            {this.renderPairInputText("item.name", "班级名称")}
+            <button className="btn" onClick={onSubmit}>确定</button>
+            <a href={JVOID0} onClick={onCancel}>取消</a>
+        </div>
+    }
+
+    getRenderRootMode(): { root: any; mode: string; onChange?: Function } {
+        return {root: this.state, mode: "state"}
+    }
 }
 
 export class ClazzList extends ListPageComponent<Clazz, any, State> {
@@ -19,11 +75,11 @@ export class ClazzList extends ListPageComponent<Clazz, any, State> {
     }
 
     getDataUrl(): string {
-        return "/clazz/list";
+        return "/teacher/clazz/list";
     }
 
     getCountUrl(): string {
-        return "/clazz/count";
+        return "/teacher/clazz/count";
     }
 
     initFilter(): Object {
@@ -39,27 +95,31 @@ export class ClazzList extends ListPageComponent<Clazz, any, State> {
     }
 
     renderPage(renderPagination: () => any, refresh: (e?: any) => void, swtch: (page: number) => void): any {
-        let onDelete = (id) => {
-            ajaxDelete(`/clazz/${id}`, refresh)
+        // let onDelete = (id) => {
+        //     ajaxDelete(`/clazz/${id}`, refresh)
+        // };
+        // let op = (s: Clazz) => {
+        //     return <div>
+        //         <Link to={`/clazz/${s.id}`}>修改名称</Link>
+        //         <a href="javascript:void(0)" onClick={onDelete.bind(null, s.id)}>删除</a>
+        //         <Link to={`/clazz/${s.id}/student`}>学生管理</Link>
+        //     </div>
+        // };
+        // let headers = [
+        //     {name: "班级名称", render: "name"},
+        //     {name: "班级人数", render: "studentCount"},
+        //     {name: "操作", render: op}
+        // ];
+        // let getKey = (s) => s.id;
+        let onChange = (list) => {
+            this.setState({list})
         };
-        let op = (s: Clazz) => {
-            return <div>
-                <Link to={`/clazz/${s.id}`}>修改名称</Link>
-                <a href="javascript:void(0)" onClick={onDelete.bind(null, s.id)}>删除</a>
-                <Link to={`/clazz/${s.id}/student`}>学生管理</Link>
-            </div>
-        };
-        let headers = [
-            {name: "班级名称", render: "name"},
-            {name: "班级人数", render: "studentCount"},
-            {name: "操作", render: op}
-        ];
-        let getKey = (s) => s.id;
         return <div>
-            <Route path="/clazz/:id" exact={true} component={ClazzEdit}/>
-            <Link className="btn" to={"/clazz/init"}>新增</Link>
-            <Table list={this.state.list} headers={headers} getKey={getKey}
-                   props={{className: "table"}}/>
+            {/*<Route path="/clazz/:id" exact={true} component={ClazzEdit}/>*/}
+            {/*<Link className="btn" to={"/clazz/init"}>新增</Link>*/}
+            {/*<Table list={this.state.list} headers={headers} getKey={getKey}*/}
+            {/*props={{className: "table"}}/>*/}
+            <ClazzListInner history={this.props.history} onChange={onChange} list={this.state.list}/>
         </div>;
     }
 }

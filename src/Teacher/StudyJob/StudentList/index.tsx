@@ -19,7 +19,7 @@ export class StudyJobStudentList extends Component<RouteComponentProps<any>, { j
     }
 
     componentDidMount() {
-        ajaxGet(`/study-job/${this.getId()}`, (res) => {
+        ajaxGet(`/teacher/study-job/${this.getId()}`, (res) => {
             this.setState({job: res})
         })
     }

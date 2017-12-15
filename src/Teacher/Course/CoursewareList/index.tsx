@@ -36,16 +36,20 @@ class CoursewareListInner extends CurdComponent<Courseware> {
             courseware.size = file.size;
             onChange(courseware);
         };
+        let file = <WebUploader onChange={onUpload}/>;
+        if (this.state.item.fileName) {
+            file = <div>{this.state.item.fileName}</div>
+        }
         return <div>
             {this.renderPairInputText("item.name", "名称")}
-            <WebUploader onChange={onUpload}/>
+            {file}
             <button onClick={onSubmit}>确定</button>
             <button onClick={onCancel}>取消</button>
         </div>
     }
 
     urlSlice(): number {
-        return 4;
+        return 5;
     }
 
     idField(): string {
@@ -92,7 +96,7 @@ export class CoursewareList extends RenderPairComponent<RouteComponentProps<any>
     }
 
     getCid() {
-        return location.pathname.split("/")[2];
+        return this.props.match.params.id;
     }
 
     constructor() {
@@ -111,7 +115,6 @@ export class CoursewareList extends RenderPairComponent<RouteComponentProps<any>
         let onChange = (list) => {
             let state = update(this.state, "course.coursewares", list);
             this.setState(state);
-            console.log(state);
         };
         return <CoursewareListInner
             list={this.state.course.coursewares}

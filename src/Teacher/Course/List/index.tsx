@@ -13,7 +13,7 @@ class CourseListInner extends CurdComponent<Course> {
     }
 
     urlSlice(): number {
-        return 2;
+        return 3;
     }
 
     getHeaderRender(onCreate: EH, onUpdate: TEH<Course>, onDelete: TEH<Course>): Array<{ name: string; render: any }> {
@@ -29,7 +29,7 @@ class CourseListInner extends CurdComponent<Course> {
             {
                 name: "操作", render: (item) => {
                 return <div>
-                    <a href={`/course/${item.id}`}>查看</a>
+                    <Link to={`/teacher/course/${item.id}`}>查看</Link>
                     <a href={JVOID0} onClick={onDelete.bind(null, item)}>删除</a>
                 </div>
             }
@@ -40,7 +40,7 @@ class CourseListInner extends CurdComponent<Course> {
     renderContent(renderTable: () => any, renderRoute: () => any, onCreate: EH, onUpdate: TEH<Course>, onDelete: TEH<Course>): any {
         return <div>
             <h1>课程列表</h1>
-            <Link to={`/course/init`}>新增课程</Link>
+            <Link to={`/teacher/course/init`}>新增课程</Link>
             {renderTable()}
         </div>
     }
@@ -67,11 +67,11 @@ export class CourseList extends ListPageComponent<Course> {
     }
 
     getDataUrl(): string {
-        return "/course/list";
+        return "/teacher/course/list";
     }
 
     getCountUrl(): string {
-        return "/course/count";
+        return "/teacher/course/count";
     }
 
     initFilter(): Object {

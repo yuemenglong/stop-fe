@@ -19,7 +19,7 @@ export class LoginPage extends RenderPairComponent<RouteComponentProps<any>, Sta
 
     render() {
         let login = () => {
-            ajaxPost(`/user/login`, this.state.user, () => {
+            ajaxPost(`/teacher/login`, this.state.user, () => {
                 this.props.history.push("/")
             })
         };

@@ -25,7 +25,7 @@ class VideoListInner extends CurdComponent<Video> {
     }
 
     urlSlice(): number {
-        return 4;
+        return 5;
     }
 
     getHeaderRender(onCreate: EH, onUpdate: TEH<Video>, onDelete: TEH<Video>): Array<{ name: string; render: any }> {

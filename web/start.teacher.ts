@@ -30,8 +30,8 @@ app.get("/favicon.ico", (req, res) => {
     res.status(404).end()
 });
 
-app.ajaxPost("/user/login", transmit);
-app.ajaxGet("/user/logout", transmit);
+app.ajaxPost("/teacher/login", transmit);
+app.ajaxGet("/teacher/logout", transmit);
 
 app.ajaxPost("/teacher/course", transmit);
 app.ajaxGet("/teacher/course/:id", transmit);

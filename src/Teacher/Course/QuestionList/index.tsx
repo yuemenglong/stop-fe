@@ -25,7 +25,7 @@ class QuestionListInner extends CurdComponent<Question> {
     }
 
     urlSlice(): number {
-        return 4;
+        return 5;
     }
 
     getHeaderRender(onCreate: EH, onUpdate: TEH<Question>, onDelete: TEH<Question>): Array<{ name: string; render: any }> {

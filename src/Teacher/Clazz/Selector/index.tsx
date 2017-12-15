@@ -11,6 +11,7 @@ import {Link} from "react-router-dom";
 import {Table} from "../../../common/Table";
 import {SelectorComponent} from "../../../common/selector-component";
 import {EH} from "../../../common/render-component";
+import {JVOID0} from "../../../def/data";
 
 
 class Selector extends SelectorComponent<Student> {
@@ -54,7 +55,13 @@ class State {
     selected: Array<Student> = [];
 }
 
-export class ClazzStudentSelect extends RenderPairComponent<RouteComponentProps<any>, State> {
+interface Props {
+    onSelect: (selected) => any
+    onCancel: () => any
+    match: any
+}
+
+export class ClazzStudentSelector extends RenderPairComponent<Props, State> {
     constructor() {
         super();
         this.state = new State();
@@ -65,7 +72,7 @@ export class ClazzStudentSelect extends RenderPairComponent<RouteComponentProps<
     }
 
     componentDidMount() {
-        ajaxGet(`/clazz/${this.getId()}/students?clazzId=0`, (res) => {
+        ajaxGet(`/teacher/clazz/${this.getId()}/students?clazzId=0`, (res) => {
             this.setState({students: res})
         })
     }
@@ -80,15 +87,17 @@ export class ClazzStudentSelect extends RenderPairComponent<RouteComponentProps<
         };
         let submit = () => {
             let data = this.state.selected.map(s => s.id);
-            ajaxPost(`/clazz/${this.getId()}/students`, data, () => {
-                location.href = `/clazz/${this.getId()}/student`
+            ajaxPost(`/teacher/clazz/${this.getId()}/students`, data, () => {
+                // location.href = `/clazz/${this.getId()}/student`
+                // this.props.history.push(`/teacher/clazz/${this.getId()}/student`)
+                this.props.onSelect(this.state.selected)
             })
         };
-        return <Modal>
+        return <div>
             <Selector list={this.state.students} onChange={onChange} selected={this.state.selected} maxSelect={10000}/>
             <button onClick={submit}>确定</button>
-            <Link to={`/clazz/${this.getId()}/student`}>取消</Link>
-        </Modal>
+            <a href={JVOID0} onClick={this.props.onCancel}>取消</a>
+        </div>
     }
 }
 

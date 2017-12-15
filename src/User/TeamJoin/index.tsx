@@ -18,7 +18,7 @@ export class UserTeamJoin extends Component<RouteComponentProps<any>, { teams: A
     }
 
     componentDidMount() {
-        ajaxGet(`/team/list`, (res) => {
+        ajaxGet(`/user/team/list`, (res) => {
             this.setState({teams: res})
         })
     }

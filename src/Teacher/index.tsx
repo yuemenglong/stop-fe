@@ -2,7 +2,7 @@ import * as React from "react";
 import {Component} from "react";
 import {Route} from "react-router";
 import {CourseRouter} from "./Course/index";
-import {StudentRouter} from "./Student/index";
+import {StudentList} from "./Student/index";
 import {ClazzRouter} from "./Clazz/index";
 import {Link} from "react-router-dom";
 import {CourseCategoryList} from "./CourseCategory/index";
@@ -10,8 +10,9 @@ import {StudyJobRouter} from "./StudyJob/index";
 import {QuestionCategoryList} from "./QuestionCategory/index";
 import {JVOID0} from "../def/data";
 import {ajaxGet} from "../common/kit";
+import {LoginPage} from "../Page/Login/index";
 
-export class AdminRoute extends Component {
+export class TeacherApp extends Component {
     render() {
         return <div className="container">
             <div>
@@ -22,12 +23,15 @@ export class AdminRoute extends Component {
                 <Link to="/teacher/question-category">题目类型体系</Link>
                 <Link to="/teacher/study-job">学习任务</Link>
             </div>
-            <Route path="/teacher/course" component={CourseRouter}/>
-            <Route path="/teacher/student" component={StudentRouter}/>
-            <Route path="/teacher/clazz" component={ClazzRouter}/>
-            <Route path="/teacher/course-category" component={CourseCategoryList}/>
-            <Route path="/teacher/question-category" component={QuestionCategoryList}/>
-            <Route path="/teacher/study-job" component={StudyJobRouter}/>
+            <switch>
+                <Route path="/teacher/course" component={CourseRouter}/>
+                <Route path="/teacher/student" component={StudentList}/>
+                <Route path="/teacher/clazz" component={ClazzRouter}/>
+                <Route path="/teacher/course-category" component={CourseCategoryList}/>
+                <Route path="/teacher/question-category" component={QuestionCategoryList}/>
+                <Route path="/teacher/study-job" component={StudyJobRouter}/>
+                <Route path="/login" component={LoginPage}/>
+            </switch>
         </div>
     }
 }

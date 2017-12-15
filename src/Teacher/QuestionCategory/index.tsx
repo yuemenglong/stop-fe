@@ -21,7 +21,7 @@ class QuestionCategoryListInner extends CurdComponent<Category> {
     }
 
     urlSlice(): number {
-        return 2;
+        return 3;
     }
 
     getHeaderRender(onCreate: EH, onUpdate: TEH<Category>, onDelete: TEH<Category>): Array<{ name: string; render: any }> {
@@ -72,7 +72,7 @@ class QuestionCategoryListInner extends CurdComponent<Category> {
             }
         ];
         let onDelete = (c: Category) => {
-            ajaxDelete(`/question-category/${c.id}`, () => {
+            ajaxDelete(`/teacher/question-category/${c.id}`, () => {
                 let item = update(this.state.item, "children[-id]", null, [c.id]);
                 this.setState({item});
                 let props = update(this.props, "list[id].children", item.children, [item.id]);
@@ -80,13 +80,13 @@ class QuestionCategoryListInner extends CurdComponent<Category> {
             })
         };
         let table = <Table list={item.children} headers={headerRender} getKey={(c) => c.id}/>;
-        let onSave = () => {
+        let onSaveSub = () => {
             let c = new Category();
             c.ty = "question";
             c.name = this.state.data.name;
             c.parentId = this.state.item.id;
             c.level = this.state.item.level + 1;
-            ajaxPost(`/question-category`, c, (res) => {
+            ajaxPost(`/teacher/question-category`, c, (res) => {
                 let item = update(this.state.item, "children[]", res);
                 this.setState({item: item, data: {}});
                 let props = update(this.props, "list[id].children", item.children, [item.id]);
@@ -98,7 +98,7 @@ class QuestionCategoryListInner extends CurdComponent<Category> {
             {table}
             <div>
                 {this.renderPairInputText("data.name", "名称")}
-                <button onClick={onSave}>新增子类别</button>
+                <button onClick={onSaveSub}>新增子类别</button>
             </div>
             <button onClick={onSubmit}>保存</button>
             <button onClick={onCancel}>取消</button>
@@ -122,7 +122,7 @@ export class QuestionCategoryList extends Component<RouteComponentProps<any>, St
     }
 
     componentDidMount() {
-        ajaxGet("/question-category?ty=question", (res) => {
+        ajaxGet("/teacher/question-category?ty=question", (res) => {
             this.setState({list: res})
         })
     }

@@ -2,7 +2,7 @@ import * as React from "react";
 import {Component} from "react";
 import {Route} from "react-router";
 import {Link} from "react-router-dom";
-import {AdminRoute} from "../Teacher/index";
+import {TeacherApp} from "../Teacher/index";
 import {UserRoute} from "../User/index";
 import {LoginPage} from "../Page/Login/index";
 import {ajaxGet} from "../common/kit";
@@ -23,12 +23,12 @@ export class App extends Component {
                 <a href={JVOID0} onClick={logout}>注销</a>
             </div>
             <switch>
-                <Route path="/course" component={AdminRoute}/>
-                <Route path="/student" component={AdminRoute}/>
-                <Route path="/clazz" component={AdminRoute}/>
-                <Route path="/course-category" component={AdminRoute}/>
-                <Route path="/question-category" component={AdminRoute}/>
-                <Route path="/study-job" component={AdminRoute}/>
+                <Route path="/course" component={TeacherApp}/>
+                <Route path="/student" component={TeacherApp}/>
+                <Route path="/clazz" component={TeacherApp}/>
+                <Route path="/course-category" component={TeacherApp}/>
+                <Route path="/question-category" component={TeacherApp}/>
+                <Route path="/study-job" component={TeacherApp}/>
                 <Route path="/user/:uid" component={UserRoute}/>
                 <Route path="/login" component={LoginPage}/>
             </switch>

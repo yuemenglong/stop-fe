@@ -19,11 +19,11 @@ class StudyJobListInner extends CurdComponent<StudyJob> {
     }
 
     componentDidMount() {
-        ajaxGet(`/course/list?limit=10000`, (res) => {
+        ajaxGet(`/teacher/course/list?limit=10000`, (res) => {
             let state = update(this.state, "data.courses", res);
             this.setState(state)
         });
-        ajaxGet(`/clazz/list?limit=10000`, (res) => {
+        ajaxGet(`/teacher/clazz/list?limit=10000`, (res) => {
             let state = update(this.state, "data.clazzs", res);
             this.setState(state)
         });
@@ -35,7 +35,7 @@ class StudyJobListInner extends CurdComponent<StudyJob> {
     }
 
     urlSlice(): number {
-        return 2;
+        return 3;
     }
 
     getHeaderRender(onCreate: EH, onUpdate: TEH<StudyJob>, onDelete: TEH<StudyJob>): Array<{ name: string; render: any }> {
@@ -47,7 +47,7 @@ class StudyJobListInner extends CurdComponent<StudyJob> {
                 return <div>
                     <a href={JVOID0} onClick={onUpdate.bind(null, job)}>编辑</a>
                     <a href={JVOID0} onClick={onDelete.bind(null, job)}>删除</a>
-                    <Link to={`/study-job/${job.id}/student`}>完成情况</Link>
+                    <Link to={`/teacher/study-job/${job.id}/student`}>完成情况</Link>
                 </div>
             }
             }
@@ -93,11 +93,11 @@ export class StudyJobList extends ListPageComponent<StudyJob> {
     }
 
     getDataUrl(): string {
-        return "/study-job/list";
+        return "/teacher/study-job/list";
     }
 
     getCountUrl(): string {
-        return "/study-job/count";
+        return "/teacher/study-job/count";
     }
 
     initFilter(): Object {

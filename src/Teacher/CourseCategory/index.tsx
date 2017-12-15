@@ -20,7 +20,7 @@ class CourseCategoryInner extends CurdComponent<Category> {
     }
 
     urlSlice(): number {
-        return 2;
+        return 3;
     }
 
     getHeaderRender(onCreate: EH, onUpdate: TEH<Category>, onDelete: TEH<Category>): Array<{ name: string; render: any }> {
@@ -71,7 +71,7 @@ class CourseCategoryInner extends CurdComponent<Category> {
             }
         ];
         let onDelete = (c: Category) => {
-            ajaxDelete(`/course-category/${c.id}`, () => {
+            ajaxDelete(`/teacher/course-category/${c.id}`, () => {
                 let item = update(this.state.item, "children[-id]", null, [c.id])
                 this.setState({item});
                 let props = update(this.props, "list[id].children", item.children, [item.id]);
@@ -79,13 +79,13 @@ class CourseCategoryInner extends CurdComponent<Category> {
             })
         };
         let table = <Table list={item.children} headers={headerRender} getKey={(c) => c.id}/>;
-        let onSave = () => {
+        let onSaveSub = () => {
             let c = new Category();
             c.ty = "course";
             c.name = this.state.data.name;
             c.parentId = this.state.item.id;
             c.level = this.state.item.level + 1;
-            ajaxPost(`/course-category`, c, (res) => {
+            ajaxPost(`/teacher/course-category`, c, (res) => {
                 let item = update(this.state.item, "children[]", res);
                 this.setState({item: item, data: {}});
                 let props = update(this.props, "list[id].children", item.children, [item.id]);
@@ -97,7 +97,7 @@ class CourseCategoryInner extends CurdComponent<Category> {
             {table}
             <div>
                 {this.renderPairInputText("data.name", "名称")}
-                <button onClick={onSave}>新增子体系</button>
+                <button onClick={onSaveSub}>新增子体系</button>
             </div>
             <button onClick={onSubmit}>保存</button>
             <button onClick={onCancel}>取消</button>
@@ -121,17 +121,15 @@ export class CourseCategoryList extends Component<RouteComponentProps<any>, Stat
     }
 
     componentDidMount() {
-        ajaxGet("/course-category?ty=course", (res) => {
+        ajaxGet("/teacher/course-category?ty=course", (res) => {
             this.setState({list: res})
         })
     }
 
     render() {
         let onChange = (list) => {
-            console.log("OnChange", list);
             this.setState({list})
         };
-        console.log("Render", this.state.list);
         return <CourseCategoryInner
             list={this.state.list}
             history={this.props.history} onChange={onChange}/>
