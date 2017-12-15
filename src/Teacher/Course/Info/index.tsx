@@ -1,6 +1,6 @@
 import * as React from "react";
 import {RenderComponent} from "../../../common/render-component";
-import {ajax, ajaxGet} from "../../../common/kit";
+import {ajax, ajaxGet, ajaxPost, ajaxPut} from "../../../common/kit";
 import {courseDifficultyMap} from "../../../def/data";
 import {Course, Category} from "../../../def/entity";
 import {RouteComponentProps} from "react-router";
@@ -30,15 +30,11 @@ export class CourseInfo extends RenderComponent<RouteComponentProps<any>, State>
 
     componentDidMount() {
         if (this.getCid() != "init") {
-            ajax({
-                url: "/course/" + this.getCid(),
-                type: "GET",
-                success: (res) => {
-                    this.setState({course: res})
-                }
+            ajaxGet("/teacher/course/" + this.getCid(), (res) => {
+                this.setState({course: res})
             })
         }
-        ajaxGet("/course-category?level=1&ty=course", (res) => {
+        ajaxGet("/teacher/course-category?level=1&ty=course", (res) => {
             this.setState({categorys: res})
         })
     }
@@ -64,23 +60,17 @@ export class CourseInfo extends RenderComponent<RouteComponentProps<any>, State>
     render() {
         let submit = () => {
             if (/\d+/.test(this.getCid())) {
-                ajax({
-                    url: "/course/" + this.getCid(),
-                    type: "PUT",
-                    data: JSON.stringify(this.state.course),
-                    success: () => {
-                        location.href = "/course"
+                ajaxPut("/teacher/course/" + this.getCid(), this.state.course, () => {
+                        // location.href = "/course"
+                        this.props.history.push("/teacher/course")
                     }
-                })
+                )
             } else {
-                ajax({
-                    url: "/course",
-                    type: "POST",
-                    data: JSON.stringify(this.state.course),
-                    success: () => {
-                        location.href = "/course"
+                ajaxPost("/teacher/course", this.state.course, () => {
+                        this.props.history.push("/teacher/course")
+                        // location.href = "/course"
                     }
-                })
+                )
             }
         };
         let categorys = this.state.categorys.map(c => {

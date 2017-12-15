@@ -51,6 +51,6 @@ module.exports = (env) => {
         rimraf.sync(`${__dirname}/dist`);
         rimraf.sync(`${__dirname}/deploy/bundle`);
     } else return [
-        config()
+        config("Teacher")
     ]
 };

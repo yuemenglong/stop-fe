@@ -42,21 +42,6 @@ export class QuestionInfo extends RenderPairComponent<Props, State> {
         this.state = new State();
     }
 
-    // componentDidMount() {
-    //     if (this.getQid() != "init") {
-    //         ajax({
-    //             url: `/course/${this.getCid()}/question/${this.getQid()}`,
-    //             type: "GET",
-    //             success: (q) => {
-    //                 this.setState({question: q})
-    //             }
-    //         })
-    //     } else {
-    //         let question = _.defaults({ty: "sc"}, this.props.question);
-    //         this.setState({question: question})
-    //     }
-    // }
-
     renderContent() {
         if (this.props.question.ty == "sc") {
             let answerMap = {
@@ -95,35 +80,6 @@ export class QuestionInfo extends RenderPairComponent<Props, State> {
     }
 
     render() {
-        // if (!this.props.question) {
-        //     return <Modal/>
-        // }
-        // let submit = () => {
-        //     let qt = this.props.question;
-        //     console.log(qt);
-        //     if (qt.ty == "tf") {
-        //         delete qt.sc;
-        //     }
-        //     if (this.getQid() == "init") {
-        //         ajax({
-        //             url: `/course/${this.getCid()}/question`,
-        //             type: "POST",
-        //             data: JSON.stringify(qt),
-        //             success: () => {
-        //                 location.href = `/course/${this.getCid()}/question`
-        //             }
-        //         })
-        //     } else {
-        //         ajax({
-        //             url: `/course/${this.getCid()}/question/${this.getQid()}`,
-        //             type: "PUT",
-        //             data: JSON.stringify(qt),
-        //             success: () => {
-        //                 location.href = `/course/${this.getCid()}/question`
-        //             }
-        //         })
-        //     }
-        // };
         return <div>
             {this.renderType()}
             {this.renderPairTextArea("title", "题目")}

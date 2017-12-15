@@ -5,6 +5,7 @@ import {courseDifficultyMap, JVOID0} from "../../../def/data";
 import {CurdComponent} from "../../../common/curd-component";
 import {EH, TEH} from "../../../common/render-component";
 import {Link} from "react-router-dom";
+import {ajaxDelete} from "../../../common/kit";
 
 class CourseListInner extends CurdComponent<Course> {
     idField(): string {
@@ -86,14 +87,11 @@ export class CourseList extends ListPageComponent<Course> {
             return <td key={idx}>{value}</td>
         });
         let onDelete = () => {
-            $.ajax({
-                url: "/course/" + course.id,
-                type: "DELETE",
-                success: () => {
+            ajaxDelete("/teacher/course/" + course.id, () => {
                     // noinspection SillyAssignmentJS
                     location.href = location.href;
                 }
-            })
+            )
         };
         values.push(<td key="op">
             <a href={`/course/${course.id}`}>查看</a>

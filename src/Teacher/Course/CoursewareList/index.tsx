@@ -1,5 +1,5 @@
 import * as React from "react";
-import {ajax} from "../../../common/kit";
+import {ajax, ajaxGet} from "../../../common/kit";
 import {Course, Courseware} from "../../../def/entity";
 import {RenderPairComponent} from "../../../component/RenderPair/index";
 import {RouteComponentProps} from "react-router";
@@ -101,18 +101,15 @@ export class CoursewareList extends RenderPairComponent<RouteComponentProps<any>
     }
 
     componentDidMount() {
-        ajax({
-            url: "/course/" + this.getCid(),
-            type: "GET",
-            success: (res) => {
+        ajaxGet("/teacher/course/" + this.getCid(), (res) => {
                 this.setState({course: res})
             }
-        })
+        )
     }
 
     render() {
         let onChange = (list) => {
-            let state = update(this.state, "course.coursewares", list)
+            let state = update(this.state, "course.coursewares", list);
             this.setState(state);
             console.log(state);
         };
