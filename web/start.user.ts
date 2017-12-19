@@ -59,7 +59,7 @@ app.ajaxGet("/teacher/team/list", transmit);// team列表
 
 let v = new Date().getTime();
 app.httpGet("/*", (req, res) => {
-    res.render("App.user.pug", {title: "攻防平台", v});
+    res.render("user.pug", {title: "攻防平台", v});
 });
 app.use(errorHandler);
 

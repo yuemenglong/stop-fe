@@ -93,7 +93,7 @@ app.ajaxGet("/teacher/team/:tid", transmit);
 
 let v = new Date().getTime();
 app.httpGet("/*", (req, res) => {
-    res.render("App.teacher.pug", {title: "攻防平台教师系统", v});
+    res.render("teacher.pug", {title: "攻防平台教师系统", v});
 });
 app.use(errorHandler);
 

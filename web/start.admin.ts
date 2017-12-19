@@ -59,6 +59,16 @@ app.ajaxGet("/admin/courseware", transmit);
 app.ajaxGet("/admin/video", transmit);
 app.ajaxGet("/admin/question", transmit);
 
+app.ajaxGet("/admin/course/list", transmit);
+app.ajaxGet("/admin/courseware/list", transmit);
+app.ajaxGet("/admin/video/list", transmit);
+app.ajaxGet("/admin/question/list", transmit);
+
+app.ajaxGet("/admin/course/count", transmit);
+app.ajaxGet("/admin/courseware/count", transmit);
+app.ajaxGet("/admin/video/count", transmit);
+app.ajaxGet("/admin/question/count", transmit);
+
 app.ajaxPost("/admin/course", transmit);
 app.ajaxPost("/admin/courseware", transmit);
 app.ajaxPost("/admin/video", transmit);
