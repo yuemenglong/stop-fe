@@ -51,6 +51,7 @@ export class UserApp extends Component {
                 <Route path="/user/:uid/team/init" component={UserTeamInit}/>
                 <Route path="/user/:uid/team/join" component={UserTeamJoin}/>
                 <Route path="/login" component={UserLogin}/>
+                <Route path="/" exact={true} component={UserLogin}/>
             </switch>
         </div>
     }

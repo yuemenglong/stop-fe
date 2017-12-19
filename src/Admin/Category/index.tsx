@@ -1,18 +1,21 @@
 import * as React from "react";
 import {Component} from "react";
-import {Route, RouteComponentProps} from "react-router";
-import {ajaxDelete, ajaxGet, ajaxPost} from "../../common/kit";
-import {Category} from "../../def/entity";
 import {CurdComponent, CurdState} from "../../common/curd-component";
+import {Category} from "../../def/entity";
 import {EH, TEH} from "../../common/render-component";
 import {JVOID0} from "../../def/data";
+import {ajaxDelete, ajaxGet, ajaxPost} from "../../common/kit";
 import {Table} from "../../common/Table";
 import {update} from "../../common/updater";
 
-class CourseCategoryInner extends CurdComponent<Category> {
+class CategoryInner extends CurdComponent<Category> {
     constructor(props) {
         super(props);
         this.state = new CurdState<Category>();
+    }
+
+    getTy() {
+        return this.props.data.ty;
     }
 
     idField(): string {
@@ -25,9 +28,9 @@ class CourseCategoryInner extends CurdComponent<Category> {
 
     getHeaderRender(onCreate: EH, onUpdate: TEH<Category>, onDelete: TEH<Category>): Array<{ name: string; render: any }> {
         return [
-            {name: "培训方案", render: "name"},
+            {name: "一级体系", render: "name"},
             {
-                name: "课程", render: (item: Category) => {
+                name: "名称", render: (item: Category) => {
                 return item.children.map(c => {
                     return <a key={c.id}>{c.name}</a>
                 })
@@ -54,14 +57,14 @@ class CourseCategoryInner extends CurdComponent<Category> {
 
     itemConstructor(): Category {
         let ret = new Category();
-        ret.ty = "course";
+        ret.ty = this.getTy();
         return ret;
     }
 
     renderModalContent(onChange: TEH<Category>, onSubmit: EH, onCancel: EH): any {
         let item = this.state.item;
         let headerRender = [
-            {name: "名称", render: "name"},
+            {name: "二级体系名称", render: "name"},
             {
                 name: "操作", render: (c: Category) => {
                 return <div>
@@ -71,34 +74,35 @@ class CourseCategoryInner extends CurdComponent<Category> {
             }
         ];
         let onDelete = (c: Category) => {
-            ajaxDelete(`/teacher/course-category/${c.id}`, () => {
+            ajaxDelete(`${location.pathname}/${c.id}`, () => {
                 let item = update(this.state.item, "children[-id]", null, [c.id])
                 this.setState({item});
                 let props = update(this.props, "list[id].children", item.children, [item.id]);
                 this.props.onChange(props.list)
             })
         };
-        let table = <Table list={item.children} headers={headerRender} getKey={(c) => c.id}/>;
+        let table = <Table className="table" list={item.children} headers={headerRender} getKey={(c) => c.id}/>;
         let onSaveSub = () => {
             let c = new Category();
-            c.ty = "course";
+            c.ty = this.getTy();
             c.name = this.state.data.name;
             c.parentId = this.state.item.id;
             c.level = this.state.item.level + 1;
-            ajaxPost(`/teacher/course-category`, c, (res) => {
+            ajaxPost(`${location.pathname}`, c, (res) => {
                 let item = update(this.state.item, "children[]", res);
                 this.setState({item: item, data: {}});
                 let props = update(this.props, "list[id].children", item.children, [item.id]);
                 this.props.onChange(props.list)
             })
         };
+        let subs = this.state.item.id ? <div>
+            {table}
+            {this.renderPairInputText("data.name", "二级体系名称")}
+            <button onClick={onSaveSub}>新增二级体系</button>
+        </div> : <div/>;
         return <div>
             {this.renderPairInputText("item.name", "名称")}
-            {table}
-            <div>
-                {this.renderPairInputText("data.name", "名称")}
-                <button onClick={onSaveSub}>新增子体系</button>
-            </div>
+            {subs}
             <button onClick={onSubmit}>保存</button>
             <button onClick={onCancel}>取消</button>
         </div>
@@ -114,14 +118,20 @@ class State {
     list: Array<Category> = []
 }
 
-export class CourseCategoryList extends Component<RouteComponentProps<any>, State> {
+class Props {
+    ty: string;
+    match?: any;
+    history?: any;
+}
+
+export class CategoryList extends Component<Props, State> {
     constructor(props) {
         super(props);
         this.state = new State();
     }
 
     componentDidMount() {
-        ajaxGet("/teacher/course-category?ty=course", (res) => {
+        ajaxGet(`${location.pathname}?ty=${this.props.ty}`, (res) => {
             this.setState({list: res})
         })
     }
@@ -130,9 +140,11 @@ export class CourseCategoryList extends Component<RouteComponentProps<any>, Stat
         let onChange = (list) => {
             this.setState({list})
         };
-        return <CourseCategoryInner
+        return <CategoryInner
             list={this.state.list}
-            history={this.props.history} onChange={onChange}/>
+            history={this.props.history} onChange={onChange}
+            data={{ty: this.props.ty}}
+        />
     }
 }
 

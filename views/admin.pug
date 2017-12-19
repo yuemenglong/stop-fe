@@ -15,7 +15,7 @@ html
         script(src='//cdn.bootcss.com/moment.js/2.18.1/moment.js')
         script(src='//cdn.bootcss.com/bluebird/3.5.0/bluebird.js')
         link(href='//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css' rel='stylesheet')
-        link(href=`/deploy/bundle/App/bundle.css?v=${v}` rel='stylesheet')
+        link(href=`/deploy/bundle/Admin/bundle.css?v=${v}` rel='stylesheet')
 
         script(src='/deploy/js/jquery.cookie.js')
         script(src='//cdn.bootcss.com/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js')
@@ -32,8 +32,8 @@ html
             }).fromPairs().value()
     body
         div(id="root") !{html}
-        script(src=`/deploy/bundle/App/bundle.js?v=${v}`)
+        script(src=`/deploy/bundle/Admin/bundle.js?v=${v}`)
         script.
             var router = React.createElement(ReactRouterDOM.BrowserRouter, null,
-                React.createElement(App, null));
+                React.createElement(AdminApp, null));
             ReactDOM.render(router, document.getElementById("root"));

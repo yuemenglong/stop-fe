@@ -5,7 +5,6 @@ import {CourseRouter} from "./Course/index";
 import {StudentList} from "./Student/index";
 import {ClazzRouter} from "./Clazz/index";
 import {Link} from "react-router-dom";
-import {CourseCategoryList} from "./CourseCategory/index";
 import {StudyJobRouter} from "./StudyJob/index";
 import {QuestionCategoryList} from "./QuestionCategory/index";
 import {JVOID0} from "../def/data";
@@ -27,7 +26,6 @@ export class TeacherApp extends Component {
                 <Route path="/teacher/course" component={CourseRouter}/>
                 <Route path="/teacher/student" component={StudentList}/>
                 <Route path="/teacher/clazz" component={ClazzRouter}/>
-                <Route path="/teacher/course-category" component={CourseCategoryList}/>
                 <Route path="/teacher/question-category" component={QuestionCategoryList}/>
                 <Route path="/teacher/study-job" component={StudyJobRouter}/>
                 <Route path="/login" component={LoginPage}/>
