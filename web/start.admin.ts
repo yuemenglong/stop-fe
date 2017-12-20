@@ -34,6 +34,7 @@ app.get("/favicon.ico", (req, res) => {
 app.ajaxPost("/admin/login", transmit);
 app.ajaxGet("/admin/logout", transmit);
 
+app.ajaxGet("/admin/category", transmit);
 app.ajaxGet("/admin/course-category", transmit);
 app.ajaxGet("/admin/courseware-category", transmit);
 app.ajaxGet("/admin/video-category", transmit);

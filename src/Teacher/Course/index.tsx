@@ -6,7 +6,6 @@ import {CourseInfo} from "./Info/index";
 import {CoursewareList} from "./CoursewareList/index";
 import {VideoList} from "./VideoList/index";
 import {QuestionList} from "./QuestionList/index";
-import {QuestionInfo} from "./QuestionInfo/index";
 
 export class CourseRouter extends Component {
     render() {
@@ -26,7 +25,6 @@ export class CourseRouter extends Component {
             <Route path="/teacher/course/:id/courseware" component={CoursewareList}/>
             <Route path="/teacher/course/:id/video" component={VideoList}/>
             <Route path="/teacher/course/:id/question" component={QuestionList}/>
-            <Route path="/teacher/course/:id/question/:qid" component={QuestionInfo}/>
         </div>
     }
 }

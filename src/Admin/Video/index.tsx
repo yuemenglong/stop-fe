@@ -5,30 +5,28 @@ import {CurdComponent, CurdState} from "../../common/curd-component";
 import {EH, TEH} from "../../common/render-component";
 import {JVOID0} from "../../def/data";
 import {FileInfo, WebUploader} from "../../component/WebUploader/index";
-import {Courseware} from "../../def/entity";
-import {ajaxGet, Kit} from "../../common/kit";
-import {update} from "../../common/updater";
+import {Video} from "../../def/entity";
 
-class CoursewareListInner extends CurdComponent<Courseware> {
+class VideoListInner extends CurdComponent<Video> {
     constructor(props) {
         super(props);
-        this.state = new CurdState<Courseware>();
+        this.state = new CurdState<Video>();
     }
 
-    itemConstructor(): Courseware {
-        return new Courseware();
+    itemConstructor(): Video {
+        return new Video();
     }
 
-    renderModalContent(onChange: TEH<Courseware>,
+    renderModalContent(onChange: TEH<Video>,
                        onSubmit: EH,
                        onCancel: EH): any {
         let onUpload = (file: FileInfo) => {
-            let courseware = _.clone(this.state.item);
-            courseware.fileId = file.fileId;
-            courseware.fileName = file.fileName;
-            courseware.ext = file.ext;
-            courseware.size = file.size;
-            onChange(courseware);
+            let video = _.clone(this.state.item);
+            video.fileId = file.fileId;
+            video.fileName = file.fileName;
+            video.ext = file.ext;
+            video.size = file.size;
+            onChange(video);
         };
         let file = <WebUploader onChange={onUpload}/>;
         if (this.state.item.fileName) {
@@ -37,8 +35,6 @@ class CoursewareListInner extends CurdComponent<Courseware> {
         return <div>
             {this.renderPairInputText("item.name", "名称")}
             {file}
-            {this.renderPairSelect("item.cate0Id", "一级类别", Kit.optionValueList(this.props.data.cate0, "name", "id"))}
-            {this.renderPairSelect("item.cate1Id", "二级类别", Kit.optionValueList(this.props.data.cate1.filter(c => c.parentId == this.state.item.cate0Id), "name", "id"))}
             <button onClick={onSubmit}>确定</button>
             <button onClick={onCancel}>取消</button>
         </div>
@@ -52,7 +48,7 @@ class CoursewareListInner extends CurdComponent<Courseware> {
         return "id";
     }
 
-    getHeaderRender(onCreate: EH, onUpdate: TEH<Courseware>, onDelete: TEH<Courseware>): Array<{ name: string; render: any }> {
+    getHeaderRender(onCreate: EH, onUpdate: TEH<Video>, onDelete: TEH<Video>): Array<{ name: string; render: any }> {
         return [{
             name: "名称", render: "name",
         }, {
@@ -60,7 +56,7 @@ class CoursewareListInner extends CurdComponent<Courseware> {
         }, {
             name: "大小", render: "size",
         }, {
-            name: "操作", render: (item: Courseware) => <div>
+            name: "操作", render: (item: Video) => <div>
                 <a href={`/upload/${item.fileId}`} target="_blank">下载</a>
                 <a href={JVOID0} onClick={onUpdate.bind(null, item)}>修改</a>
                 <a href={JVOID0} onClick={onDelete.bind(null, item)}>删除</a>
@@ -71,8 +67,8 @@ class CoursewareListInner extends CurdComponent<Courseware> {
     renderContent(renderTable: () => any,
                   renderRoute: () => any,
                   onCreate: EH,
-                  onUpdate: TEH<Courseware>,
-                  onDelete: TEH<Courseware>): any {
+                  onUpdate: TEH<Video>,
+                  onDelete: TEH<Video>): any {
         return <div>
             <h1>课件</h1>
             {renderTable()}
@@ -86,31 +82,18 @@ class CoursewareListInner extends CurdComponent<Courseware> {
     }
 }
 
-export class CoursewareList extends ListPageComponent<Courseware> {
+export class VideoList extends ListPageComponent<Video> {
     constructor(props) {
         super(props);
-        this.state = new ListPageState<Courseware>();
-    }
-
-    componentDidMount() {
-        ajaxGet(`/admin/category?ty=courseware&level=0`, (res) => {
-            let data = update(this.state.data, "cate0", res);
-            console.log(data);
-            this.setState({data});
-        });
-        ajaxGet(`/admin/category?ty=courseware&level=1`, (res) => {
-            let data = update(this.state.data, "cate1", res);
-            console.log(data);
-            this.setState({data});
-        })
+        this.state = new ListPageState<Video>();
     }
 
     getDataUrl(): string {
-        return "/admin/courseware/list";
+        return "/admin/video/list";
     }
 
     getCountUrl(): string {
-        return "/admin/courseware/count";
+        return "/admin/video/count";
     }
 
     initFilter(): Object {
@@ -126,11 +109,10 @@ export class CoursewareList extends ListPageComponent<Courseware> {
             this.setState({list})
         };
         return <div>
-            <CoursewareListInner
+            <VideoListInner
                 list={this.state.list}
                 onChange={onChange}
-                history={this.props.history}
-                data={this.state.data}/>
+                history={this.props.history}/>
             {renderPagination()}
         </div>
     }

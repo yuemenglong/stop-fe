@@ -8,6 +8,7 @@ export class ListPageState<T> {
     filter: { limit: number; offset: number } = {limit: 20, offset: 0};
     list: Array<T> = [];
     count: number = 0;
+    data: any = {};
 }
 
 export interface ListPageProps {
