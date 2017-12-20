@@ -6,6 +6,8 @@ import {EH, TEH} from "../../common/render-component";
 import {JVOID0} from "../../def/data";
 import {FileInfo, WebUploader} from "../../component/WebUploader/index";
 import {Video} from "../../def/entity";
+import {ajaxGet, Kit} from "../../common/kit";
+import {update} from "../../common/updater";
 
 class VideoListInner extends CurdComponent<Video> {
     constructor(props) {
@@ -35,6 +37,8 @@ class VideoListInner extends CurdComponent<Video> {
         return <div>
             {this.renderPairInputText("item.name", "名称")}
             {file}
+            {this.renderPairSelect("item.cate0Id", "一级类别", Kit.optionValueList(this.props.data.cate0, "name", "id"))}
+            {this.renderPairSelect("item.cate1Id", "二级类别", Kit.optionValueList(this.props.data.cate1.filter(c => c.parentId == this.state.item.cate0Id), "name", "id"))}
             <button onClick={onSubmit}>确定</button>
             <button onClick={onCancel}>取消</button>
         </div>
@@ -88,6 +92,17 @@ export class VideoList extends ListPageComponent<Video> {
         this.state = new ListPageState<Video>();
     }
 
+    componentDidMount() {
+        ajaxGet(`/admin/category?ty=video&level=0`, (res) => {
+            let data = update(this.state.data, "cate0", res);
+            this.setState({data});
+        });
+        ajaxGet(`/admin/category?ty=video&level=1`, (res) => {
+            let data = update(this.state.data, "cate1", res);
+            this.setState({data});
+        })
+    }
+
     getDataUrl(): string {
         return "/admin/video/list";
     }
@@ -112,7 +127,8 @@ export class VideoList extends ListPageComponent<Video> {
             <VideoListInner
                 list={this.state.list}
                 onChange={onChange}
-                history={this.props.history}/>
+                history={this.props.history}
+                data={this.state.data}/>
             {renderPagination()}
         </div>
     }

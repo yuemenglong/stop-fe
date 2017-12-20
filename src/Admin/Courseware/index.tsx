@@ -95,12 +95,10 @@ export class CoursewareList extends ListPageComponent<Courseware> {
     componentDidMount() {
         ajaxGet(`/admin/category?ty=courseware&level=0`, (res) => {
             let data = update(this.state.data, "cate0", res);
-            console.log(data);
             this.setState({data});
         });
         ajaxGet(`/admin/category?ty=courseware&level=1`, (res) => {
             let data = update(this.state.data, "cate1", res);
-            console.log(data);
             this.setState({data});
         })
     }

@@ -7,6 +7,8 @@ import {JVOID0, questionTypeMap} from "../../def/data";
 import {FileInfo, WebUploader} from "../../component/WebUploader/index";
 import {Question} from "../../def/entity";
 import {QuestionInfo} from "./QuestionInfo/index";
+import {ajaxGet} from "../../common/kit";
+import {update} from "../../common/updater";
 
 class QuestionListInner extends CurdComponent<Question> {
     constructor(props) {
@@ -25,7 +27,10 @@ class QuestionListInner extends CurdComponent<Question> {
                        onCancel: EH): any {
         return <QuestionInfo onCancel={onCancel}
                              onSubmit={onSubmit}
-                             onChange={onChange} question={this.state.item}/>
+                             onChange={onChange}
+                             question={this.state.item}
+                             cate0={this.props.data.cate0}
+                             cate1={this.props.data.cate1}/>
     }
 
     urlSlice(): number {
@@ -74,6 +79,17 @@ export class QuestionList extends ListPageComponent<Question> {
         this.state = new ListPageState<Question>();
     }
 
+    componentDidMount() {
+        ajaxGet(`/admin/category?ty=question&level=0`, (res) => {
+            let data = update(this.state.data, "cate0", res);
+            this.setState({data});
+        });
+        ajaxGet(`/admin/category?ty=question&level=1`, (res) => {
+            let data = update(this.state.data, "cate1", res);
+            this.setState({data});
+        })
+    }
+
     getDataUrl(): string {
         return "/admin/question/list";
     }
@@ -98,7 +114,8 @@ export class QuestionList extends ListPageComponent<Question> {
             <QuestionListInner
                 list={this.state.list}
                 onChange={onChange}
-                history={this.props.history}/>
+                history={this.props.history}
+                data={this.state.data}/>
             {renderPagination()}
         </div>
     }
