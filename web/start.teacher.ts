@@ -30,6 +30,14 @@ app.get("/favicon.ico", (req, res) => {
     res.status(404).end()
 });
 
+app.ajaxGet("/admin/category", transmit);
+app.ajaxGet("/admin/courseware/list", transmit);
+app.ajaxGet("/admin/courseware/count", transmit);
+app.ajaxGet("/admin/video/list", transmit);
+app.ajaxGet("/admin/video/count", transmit);
+app.ajaxGet("/admin/question/list", transmit);
+app.ajaxGet("/admin/question/count", transmit);
+
 app.ajaxPost("/teacher/login", transmit);
 app.ajaxGet("/teacher/logout", transmit);
 
@@ -40,16 +48,17 @@ app.ajaxGet("/teacher/course/list", transmit);
 app.ajaxGet("/teacher/course/count", transmit);
 app.ajaxDelete("/teacher/course/:id", transmit);
 
-app.ajaxPost("/teacher/course/:id/courseware", transmit);
-app.ajaxPut("/teacher/course/:id/courseware/:cid", transmit);
-app.ajaxPost("/teacher/course/:id/video", transmit);
-app.ajaxPut("/teacher/course/:id/video/:vid", transmit);
-app.ajaxPost("/teacher/course/:id/question", transmit);
-app.ajaxGet("/teacher/course/:id/question/:qid", transmit);
-app.ajaxPut("/teacher/course/:id/question/:qid", transmit);
-app.ajaxDelete("/teacher/course/:id/courseware/:cid", transmit);
-app.ajaxDelete("/teacher/course/:id/video/:vid", transmit);
-app.ajaxDelete("/teacher/course/:id/question/:qid", transmit);
+app.ajaxGet("/teacher/course/:cid/courseware", transmit);
+app.ajaxGet("/teacher/course/:cid/video", transmit);
+app.ajaxGet("/teacher/course/:cid/question", transmit);
+
+app.ajaxPut("/teacher/course/:cid/courseware", transmit);
+app.ajaxPut("/teacher/course/:cid/video", transmit);
+app.ajaxPut("/teacher/course/:cid/question", transmit);
+
+app.ajaxDelete("/teacher/course/:cid/courseware/:id", transmit);
+app.ajaxDelete("/teacher/course/:cid/video/:id", transmit);
+app.ajaxDelete("/teacher/course/:cid/question/:id", transmit);
 
 app.ajaxPost("/teacher/student", transmit);
 app.ajaxDelete("/teacher/student/:id", transmit);
@@ -67,15 +76,6 @@ app.ajaxPost("/teacher/clazz/:id/students", transmit);
 app.ajaxDelete("/teacher/clazz/:id/student/:sid", transmit);
 app.ajaxGet("/teacher/clazz/list", transmit);
 app.ajaxGet("/teacher/clazz/count", transmit);
-
-app.ajaxPost("/teacher/course-category", transmit);
-app.ajaxPut("/teacher/course-category/:id", transmit);
-app.ajaxGet("/teacher/course-category", transmit);
-app.ajaxDelete("/teacher/course-category/:id", transmit);
-app.ajaxPost("/teacher/question-category", transmit);
-app.ajaxPut("/teacher/question-category/:id", transmit);
-app.ajaxGet("/teacher/question-category", transmit);
-app.ajaxDelete("/teacher/question-category/:id", transmit);
 
 app.ajaxGet("/teacher/study-job/list", transmit);
 app.ajaxGet("/teacher/study-job/count", transmit);

@@ -3,9 +3,9 @@ import {Component} from "react";
 import {Route, RouteComponentProps} from "react-router";
 import {CourseList} from "./List/index";
 import {CourseInfo} from "./Info/index";
-import {CoursewareList} from "./CoursewareList/index";
-import {VideoList} from "./VideoList/index";
-import {QuestionList} from "./QuestionList/index";
+import {VideoList} from "./Video/index";
+import {QuestionList} from "./Question/index";
+import {CourseItemList} from "./ItemList/index";
 
 export class CourseRouter extends Component {
     render() {
@@ -22,9 +22,9 @@ export class CourseRouter extends Component {
             <Route path="/teacher/course" exact={true} component={CourseList}/>
             <Route path="/teacher/course/:id" render={renderHeader}/>
             <Route path="/teacher/course/:id" exact={true} component={CourseInfo}/>
-            <Route path="/teacher/course/:id/courseware" component={CoursewareList}/>
-            <Route path="/teacher/course/:id/video" component={VideoList}/>
-            <Route path="/teacher/course/:id/question" component={QuestionList}/>
+            <Route path="/teacher/course/:id/courseware" component={CourseItemList}/>
+            <Route path="/teacher/course/:id/video" component={CourseItemList}/>
+            <Route path="/teacher/course/:id/question" component={CourseItemList}/>
         </div>
     }
 }

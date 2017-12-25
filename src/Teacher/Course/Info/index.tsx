@@ -1,13 +1,14 @@
 import * as React from "react";
 import {RenderComponent} from "../../../common/render-component";
-import {ajax, ajaxGet, ajaxPost, ajaxPut} from "../../../common/kit";
+import {ajax, ajaxGet, ajaxPost, ajaxPut, Kit} from "../../../common/kit";
 import {courseDifficultyMap} from "../../../def/data";
 import {Course, Category} from "../../../def/entity";
 import {RouteComponentProps} from "react-router";
 
 class State {
     course: Course = new Course();
-    categorys: Array<Category> = [];
+    cate0: Array<Category> = [];
+    cate1: Array<Category> = [];
 
     constructor() {
         this.course.difficulty = "normal"
@@ -34,8 +35,11 @@ export class CourseInfo extends RenderComponent<RouteComponentProps<any>, State>
                 this.setState({course: res})
             })
         }
-        ajaxGet("/teacher/course-category?level=1&ty=course", (res) => {
-            this.setState({categorys: res})
+        ajaxGet("/admin/category?level=0&ty=course", (res) => {
+            this.setState({cate0: res})
+        });
+        ajaxGet("/admin/category?level=1&ty=course", (res) => {
+            this.setState({cate1: res})
         })
     }
 
@@ -73,16 +77,15 @@ export class CourseInfo extends RenderComponent<RouteComponentProps<any>, State>
                 )
             }
         };
-        let categorys = this.state.categorys.map(c => {
-            return {value: c.id, option: c.name};
-        });
-        categorys.unshift({value: "" as any, option: "请选择"});
         return <div>
             <h1>课程</h1>
             {this.renderPairInput("course.name", "课程名")}
             {this.renderPairInput("course.description", "课程描述")}
             {this.renderPairSelect("course.difficulty", "难度", courseDifficultyMap)}
-            {this.renderPairSelect("course.categoryId", "类别", categorys)}
+            {/*{this.renderPairSelect("course.categoryId", "类别", cate0)}*/}
+            {this.renderPairSelect("course.cate0Id", "一级类别", Kit.optionValueList(this.state.cate0, "name", "id"))}
+            {this.renderPairSelect("course.cate1Id", "二级类别", Kit.optionValueList(this.state.cate1.filter(c => c.parentId == this.state.course.cate0Id), "name", "id"))}
+
             <button onClick={submit}>保存</button>
         </div>
     }

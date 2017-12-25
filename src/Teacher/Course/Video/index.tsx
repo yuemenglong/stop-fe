@@ -56,12 +56,12 @@ class State {
 //         return new Video();
 //     }
 //
-//     renderModalContent(onChange: TEH<Video>, onSubmit: EH, onCancel: EH): any {
+//     renderModalContent(onSelect: TEH<Video>, onSubmit: EH, onCancel: EH): any {
 //         let onUpload = (f: FileInfo) => {
 //             let state = update(this.state, "item{}", f);
 //             this.setState(state)
 //         };
-//         let file = <WebUploader onChange={onUpload}/>;
+//         let file = <WebUploader onSelect={onUpload}/>;
 //         if (this.state.item.fileName) {
 //             file = <div>{this.state.item.fileName}</div>
 //         }
@@ -69,13 +69,13 @@ class State {
 //         return <div>
 //             {this.renderPairInputText("item.name", "名字")}
 //             {file}
-//             {/*<WebUploader onChange={onChange}/>*/}
+//             {/*<WebUploader onSelect={onSelect}/>*/}
 //             <a href={JVOID0} onClick={onSubmit}>确定</a>
 //             <a href={JVOID0} onClick={onCancel}>取消</a>
 //         </div>
 //     }
 //
-//     getRenderRootMode(): { root: any; mode: string; onChange?: Function } {
+//     getRenderRootMode(): { root: any; mode: string; onSelect?: Function } {
 //         return {root: this.state, mode: "state"};
 //     }
 //
@@ -104,7 +104,7 @@ export class VideoList extends Component<RouteComponentProps<any>, State> {
             this.setState(state)
         };
         return <div></div>
-        // return <VideoListInner history={this.props.history} list={this.state.course.videos} onChange={onChange}/>
+        // return <VideoListInner history={this.props.history} list={this.state.course.videos} onSelect={onSelect}/>
     }
 }
 

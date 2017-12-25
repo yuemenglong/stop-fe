@@ -56,11 +56,11 @@ import {update} from "../../../common/updater";
 //         return q;
 //     }
 //
-//     renderModalContent(onChange: TEH<Question>, onSubmit: EH, onCancel: EH): any {
-//         return <QuestionInfo onSubmit={onSubmit} onCancel={onCancel} onChange={onChange} question={this.state.item}/>
+//     renderModalContent(onSelect: TEH<Question>, onSubmit: EH, onCancel: EH): any {
+//         return <QuestionInfo onSubmit={onSubmit} onCancel={onCancel} onSelect={onSelect} question={this.state.item}/>
 //     }
 //
-//     getRenderRootMode(): { root: any; mode: string; onChange?: Function } {
+//     getRenderRootMode(): { root: any; mode: string; onSelect?: Function } {
 //         return {root: this.state, mode: "state"};
 //     }
 // }
@@ -96,7 +96,7 @@ export class QuestionList extends RenderPairComponent<RouteComponentProps<any>, 
             this.setState(state)
         };
         return <div></div>
-        // return <QuestionListInner history={this.props.history} onChange={onChange}
+        // return <QuestionListInner history={this.props.history} onSelect={onSelect}
         //                           list={this.state.course.questions}/>
     }
 }
