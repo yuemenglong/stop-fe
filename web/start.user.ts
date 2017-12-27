@@ -34,6 +34,9 @@ app.get("/favicon.ico", (req, res) => {
 app.ajaxPost("/user/login", transmit);
 app.ajaxGet("/user/logout", transmit);
 
+app.ajaxGet("/user/:uid", transmit);
+app.ajaxPost("/user/:uid", transmit);
+
 app.ajaxGet("/user/:uid/study-job", transmit);
 app.ajaxGet("/user/:uid/study-job/:id", transmit);
 app.ajaxGet("/user/:uid/study-job/:sid/item/:id", transmit);
@@ -54,6 +57,12 @@ app.ajaxPut("/user/:uid/team", transmit);// 加入team
 app.ajaxDelete("/user/:uid/team", transmit);//退出
 app.ajaxGet("/user/:uid/team", transmit);// team详情
 app.ajaxPut("/user/:uid/team/students/:aid", transmit);// 操作加入申请
+
+app.ajaxGet("/user/:uid/quiz-job/list", transmit);
+app.ajaxGet("/user/:uid/quiz-job/count", transmit);
+app.ajaxGet("/user/:uid/quiz-job/:jid", transmit);
+app.ajaxPut("/user/:uid/quiz-job/:jid/items/:id", transmit);
+app.ajaxPut("/user/:uid/quiz-job/:jid", transmit);
 
 app.ajaxGet("/teacher/team/list", transmit);// team列表
 

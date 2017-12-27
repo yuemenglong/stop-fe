@@ -91,6 +91,12 @@ app.ajaxGet("/teacher/team/list", transmit);
 app.ajaxGet("/teacher/team/count", transmit);
 app.ajaxGet("/teacher/team/:tid", transmit);
 
+app.ajaxGet("/admin/question/*", transmit);
+
+app.ajaxPost("/teacher/quiz", transmit);
+app.ajaxDelete("/teacher/quiz/:id", transmit);
+app.ajaxGet("/teacher/quiz/*", transmit);
+
 let v = new Date().getTime();
 app.httpGet("/*", (req, res) => {
     res.render("teacher.pug", {title: "攻防平台教师系统", v});
