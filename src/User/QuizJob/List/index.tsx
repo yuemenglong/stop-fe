@@ -35,11 +35,16 @@ export class QuizJobList extends ListPageComponent<QuizJob> {
     }
 
     renderPage(renderPagination: () => any, refresh: (e?: any) => void, swtch: (page: number) => void): any {
+        console.log(this.state.list);
         let headers = [{
             name: "名称", render: "quiz.name",
         }, {
+            name: "题目", render: "itemCount",
+        }, {
+            name: "已完成", render: "finishCount",
+        }, {
             name: "状态", render: (item) => {
-                return {waiting: "未完成", succ: "已完成"}[item.status]
+                return {waiting: "进行中", succ: "已完成"}[item.status]
             }
         }, {
             name: "操作", render: (item) => {
