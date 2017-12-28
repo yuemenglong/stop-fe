@@ -2,13 +2,14 @@ import * as React from "react";
 import {Component} from "react";
 import {RouteComponentProps} from "react-router";
 import {ajax, ajaxGet, ajaxPost, Kit} from "../../../common/kit";
-import {Category, Clazz, Question} from "../../../def/entity";
-import {JVOID0, questionTypeMap} from "../../../def/data";
+import {Category, Clazz, Question, Quiz} from "../../../def/entity";
+import {JVOID0, Def} from "../../../def/data";
 import {SelectorComponent, SelectorProps} from "../../../common/selector-component";
 import {EH} from "../../../common/render-component";
 import {Modal} from "../../../common/modal";
 import _ = require("lodash");
 import {RenderPairComponent} from "../../../component/RenderPair/index";
+import {Link} from "react-router-dom";
 
 
 interface SProps extends SelectorProps<Question> {
@@ -21,7 +22,7 @@ class Selector extends SelectorComponent<Question, SProps> {
     }
 
     renderItem(item: Question, idx: number, key: string, checked: boolean, onChange: EH): any {
-        let ty = questionTypeMap[item.ty];
+        let ty = Def.questionTypeMap[item.ty];
         return <tr key={key}>
             <td>
                 <input type="checkbox" onChange={onChange} checked={checked}/>
@@ -57,16 +58,25 @@ class State {
     selected: Array<Question> = [];
     selectors: Array<Question> = null;
     clazzes: Array<Clazz> = [];
+    disabled: boolean = false;
 }
 
-export class QuizInit extends RenderPairComponent<RouteComponentProps<any>, State> {
+export class QuizEdit extends RenderPairComponent<RouteComponentProps<any>, State> {
     getRenderRootMode(): { root: any; mode: string; onChange?: Function } {
         return {root: this.state, mode: "state"}
+    }
+
+    getQid() {
+        return this.props.match.params.qid
     }
 
     constructor(props) {
         super(props);
         this.state = new State();
+    }
+
+    isInit() {
+        return this.getQid() == "init"
     }
 
     componentDidMount() {
@@ -77,9 +87,17 @@ export class QuizInit extends RenderPairComponent<RouteComponentProps<any>, Stat
             this.setState({cates: res})
         });
         ajaxGet(`/teacher/clazz/list`, (res) => {
-            console.log(res);
             this.setState({clazzes: res})
         });
+        if (!this.isInit()) {
+            this.setState({disabled: true});
+            ajaxGet(`/teacher/quiz/${this.getQid()}`, (res: Quiz) => {
+                let selected = res.questions.map(q => {
+                    return q.question;
+                });
+                this.setState({quiz: res as any, selected})
+            })
+        }
     }
 
     renderSelector() {
@@ -122,10 +140,11 @@ export class QuizInit extends RenderPairComponent<RouteComponentProps<any>, Stat
                 <h3>一级类别{cate0.name}</h3>
                 {cate0.children.map(cate1 => {
                     let questions = this.state.questions.concat(this.state.selected).filter(q => q.cate1Id = cate1.id);
+                    let choice = this.isInit() ? <a href={JVOID0} onClick={onClick.bind(null, cate1.id)}>选择</a> : null;
                     return <div key={cate1.id}>
                         <h5>二级类别{cate1.name}</h5>
                         <span>共有{this.state.cateCount[cate1.id]}题</span>
-                        <a href={JVOID0} onClick={onClick.bind(null, cate1.id)}>选择</a>
+                        {choice}
                         {questions.map(q => {
                             return <div key={q.id}>
                                 {q.title}
@@ -150,12 +169,15 @@ export class QuizInit extends RenderPairComponent<RouteComponentProps<any>, Stat
                 this.props.history.push(`/teacher/quiz`);
             })
         };
+        let subBtn = this.isInit() ? <button onClick={submit}>提交</button> : null;
         return <div>
             {this.renderPairInputText("quiz.name", "名称")}
             {this.renderPairSelect("quiz.clazzId", "选择班级", Kit.optionValueList(this.state.clazzes))}
+            {this.renderPairDatePicker("quiz.limitDate", "截止日期")}
             {this.renderQuestion()}
             {this.renderSelector()}
-            <button onClick={submit}>提交</button>
+            {subBtn}
+            <Link to={`/teacher/quiz`}>返回</Link>
         </div>
     }
 

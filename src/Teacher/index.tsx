@@ -18,7 +18,6 @@ export class TeacherApp extends Component {
                 <Link to="/teacher/course">课程列表</Link>
                 <Link to="/teacher/student">学生列表</Link>
                 <Link to="/teacher/clazz">班级列表</Link>
-                <Link to="/teacher/course-category">课程体系</Link>
                 <Link to="/teacher/study-job">学习任务</Link>
                 <Link to="/teacher/quiz">考试任务</Link>
             </div>

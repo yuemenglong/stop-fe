@@ -8,7 +8,8 @@ interface Props {
     className?: string,
     onChange: (date: string) => void,
     placeholder?: string,
-    value: string
+    value: string,
+    disabled?: boolean,
 }
 
 class State {
@@ -41,6 +42,6 @@ export class DatePicker extends Component<Props, State> {
     render() {
         return <input className={this.props.className} onChange={_.noop}
                       type="text" id={this.state.id} value={this.props.value}
-                      placeholder={this.props.placeholder}/>
+                      disabled={this.props.disabled} placeholder={this.props.placeholder}/>
     }
 }

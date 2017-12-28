@@ -11,6 +11,7 @@ interface Props {
     question: Question,
     answer: string,
     onChange: (string) => any
+    disabled?: boolean,
 }
 
 export class QuestionEdit extends Component<Props> {
@@ -21,7 +22,8 @@ export class QuestionEdit extends Component<Props> {
         });
         return <div>
             {this.props.question.title}
-            <CheckGroup list={list} value={this.props.answer} onChange={this.props.onChange}/>
+            <CheckGroup disabled={this.props.disabled} list={list} value={this.props.answer}
+                        onChange={this.props.onChange}/>
         </div>
     }
 
@@ -31,7 +33,8 @@ export class QuestionEdit extends Component<Props> {
         });
         return <div>
             {this.props.question.title}
-            <CheckGroup list={list} value={this.props.answer} onChange={this.props.onChange}/>
+            <CheckGroup disabled={this.props.disabled} list={list} value={this.props.answer}
+                        onChange={this.props.onChange}/>
         </div>
     }
 
@@ -101,7 +104,8 @@ export class UserStudyJobItem extends Component<RouteComponentProps<any>, { ques
                 })
         };
         return <div>
-            <QuestionEdit question={this.state.question} answer={this.state.answer} onChange={onChange}/>
+            <QuestionEdit disabled={false} question={this.state.question} answer={this.state.answer}
+                          onChange={onChange}/>
             <button onClick={submit}>提交</button>
         </div>
     }

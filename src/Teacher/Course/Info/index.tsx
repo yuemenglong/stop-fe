@@ -1,9 +1,9 @@
 import * as React from "react";
 import {RenderComponent} from "../../../common/render-component";
 import {ajax, ajaxGet, ajaxPost, ajaxPut, Kit} from "../../../common/kit";
-import {courseDifficultyMap} from "../../../def/data";
 import {Course, Category} from "../../../def/entity";
 import {RouteComponentProps} from "react-router";
+import {Def} from "../../../def/data";
 
 class State {
     course: Course = new Course();
@@ -81,7 +81,7 @@ export class CourseInfo extends RenderComponent<RouteComponentProps<any>, State>
             <h1>课程</h1>
             {this.renderPairInput("course.name", "课程名")}
             {this.renderPairInput("course.description", "课程描述")}
-            {this.renderPairSelect("course.difficulty", "难度", courseDifficultyMap)}
+            {this.renderPairSelect("course.difficulty", "难度", Def.courseDifficultyMap)}
             {/*{this.renderPairSelect("course.categoryId", "类别", cate0)}*/}
             {this.renderPairSelect("course.cate0Id", "一级类别", Kit.optionValueList(this.state.cate0, "name", "id"))}
             {this.renderPairSelect("course.cate1Id", "二级类别", Kit.optionValueList(this.state.cate1.filter(c => c.parentId == this.state.course.cate0Id), "name", "id"))}

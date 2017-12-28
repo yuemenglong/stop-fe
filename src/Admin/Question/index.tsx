@@ -3,7 +3,7 @@ import _ = require("lodash");
 import {ListPageComponent, ListPageState} from "../../common/list-page-component";
 import {CurdComponent, CurdState} from "../../common/curd-component";
 import {EH, TEH} from "../../common/render-component";
-import {JVOID0, questionTypeMap} from "../../def/data";
+import {JVOID0, Def} from "../../def/data";
 import {FileInfo, WebUploader} from "../../component/WebUploader/index";
 import {Question} from "../../def/entity";
 import {QuestionInfo} from "./QuestionInfo/index";
@@ -45,7 +45,7 @@ class QuestionListInner extends CurdComponent<Question> {
         return [{
             name: "题目", render: "title",
         }, {
-            name: "类型", render: (item) => questionTypeMap[item.ty],
+            name: "类型", render: (item) => Def.questionTypeMap[item.ty],
         }, {
             name: "分值", render: "score",
         }, {

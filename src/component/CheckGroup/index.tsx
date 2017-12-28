@@ -8,6 +8,7 @@ interface Props {
     onChange: (value: string | number) => any
     className?: string
     invert?: boolean
+    disabled?: boolean
 }
 
 export class CheckGroup extends Component<Props> {
@@ -32,6 +33,7 @@ export class CheckGroup extends Component<Props> {
                 let checked = this.props.value == o.value;
                 return <li key={o.value}>
                     <input type="checkbox" checked={checked}
+                           disabled={this.props.disabled}
                            onChange={onChange.bind(null, o)}/>
                     <span>{o.option}</span>
                 </li>

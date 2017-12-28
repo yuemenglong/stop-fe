@@ -7,7 +7,7 @@ import {RenderPairComponent} from "../../../component/RenderPair/index";
 import * as _ from "lodash";
 import {RouteComponentProps} from "react-router";
 import {Link} from "react-router-dom";
-import {JVOID0, questionTypeMap} from "../../../def/data";
+import {JVOID0, Def} from "../../../def/data";
 import {CurdComponent, CurdState} from "../../../common/curd-component";
 import {EH, TEH} from "../../../common/render-component";
 import {update} from "../../../common/updater";

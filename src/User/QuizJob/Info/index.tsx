@@ -39,6 +39,10 @@ export class QuizJobInfo extends RenderPairComponent<RouteComponentProps<any>, S
         })
     }
 
+    isSucc() {
+        return this.state.job.status == "succ"
+    }
+
     render() {
         let onChange = (item: QuizJobItem, answer) => {
             ajaxPut(`/user/${this.getUid()}/quiz-job/${item.jobId}/items/${item.id}`, {answer}, (res) => {
@@ -55,14 +59,21 @@ export class QuizJobInfo extends RenderPairComponent<RouteComponentProps<any>, S
         };
         return <div>
             {this.state.job.items.map(item => {
+                let answer = null;
+                if (this.isSucc() && item.correct == false) {
+                    answer = <div>正确答案：{item.question.answer}</div>
+                }
                 return <div key={item.id}>
-                    <QuestionEdit
-                        question={item.question}
-                        answer={item.answer}
-                        onChange={onChange.bind(null, item)}/>
+                    <QuestionEdit disabled={this.isSucc()}
+                                  question={item.question}
+                                  answer={item.answer}
+                                  onChange={onChange.bind(null, item)}/>
+                    {answer}
                 </div>
             })}
-            <a href={JVOID0} onClick={submit}>交卷</a>
+            {(() => {
+                if (!this.isSucc()) return <a href={JVOID0} onClick={submit}>交卷</a>
+            })()}
             <Link to={`/user/${this.getUid()}/quiz-job`}>返回</Link>
         </div>
     }

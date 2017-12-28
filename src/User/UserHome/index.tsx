@@ -3,7 +3,7 @@ import {StudentStudyJob, StudentStudyJobItem, StudyJob} from "../../def/entity";
 import {Component} from "react";
 import {RouteComponentProps} from "react-router";
 import {ajaxGet} from "../../common/kit";
-import {studyJobTypeMap, studyStatusMap} from "../../def/data";
+import {Def} from "../../def/data";
 import {Table} from "../../common/Table";
 import {Link} from "react-router-dom";
 import {RenderPairComponent} from "../../component/RenderPair/index";

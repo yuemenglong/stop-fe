@@ -2,7 +2,7 @@ import * as React from "react";
 import {Question} from "../../../def/entity";
 import {EH, TEH} from "../../../common/render-component";
 import {RenderPairComponent} from "../../../component/RenderPair/index";
-import {questionTypeMap} from "../../../def/data";
+import {Def} from "../../../def/data";
 import {Kit} from "../../../common/kit";
 
 class State {
@@ -65,7 +65,7 @@ export class QuestionInfo extends RenderPairComponent<Props, State> {
     }
 
     renderType() {
-        let map = questionTypeMap;
+        let map = Def.questionTypeMap;
         if (!this.props.question.id) {
             return this.renderPairSelect("ty", "题目类型", map)
         } else {

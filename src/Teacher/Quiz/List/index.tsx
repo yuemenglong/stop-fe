@@ -23,12 +23,19 @@ class QuizListInner extends CurdComponent<Quiz> {
     }
 
     getHeaderRender(onCreate: EH, onUpdate: TEH<Quiz>, onDelete: TEH<Quiz>): Array<{ name: string; render: any }> {
+        console.log(this.props.list);
         return [{
             name: "名称", render: "name",
+        }, {
+            name: "班级", render: "clazz.name",
+        }, {
+            name: "截止日期", render: "limitDate",
         }, {
             name: "操作", render: (item) => {
                 return <div>
                     <a href={JVOID0} onClick={onDelete.bind(null, item)}>删除</a>
+                    <Link to={`/teacher/quiz/${item.id}`}>查看题目</Link>
+                    <Link to={`/teacher/quiz/${item.id}/jobs`}>查看完成情况</Link>
                 </div>
             }
         }]
@@ -78,7 +85,11 @@ export class QuizList extends ListPageComponent<Quiz> {
         };
         return <div>
             <h1>Quiz List</h1>
-            <QuizListInner history={this.props.history} onChange={onChange} list={this.state.list}/>
+            <QuizListInner
+                match={this.props.match}
+                history={this.props.history}
+                onChange={onChange}
+                list={this.state.list}/>
             <Link to={`/teacher/quiz/init`}>新增</Link>
         </div>
     }

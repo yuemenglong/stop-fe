@@ -39,9 +39,15 @@ export class QuizJobList extends ListPageComponent<QuizJob> {
         let headers = [{
             name: "名称", render: "quiz.name",
         }, {
+            name: "截止日期", render: "quiz.limitDate",
+        }, {
             name: "题目", render: "itemCount",
         }, {
             name: "已完成", render: "finishCount",
+        }, {
+            name: "得分", render: "score",
+        }, {
+            name: "总分", render: "totalScore",
         }, {
             name: "状态", render: (item) => {
                 return {waiting: "进行中", succ: "已完成"}[item.status]
