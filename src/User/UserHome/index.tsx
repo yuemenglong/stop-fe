@@ -50,9 +50,11 @@ export class UserHome extends RenderPairComponent<RouteComponentProps<any>, Stat
                 this.setState(state);
             })
         };
+        let accept = {extensions: "jpg,jpeg", mimeTypes: "image/*"};
         return <div>
             {img}
-            <WebUploader key={avater || ""} onChange={onChange} text="上传头像"/>
+            <WebUploader key={avater || ""} onChange={onChange} text="上传头像"
+                         accept={accept}/>
         </div>
     }
 

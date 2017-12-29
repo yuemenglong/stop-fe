@@ -30,7 +30,8 @@ class CoursewareListInner extends CurdComponent<Courseware> {
             courseware.size = file.size;
             onChange(courseware);
         };
-        let file = <WebUploader onChange={onUpload}/>;
+        let accept = {extensions: "ppt,pptx", mimeTypes: "application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation"};
+        let file = <WebUploader onChange={onUpload} accept={accept}/>;
         if (this.state.item.fileName) {
             file = <div>{this.state.item.fileName}</div>
         }
