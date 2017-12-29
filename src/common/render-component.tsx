@@ -3,6 +3,7 @@ import * as _ from "lodash";
 import {ComponentEx} from "./component-ex";
 import {DatePicker} from "../component/DatePicker/index";
 import {CheckGroup} from "../component/CheckGroup/index";
+import {Chosen} from "../component/Chosen/index";
 
 export class OptionItem {
     value: string | number = null;
@@ -218,10 +219,30 @@ export abstract class RenderComponent<P={}, S={}> extends ComponentEx<P, S> {
         </select>
     }
 
+    renderChosen(name: string, list: Array<{ value: string | number, option: string | number }> | Object,
+                 className?: string, props?: any) {
+        let onChange = (e: any) => {
+            this.$setValue(name, e.target.value)
+        };
+        if (this.$needValidate() && this.$validateField(name)) {
+            className = [className, "invalid"].filter(_.isString).join(" ")
+        }
+        let disabled = (this.props as any).disabled || (this.state as any).disabled;
+        props = _.merge({onChange, disabled, className}, props);
+        if (_.isPlainObject(list)) {
+            list = _(list).toPairs().map(p => {
+                return {value: p[0], option: p[1]};
+            }).value();
+        }
+
+        let value = this.$getValue(name) as string;
+        return <Chosen list={list} value={value} {...props}/>
+    }
+
     renderCheckGroup(name: string, list: Array<{ value: string | number, option: string | number }> | Object,
                      className?: string, props?: any) {
         let onChange = (e: any) => {
-            this.$setValue(name, e.target.value)
+            this.$setValue(name, e)
         };
         if (this.$needValidate() && this.$validateField(name)) {
             className = [className, "invalid"].filter(_.isString).join(" ")

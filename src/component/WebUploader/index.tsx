@@ -39,7 +39,7 @@ export class WebUploader extends Component<Props, State> {
     componentDidMount() {
         let uploader = (window as any).WebUploader.create({
             // swf文件路径
-            swf: '/bundle/webuploader/Uploader.swf',
+            swf: '/deploy/webuploader/Uploader.swf',
             server: '/upload',
             pick: {id: `#${this.state.id}`, multiple: false},
             resize: false
@@ -65,7 +65,7 @@ export class WebUploader extends Component<Props, State> {
     }
 
     componentWillUnmount() {
-        this.state.uploader.destroy();
+        // this.state.uploader.destroy();
     }
 
     upload() {

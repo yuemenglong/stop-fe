@@ -35,7 +35,7 @@ app.ajaxPost("/user/login", transmit);
 app.ajaxGet("/user/logout", transmit);
 
 app.ajaxGet("/user/:uid", transmit);
-app.ajaxPost("/user/:uid", transmit);
+app.ajaxPut("/user/:uid", transmit);
 
 app.ajaxGet("/user/:uid/study-job", transmit);
 app.ajaxGet("/user/:uid/study-job/:id", transmit);
@@ -65,6 +65,10 @@ app.ajaxPut("/user/:uid/quiz-job/:jid/items/:id", transmit);
 app.ajaxPut("/user/:uid/quiz-job/:jid", transmit);
 
 app.ajaxGet("/teacher/team/list", transmit);// team列表
+app.ajaxGet("/admin/courseware/list", transmit);//
+app.ajaxGet("/admin/courseware/count", transmit);//
+app.ajaxGet("/admin/video/list", transmit);//
+app.ajaxGet("/admin/video/count", transmit);//
 
 let v = new Date().getTime();
 app.httpGet("/*", (req, res) => {
