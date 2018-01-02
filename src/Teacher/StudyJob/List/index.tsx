@@ -27,7 +27,6 @@ class StudyJobListInner extends CurdComponent<StudyJob> {
             let state = update(this.state, "data.clazzs", res);
             this.setState(state)
         });
-        ($("#datepicker") as any).datepicker();
     }
 
     idField(): string {
