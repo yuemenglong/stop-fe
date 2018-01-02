@@ -21,6 +21,7 @@ export interface CurdProps<T> {
 
 export class CurdState<T> {
     item: T = null;
+    validate: boolean = false;
     data: any = {};
 }
 
@@ -33,10 +34,11 @@ export abstract class CurdComponent<T, //
 
     abstract idField(): string
 
-    abstract urlSlice(): number
+    // abstract urlSlice(): number
 
     getBaseUrl(): string {
-        return location.pathname.split("/").slice(0, this.urlSlice()).join("/")
+        // return location.pathname.split("/").slice(0, this.urlSlice()).join("/")
+        return location.pathname;
     }
 
     $getId(item: T): any {
@@ -90,6 +92,13 @@ export abstract class CurdComponent<T, //
                 this.setState({item})
             };
             let onSubmit = () => {
+                let msg = this.validate();
+                console.log(msg);
+                if (msg.length > 0) {
+                    this.setState({validate: true});
+                    alert(msg.join("\n"));
+                    return;
+                }
                 let item = this.state.item;
                 let id = this.$getId(item);
                 if (id) {
