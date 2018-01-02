@@ -2,6 +2,13 @@ import * as React from "react"
 import {RenderComponent} from "../../common/render-component";
 
 export abstract class RenderPairComponent<P={}, S={}> extends RenderComponent<P, S> {
+    renderPairText(name: string, ph: string, className?: string) {
+        return <div>
+            <span>{ph}</span>
+            <span>{this.$getValue(name)}</span>
+        </div>
+    }
+
     // noinspection JSUnusedGlobalSymbols
     renderPairInputText(name: string, ph: string, className?: string) {
         return <div>
@@ -19,10 +26,18 @@ export abstract class RenderPairComponent<P={}, S={}> extends RenderComponent<P,
     }
 
     // noinspection JSUnusedGlobalSymbols
-    renderPairSelect(name: string, ph: string, args: any, className?: string) {
+    renderPairSelect(name: string, ph: string, args: any, className?: string, props?: any) {
         return <div>
             <span>{ph}</span>
-            <span>{this.renderSelect(name, args, className)}</span>
+            <span>{this.renderSelect(name, args, className, props)}</span>
+        </div>
+    }
+
+    // noinspection JSUnusedGlobalSymbols
+    renderPairChosen(name: string, ph: string, args: any, className?: string, props?: any) {
+        return <div>
+            <span>{ph}</span>
+            <span>{this.renderChosen(name, args, className, props)}</span>
         </div>
     }
 

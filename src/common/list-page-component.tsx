@@ -2,11 +2,13 @@ import * as React from "react";
 import * as _ from "lodash";
 import {RenderComponent} from "./render-component";
 import {ajax, encodeObject} from "./kit";
+import {RenderPairComponent} from "../component/RenderPair/index";
 
 export class ListPageState<T> {
     filter: { limit: number; offset: number } = {limit: 20, offset: 0};
     list: Array<T> = [];
     count: number = 0;
+    data: any = {};
 }
 
 export interface ListPageProps {
@@ -18,7 +20,7 @@ export interface ListPageProps {
 export abstract class ListPageComponent<T,
     P extends ListPageProps = ListPageProps,
     S extends ListPageState<T> = ListPageState<T>>
-    extends RenderComponent<P, S> {
+    extends RenderPairComponent<P, S> {
 
     abstract getDataUrl(): string
 

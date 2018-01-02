@@ -1,7 +1,7 @@
 import * as React from "react";
 import {ListPageComponent} from "../../../common/list-page-component";
 import {Course} from "../../../def/entity";
-import {courseDifficultyMap, JVOID0} from "../../../def/data";
+import {Def, JVOID0} from "../../../def/data";
 import {CurdComponent} from "../../../common/curd-component";
 import {EH, TEH} from "../../../common/render-component";
 import {Link} from "react-router-dom";
@@ -23,7 +23,7 @@ class CourseListInner extends CurdComponent<Course> {
             {name: "描述", render: "description"},
             {
                 name: "难度", render: (item) => {
-                return courseDifficultyMap[item.difficulty]
+                return Def.courseDifficultyMap[item.difficulty]
             }
             },
             {
@@ -83,7 +83,7 @@ export class CourseList extends ListPageComponent<Course> {
     }
 
     renderCourse(course: Course) {
-        let values = [course.name, course.description, courseDifficultyMap[course.difficulty]].map((value, idx) => {
+        let values = [course.name, course.description, Def.courseDifficultyMap[course.difficulty]].map((value, idx) => {
             return <td key={idx}>{value}</td>
         });
         let onDelete = () => {

@@ -15,15 +15,17 @@ let studyJobTypeMap = {
     "question": "题目",
 };
 
-let studyStatusMap = {
+let statusMap = {
     "waiting": "未完成",
     "succ": "已完成",
 };
 
+let Def = {courseDifficultyMap, questionTypeMap, studyJobTypeMap, statusMap};
+
 let JVOID0 = "javascript:void(0)";
 
 export {
-    courseDifficultyMap, questionTypeMap, studyJobTypeMap, studyStatusMap,
+    Def,
     JVOID0
 };
 

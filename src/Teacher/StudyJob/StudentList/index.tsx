@@ -6,7 +6,7 @@ import {ajaxGet} from "../../../common/kit";
 import {RouteComponentProps} from "react-router";
 import _ = require("lodash");
 import {Table} from "../../../common/Table";
-import {studyJobTypeMap} from "../../../def/data";
+import {Def} from "../../../def/data";
 
 export class StudyJobStudentList extends Component<RouteComponentProps<any>, { job: StudyJob }> {
     constructor(props) {
@@ -34,7 +34,7 @@ export class StudyJobStudentList extends Component<RouteComponentProps<any>, { j
                     let items: Array<StudentStudyJobItem> = p[1];
                     let total = items.length;
                     let finished = items.filter(o => o.status == "succ").length;
-                    let name = studyJobTypeMap[ty];
+                    let name = Def.studyJobTypeMap[ty];
                     return `${name}:${finished}/${total}`;
                 }).map((text, i) => <span key={i}>{text}</span>).value();
             }

@@ -3,6 +3,7 @@ import * as _ from "lodash";
 import {ComponentEx} from "./component-ex";
 import {DatePicker} from "../component/DatePicker/index";
 import {CheckGroup} from "../component/CheckGroup/index";
+import {Chosen} from "../component/Chosen/index";
 
 export class OptionItem {
     value: string | number = null;
@@ -153,11 +154,12 @@ export abstract class RenderComponent<P={}, S={}> extends ComponentEx<P, S> {
         if (this.$needValidate() && this.$validateField(name)) {
             className = [className, "invalid"].filter(_.isString).join(" ");
         }
+        let disabled = (this.props as any).disabled || (this.state as any).disabled;
         props = _.merge({onChange}, props);
 
         let value = this.$getValue(name) as string;
         return <input type="text" className={className} name={name} value={value}
-                      placeholder={placeholder} {...props}/>
+                      disabled={disabled} placeholder={placeholder} {...props}/>
     }
 
     renderInputPassword(name: string, placeholder?: string,
@@ -168,11 +170,12 @@ export abstract class RenderComponent<P={}, S={}> extends ComponentEx<P, S> {
         if (this.$needValidate() && this.$validateField(name)) {
             className = [className, "invalid"].filter(_.isString).join(" ")
         }
+        let disabled = (this.props as any).disabled || (this.state as any).disabled;
         props = _.merge({onChange}, props);
 
         let value = this.$getValue(name) as string;
         return <input type="password" className={className} name={name} value={value}
-                      placeholder={placeholder} {...props}/>
+                      disabled={disabled} placeholder={placeholder} {...props}/>
     }
 
     renderTextarea(name: string, placeholder?: string,
@@ -183,11 +186,12 @@ export abstract class RenderComponent<P={}, S={}> extends ComponentEx<P, S> {
         if (this.$needValidate() && this.$validateField(name)) {
             className = [className, "invalid"].filter(_.isString).join(" ")
         }
+        let disabled = (this.props as any).disabled || (this.state as any).disabled;
         props = _.merge({onChange}, props);
 
         let value = this.$getValue(name) as string;
         return <textarea value={value} name={name} className={className}
-                         placeholder={placeholder} {...props}/>
+                         disabled={disabled} placeholder={placeholder} {...props}/>
     }
 
     renderSelect(name: string, list: Array<{ value: string | number, option: string | number }> | Object,
@@ -198,6 +202,7 @@ export abstract class RenderComponent<P={}, S={}> extends ComponentEx<P, S> {
         if (this.$needValidate() && this.$validateField(name)) {
             className = [className, "invalid"].filter(_.isString).join(" ")
         }
+        let disabled = (this.props as any).disabled || (this.state as any).disabled;
         props = _.merge({onChange}, props);
         if (_.isPlainObject(list)) {
             list = _(list).toPairs().map(p => {
@@ -206,7 +211,7 @@ export abstract class RenderComponent<P={}, S={}> extends ComponentEx<P, S> {
         }
 
         let value = this.$getValue(name) as string;
-        return <select className={className} title={value} value={value}
+        return <select disabled={disabled} className={className} title={value} value={value}
                        name={name} {...props}>
             {(list as any).map(o => {
                 return <option key={o.value} value={o.value}>{o.option}</option>
@@ -214,14 +219,35 @@ export abstract class RenderComponent<P={}, S={}> extends ComponentEx<P, S> {
         </select>
     }
 
-    renderCheckGroup(name: string, list: Array<{ value: string | number, option: string | number }> | Object,
-                     className?: string, props?: any) {
+    renderChosen(name: string, list: Array<{ value: string | number, option: string | number }> | Object,
+                 className?: string, props?: any) {
         let onChange = (e: any) => {
             this.$setValue(name, e.target.value)
         };
         if (this.$needValidate() && this.$validateField(name)) {
             className = [className, "invalid"].filter(_.isString).join(" ")
         }
+        let disabled = (this.props as any).disabled || (this.state as any).disabled;
+        props = _.merge({onChange, disabled, className}, props);
+        if (_.isPlainObject(list)) {
+            list = _(list).toPairs().map(p => {
+                return {value: p[0], option: p[1]};
+            }).value();
+        }
+
+        let value = this.$getValue(name) as string;
+        return <Chosen list={list} value={value} {...props}/>
+    }
+
+    renderCheckGroup(name: string, list: Array<{ value: string | number, option: string | number }> | Object,
+                     className?: string, props?: any) {
+        let onChange = (e: any) => {
+            this.$setValue(name, e)
+        };
+        if (this.$needValidate() && this.$validateField(name)) {
+            className = [className, "invalid"].filter(_.isString).join(" ")
+        }
+        let disabled = (this.props as any).disabled || (this.state as any).disabled;
         props = _.merge({onChange}, props);
         if (_.isPlainObject(list)) {
             list = _(list).toPairs().map(p => {
@@ -230,7 +256,7 @@ export abstract class RenderComponent<P={}, S={}> extends ComponentEx<P, S> {
         }
 
         let value = this.$getValue(name) as string;
-        return <CheckGroup className={className} value={value} list={list} {...props}/>
+        return <CheckGroup disabled={disabled} className={className} value={value} list={list} {...props}/>
     }
 
     // 复选框
@@ -238,12 +264,14 @@ export abstract class RenderComponent<P={}, S={}> extends ComponentEx<P, S> {
         let onChange = (e: any) => {
             this.$setValue(name, e.target.checked);
         };
+        let disabled = (this.props as any).disabled || (this.state as any).disabled;
         props = _.merge({onChange}, props);
 
         let checked = this.$getValue(name) as boolean;
         let value = this.$getValue(name) as string;
-        return <input type="checkbox" className={className} name={name} checked={checked} value={value}
-                      {...props}/>
+        return <input disabled={disabled} type="checkbox"
+                      className={className} name={name} checked={checked}
+                      value={value} {...props}/>
     }
 
     renderDatePicker(name: string, placeholder?: string,
@@ -256,10 +284,11 @@ export abstract class RenderComponent<P={}, S={}> extends ComponentEx<P, S> {
         if (this.$needValidate() && this.$validateField(name)) {
             className = [className, "invalid"].filter(_.isString).join(" ");
         }
+        let disabled = (this.props as any).disabled || (this.state as any).disabled;
         props = _.merge({onChange}, props);
 
         let value = this.$getValue(name) as string;
         return <DatePicker className={className} value={value}
-                           placeholder={placeholder} {...props}/>
+                           disabled={disabled} placeholder={placeholder} {...props}/>
     }
 }

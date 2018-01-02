@@ -8,6 +8,7 @@ interface Props {
     onChange: (file: FileInfo) => void,
     onError?: (err: any) => void,
     text?: string,
+    accept?: { title?: string, extensions?: string, mimeTypes?: string }
 }
 
 export interface FileInfo {
@@ -39,9 +40,10 @@ export class WebUploader extends Component<Props, State> {
     componentDidMount() {
         let uploader = (window as any).WebUploader.create({
             // swf文件路径
-            swf: '/bundle/webuploader/Uploader.swf',
+            swf: '/deploy/webuploader/Uploader.swf',
             server: '/upload',
             pick: {id: `#${this.state.id}`, multiple: false},
+            accept: this.props.accept,
             resize: false
         });
         this.setState({uploader: uploader});
@@ -65,7 +67,7 @@ export class WebUploader extends Component<Props, State> {
     }
 
     componentWillUnmount() {
-        this.state.uploader.destroy();
+        // this.state.uploader.destroy();
     }
 
     upload() {

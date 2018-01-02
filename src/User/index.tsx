@@ -11,11 +11,14 @@ import {UserTeamInit} from "./TeamInit/index";
 import {UserLogin} from "./UserLogin/index";
 import {JVOID0} from "../def/data";
 import {ajaxGet} from "../common/kit";
+import {UserHome} from "./UserHome/index";
+import {QuizJobRouter} from "./QuizJob/index";
+import {CoursewareList} from "./CoursewareList/index";
+import {VideoList} from "./VideoList/index";
 
 export class UserApp extends Component {
     getUid() {
         let m = location.pathname.match(/^\/user\/(\d+).*$/);
-        console.log(m);
         if (!m) {
             return;
         }
@@ -31,8 +34,11 @@ export class UserApp extends Component {
         };
         if (uid) {
             return <div>
-                <Link to={`/user/${uid}/study-job`}>学习任务</Link>
+                <Link to={`/user/${uid}/courseware`}>查看课件</Link>
+                <Link to={`/user/${uid}/video`}>查看视频</Link>
                 <Link to={`/user/${uid}/team`}>查看队伍</Link>
+                <Link to={`/user/${uid}/study-job`}>学习任务</Link>
+                <Link to={`/user/${uid}/quiz-job`}>考试任务</Link>
                 <a href={JVOID0} onClick={logout}>注销</a>
             </div>
         } else {
@@ -44,6 +50,10 @@ export class UserApp extends Component {
         return <div className="container">
             {this.renderNavs()}
             <switch>
+                <Route path="/user/:uid" exact={true} component={UserHome}/>
+                <Route path="/user/:uid/courseware" exact={true} component={CoursewareList}/>
+                <Route path="/user/:uid/video" exact={true} component={VideoList}/>
+                <Route path="/user/:uid/quiz-job" component={QuizJobRouter}/>
                 <Route path="/user/:uid/study-job" exact={true} component={UserStudyJobList}/>
                 <Route path="/user/:uid/study-job/:jid" exact={true} component={UserStudyJob}/>
                 <Route path="/user/:uid/study-job/:jid/item/:id" exact={true} component={UserStudyJobItem}/>
@@ -51,6 +61,7 @@ export class UserApp extends Component {
                 <Route path="/user/:uid/team/init" component={UserTeamInit}/>
                 <Route path="/user/:uid/team/join" component={UserTeamJoin}/>
                 <Route path="/login" component={UserLogin}/>
+                <Route path="/" exact={true} component={UserLogin}/>
             </switch>
         </div>
     }

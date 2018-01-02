@@ -8,6 +8,7 @@ interface Props {
     onChange: (value: string | number) => any
     className?: string
     invert?: boolean
+    disabled?: boolean
 }
 
 export class CheckGroup extends Component<Props> {
@@ -16,7 +17,7 @@ export class CheckGroup extends Component<Props> {
     };
 
     render() {
-        let onClick = (item, e) => {
+        let onChange = (item, e) => {
             if (!this.props.invert && item.value == this.props.value) {
                 // 不能反选
                 return;
@@ -31,7 +32,9 @@ export class CheckGroup extends Component<Props> {
             {this.props.list.map((o: { value: string | number, option: string | number }) => {
                 let checked = this.props.value == o.value;
                 return <li key={o.value}>
-                    <input type="checkbox" checked={checked} onClick={onClick.bind(null, o)}/>
+                    <input type="checkbox" checked={checked}
+                           disabled={this.props.disabled}
+                           onChange={onChange.bind(null, o)}/>
                     <span>{o.option}</span>
                 </li>
             })}

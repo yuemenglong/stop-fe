@@ -34,6 +34,9 @@ app.get("/favicon.ico", (req, res) => {
 app.ajaxPost("/user/login", transmit);
 app.ajaxGet("/user/logout", transmit);
 
+app.ajaxGet("/user/:uid", transmit);
+app.ajaxPut("/user/:uid", transmit);
+
 app.ajaxGet("/user/:uid/study-job", transmit);
 app.ajaxGet("/user/:uid/study-job/:id", transmit);
 app.ajaxGet("/user/:uid/study-job/:sid/item/:id", transmit);
@@ -55,11 +58,21 @@ app.ajaxDelete("/user/:uid/team", transmit);//退出
 app.ajaxGet("/user/:uid/team", transmit);// team详情
 app.ajaxPut("/user/:uid/team/students/:aid", transmit);// 操作加入申请
 
+app.ajaxGet("/user/:uid/quiz-job/list", transmit);
+app.ajaxGet("/user/:uid/quiz-job/count", transmit);
+app.ajaxGet("/user/:uid/quiz-job/:jid", transmit);
+app.ajaxPut("/user/:uid/quiz-job/:jid/items/:id", transmit);
+app.ajaxPut("/user/:uid/quiz-job/:jid", transmit);
+
 app.ajaxGet("/teacher/team/list", transmit);// team列表
+app.ajaxGet("/admin/courseware/list", transmit);//
+app.ajaxGet("/admin/courseware/count", transmit);//
+app.ajaxGet("/admin/video/list", transmit);//
+app.ajaxGet("/admin/video/count", transmit);//
 
 let v = new Date().getTime();
 app.httpGet("/*", (req, res) => {
-    res.render("App.user.pug", {title: "攻防平台", v});
+    res.render("user.pug", {title: "攻防平台", v});
 });
 app.use(errorHandler);
 

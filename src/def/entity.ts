@@ -23,37 +23,71 @@ export class Course {
 	name: string = undefined;
 	description: string = undefined;
 	difficulty: string = undefined;
-	categoryId: number = undefined;
-	category: Category = new Category();
-	questions: Question[] = [];
-	coursewares: Courseware[] = [];
-	videos: Video[] = [];
+	coursewares: CourseCourseware[] = [];
+	videos: CourseVideo[] = [];
+	questions: CourseQuestion[] = [];
 	questionCount: number = undefined;
 	coursewareCount: number = undefined;
 	videoCount: number = undefined;
+	cate0Id: number = undefined;
+	cate0: Category = new Category();
+	cate1Id: number = undefined;
+	cate1: Category = new Category();
+}
+
+export class CourseCourseware {
+	id: number = undefined;
+	crTime: string = undefined;
+	courseId: number = undefined;
+	course: Course = new Course();
+	coursewareId: number = undefined;
+	courseware: Courseware = new Courseware();
+}
+
+export class CourseQuestion {
+	id: number = undefined;
+	crTime: string = undefined;
+	courseId: number = undefined;
+	course: Course = new Course();
+	questionId: number = undefined;
+	question: Question = new Question();
+}
+
+export class CourseVideo {
+	id: number = undefined;
+	crTime: string = undefined;
+	courseId: number = undefined;
+	course: Course = new Course();
+	videoId: number = undefined;
+	video: Video = new Video();
 }
 
 export class Courseware {
 	id: number = undefined;
 	crTime: string = undefined;
 	name: string = undefined;
-	courseId: number = undefined;
 	fileId: string = undefined;
 	fileName: string = undefined;
 	size: number = undefined;
 	ext: string = undefined;
+	cate0Id: number = undefined;
+	cate0: Category = new Category();
+	cate1Id: number = undefined;
+	cate1: Category = new Category();
 }
 
 export class Question {
 	id: number = undefined;
 	crTime: string = undefined;
-	courseId: number = undefined;
 	title: string = undefined;
 	score: number = undefined;
 	answer: string = undefined;
 	ty: string = undefined;
 	sc: QuestionChoice = new QuestionChoice();
-	categoryId: number = undefined;
+	cate0Id: number = undefined;
+	cate0: Category = new Category();
+	cate1Id: number = undefined;
+	cate1: Category = new Category();
 }
 
 export class QuestionChoice {
@@ -63,6 +97,49 @@ export class QuestionChoice {
 	b: string = undefined;
 	c: string = undefined;
 	d: string = undefined;
+}
+
+export class Quiz {
+	id: number = undefined;
+	crTime: string = undefined;
+	limitDate: string = undefined;
+	questions: QuizQuestion[] = [];
+	clazz: Clazz = new Clazz();
+	clazzId: number = undefined;
+	jobs: QuizJob[] = [];
+}
+
+export class QuizJob {
+	id: number = undefined;
+	crTime: string = undefined;
+	quiz: Quiz = new Quiz();
+	quizId: number = undefined;
+	student: Student = new Student();
+	studentId: number = undefined;
+	status: string = undefined;
+	score: number = undefined;
+	items: QuizJobItem[] = [];
+}
+
+export class QuizJobItem {
+	id: number = undefined;
+	crTime: string = undefined;
+	jobId: number = undefined;
+	answer: string = undefined;
+	score: number = undefined;
+	correct: boolean = undefined;
+	status: string = undefined;
+	question: Question = new Question();
+	questionId: number = undefined;
+}
+
+export class QuizQuestion {
+	id: number = undefined;
+	crTime: string = undefined;
+	quiz: Quiz = new Quiz();
+	quizId: number = undefined;
+	question: Question = new Question();
+	questionId: number = undefined;
 }
 
 export class Student {
@@ -148,9 +225,12 @@ export class Video {
 	id: number = undefined;
 	crTime: string = undefined;
 	name: string = undefined;
-	courseId: number = undefined;
 	fileId: string = undefined;
 	fileName: string = undefined;
 	size: number = undefined;
 	ext: string = undefined;
+	cate0Id: number = undefined;
+	cate0: Category = new Category();
+	cate1Id: number = undefined;
+	cate1: Category = new Category();
 }

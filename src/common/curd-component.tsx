@@ -26,7 +26,7 @@ export class CurdState<T> {
 
 export abstract class CurdComponent<T, //
     P extends CurdProps<T> = CurdProps<T>, //
-    S extends CurdState<T>=CurdState<T>> //
+    S extends CurdState<T> = CurdState<T>> //
     extends RenderPairComponent<P, S> {
 
     static defaultProps = {};

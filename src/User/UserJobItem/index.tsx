@@ -8,29 +8,13 @@ import {CheckGroup} from "../../component/CheckGroup/index";
 import _ = require("lodash");
 
 interface Props {
-    userId: string,
-    jobId: string,
-    jobItemId: string,
     question: Question,
-    history: any,
+    answer: string,
+    onChange: (string) => any
+    disabled?: boolean,
 }
 
-class QuestionJob extends Component<Props, { answer: string }> {
-    constructor() {
-        super();
-        this.state = {answer: ""};
-    }
-
-    submit() {
-        ajaxPost(`/user/${this.props.userId}/study-job/${this.props.jobId}/question/${this.props.jobItemId}`, {answer: this.state.answer}, (res) => {
-            this.props.history.push(`/user/${this.props.userId}/study-job/${this.props.jobId}`)
-        })
-    }
-
-    onChange(value) {
-        this.setState({answer: value})
-    }
-
+export class QuestionEdit extends Component<Props> {
     renderSingleChoice() {
         let sc = this.props.question.sc;
         let list = ["a", "b", "c", "d"].map(no => {
@@ -38,7 +22,8 @@ class QuestionJob extends Component<Props, { answer: string }> {
         });
         return <div>
             {this.props.question.title}
-            <CheckGroup list={list} value={this.state.answer} onChange={this.onChange.bind(this)}/>
+            <CheckGroup disabled={this.props.disabled} list={list} value={this.props.answer}
+                        onChange={this.props.onChange}/>
         </div>
     }
 
@@ -48,29 +33,26 @@ class QuestionJob extends Component<Props, { answer: string }> {
         });
         return <div>
             {this.props.question.title}
-            <CheckGroup list={list} value={this.state.answer} onChange={this.onChange.bind(this)}/>
+            <CheckGroup disabled={this.props.disabled} list={list} value={this.props.answer}
+                        onChange={this.props.onChange}/>
         </div>
     }
 
     render() {
-        console.log(this.props.question);
-        let question = null;
         if (this.props.question.ty == "sc") {
-            question = this.renderSingleChoice();
+            return this.renderSingleChoice();
         } else if (this.props.question.ty == "tf") {
-            question = this.renderTrueFalse();
+            return this.renderTrueFalse();
+        } else {
+            throw Error("Unknown Question Type: " + this.props.question.ty)
         }
-        return <div>
-            {question}
-            <button onClick={this.submit.bind(this)}>提交</button>
-        </div>
     }
 }
 
-export class UserStudyJobItem extends Component<RouteComponentProps<any>, { question: Question }> {
+export class UserStudyJobItem extends Component<RouteComponentProps<any>, { question: Question, answer: string }> {
     constructor() {
         super();
-        this.state = {question: null}
+        this.state = {question: null, answer: ""}
     }
 
     getItemId() {
@@ -104,14 +86,28 @@ export class UserStudyJobItem extends Component<RouteComponentProps<any>, { ques
     }
 
     render() {
-        if (this.state.question) {
-            return <QuestionJob question={this.state.question}
-                                userId={this.getUid()}
-                                jobId={this.getJobId()}
-                                jobItemId={this.getItemId()}
-                                history={this.props.history}/>
+        if (!this.state.question) {
+            return <div/>
         }
-        return <div/>
+        // return <QuestionJob question={this.state.question}
+        //                     userId={this.getUid()}
+        //                     jobId={this.getJobId()}
+        //                     jobItemId={this.getItemId()}
+        //                     history={this.props.history}/>
+        let onChange = (answer) => {
+            this.setState({answer})
+        };
+        let submit = () => {
+            ajaxPost(`/user/${this.getUid()}/study-job/${this.getJobId()}/question/${this.getItemId()}`,
+                {answer: this.state.answer}, (res) => {
+                    this.props.history.push(`/user/${this.getUid()}/study-job/${this.getJobId()}`)
+                })
+        };
+        return <div>
+            <QuestionEdit disabled={false} question={this.state.question} answer={this.state.answer}
+                          onChange={onChange}/>
+            <button onClick={submit}>提交</button>
+        </div>
     }
 }
 

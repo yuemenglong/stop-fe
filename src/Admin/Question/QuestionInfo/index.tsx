@@ -1,17 +1,9 @@
 import * as React from "react";
-import {Table} from "../../../common/Table";
-import {ajax} from "../../../common/kit";
-import {Course, Courseware, Question, Video} from "../../../def/entity";
-import {Modal} from "../../../common/modal";
-import {RenderPairComponent} from "../../../component/RenderPair/index";
-import {FileInfo, WebUploader} from "../../../component/WebUploader/index";
-import * as _ from "lodash";
-import {RouteComponentProps} from "react-router";
-import {Simulate} from "react-dom/test-utils";
-import submit = Simulate.submit;
-import {questionTypeMap} from "../../../def/data";
-import {Link} from "react-router-dom";
+import {Question} from "../../../def/entity";
 import {EH, TEH} from "../../../common/render-component";
+import {RenderPairComponent} from "../../../component/RenderPair/index";
+import {Def} from "../../../def/data";
+import {Kit} from "../../../common/kit";
 
 class State {
     question: Question = new Question();
@@ -22,6 +14,8 @@ interface Props {
     onChange: TEH<Question>;
     onSubmit: EH;
     onCancel: EH;
+    cate0: any;
+    cate1: any;
 }
 
 export class QuestionInfo extends RenderPairComponent<Props, State> {
@@ -71,7 +65,7 @@ export class QuestionInfo extends RenderPairComponent<Props, State> {
     }
 
     renderType() {
-        let map = questionTypeMap;
+        let map = Def.questionTypeMap;
         if (!this.props.question.id) {
             return this.renderPairSelect("ty", "题目类型", map)
         } else {
@@ -82,6 +76,8 @@ export class QuestionInfo extends RenderPairComponent<Props, State> {
     render() {
         return <div>
             {this.renderType()}
+            {this.renderPairSelect("cate0Id", "一级类别", Kit.optionValueList(this.props.cate0, "name", "id"))}
+            {this.renderPairSelect("cate1Id", "二级类别", Kit.optionValueList(this.props.cate1.filter(c => c.parentId == this.props.question.cate0Id), "name", "id"))}
             {this.renderPairTextArea("title", "题目")}
             {this.renderPairInputText("score", "分值")}
             {this.renderContent()}

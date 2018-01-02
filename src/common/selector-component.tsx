@@ -26,7 +26,7 @@ export abstract class SelectorComponent<T, P extends SelectorProps<T> = Selector
     $onChange(item: T, e: any) {
         let selectedIdx = this.$selectedIdx(item);
 
-        if(this.props.maxSelect == 1){
+        if (this.props.maxSelect == 1) {
             let selected = [item];
             this.props.onChange(selected);
         }

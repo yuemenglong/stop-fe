@@ -3,7 +3,7 @@ import {StudentStudyJob, StudentStudyJobItem, StudyJob} from "../../def/entity";
 import {Component} from "react";
 import {RouteComponentProps} from "react-router";
 import {ajaxGet} from "../../common/kit";
-import {studyJobTypeMap, studyStatusMap} from "../../def/data";
+import {Def} from "../../def/data";
 import {Table} from "../../common/Table";
 import {Link} from "react-router-dom";
 
@@ -35,12 +35,12 @@ export class UserStudyJob extends Component<RouteComponentProps<any>, State> {
         let headers = [
             {
                 name: "类型", render: (item: StudentStudyJobItem) => {
-                return studyJobTypeMap[item.ty]
+                return Def.studyJobTypeMap[item.ty]
             }
             },
             {
                 name: "状态", render: (item: StudentStudyJobItem) => {
-                return studyStatusMap[item.status];
+                return Def.statusMap[item.status];
             }
             },
             {
