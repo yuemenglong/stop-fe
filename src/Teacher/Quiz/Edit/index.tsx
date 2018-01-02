@@ -1,7 +1,7 @@
 import * as React from "react";
 import {Component} from "react";
 import {RouteComponentProps} from "react-router";
-import {ajax, ajaxGet, ajaxPost, Kit} from "../../../common/kit";
+import {ajax, ajaxGet, ajaxPost, Kit, match} from "../../../common/kit";
 import {Category, Clazz, Question, Quiz} from "../../../def/entity";
 import {JVOID0, Def} from "../../../def/data";
 import {SelectorComponent, SelectorProps} from "../../../common/selector-component";
@@ -127,7 +127,7 @@ export class QuizEdit extends RenderPairComponent<RouteComponentProps<any>, Stat
         </Modal>
     }
 
-    renderQuestion() {
+    renderQuestions() {
         let onClick = (cate1Id) => {
             ajaxGet(`/admin/question/list?cate1Id=${cate1Id}`, (res) => {
                 let questions = this.state.questions.filter(q => q.cate1Id != cate1Id);
@@ -139,11 +139,16 @@ export class QuizEdit extends RenderPairComponent<RouteComponentProps<any>, Stat
             return <div key={cate0.id}>
                 <h3>一级类别{cate0.name}</h3>
                 {cate0.children.map(cate1 => {
-                    let questions = this.state.questions.concat(this.state.selected).filter(q => q.cate1Id = cate1.id);
-                    let choice = this.isInit() ? <a href={JVOID0} onClick={onClick.bind(null, cate1.id)}>选择</a> : null;
+                    let questions = this.state.selected.filter(q => q.cate1Id == cate1.id);
+                    // noinspection ReservedWordAsName
+                    let choice = match(this.isInit(), {
+                        true: <a href={JVOID0} onClick={onClick.bind(null, cate1.id)}>选择</a>,
+                        false: null,
+                    });
                     return <div key={cate1.id}>
                         <h5>二级类别{cate1.name}</h5>
-                        <span>共有{this.state.cateCount[cate1.id]}题</span>
+                        <span>共有{this.state.cateCount[cate1.id] || 0}题</span>
+                        <span>选择{questions.length}题</span>
                         {choice}
                         {questions.map(q => {
                             return <div key={q.id}>
@@ -165,7 +170,7 @@ export class QuizEdit extends RenderPairComponent<RouteComponentProps<any>, Stat
                 ret.questionId = q.id;
                 return ret;
             });
-            ajaxPost(`/teacher/quiz`, data, (res) => {
+            ajaxPost(`/teacher/quiz`, data, () => {
                 this.props.history.push(`/teacher/quiz`);
             })
         };
@@ -174,7 +179,7 @@ export class QuizEdit extends RenderPairComponent<RouteComponentProps<any>, Stat
             {this.renderPairInputText("quiz.name", "名称")}
             {this.renderPairSelect("quiz.clazzId", "选择班级", Kit.optionValueList(this.state.clazzes))}
             {this.renderPairDatePicker("quiz.limitDate", "截止日期")}
-            {this.renderQuestion()}
+            {this.renderQuestions()}
             {this.renderSelector()}
             {subBtn}
             <Link to={`/teacher/quiz`}>返回</Link>

@@ -23,7 +23,6 @@ class QuizListInner extends CurdComponent<Quiz> {
     }
 
     getHeaderRender(onCreate: EH, onUpdate: TEH<Quiz>, onDelete: TEH<Quiz>): Array<{ name: string; render: any }> {
-        console.log(this.props.list);
         return [{
             name: "名称", render: "name",
         }, {
@@ -79,7 +78,6 @@ export class QuizList extends ListPageComponent<Quiz> {
     }
 
     renderPage(renderPagination: () => any, refresh: (e?: any) => void, swtch: (page: number) => void): any {
-        console.log(this.state.list);
         let onChange = (list) => {
             this.setState({list})
         };
