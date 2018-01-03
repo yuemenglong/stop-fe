@@ -4,8 +4,8 @@ import {ListPageComponent, ListPageState} from "../../common/list-page-component
 import {CurdComponent, CurdState} from "../../common/curd-component";
 import {EH, TEH, validateRegex} from "../../common/render-component";
 import {JVOID0} from "../../def/data";
-import {FileInfo, WebUploader} from "../../component/WebUploader/index";
-import {Courseware} from "../../def/entity";
+import {WebUploader} from "../../component/WebUploader/index";
+import {Courseware, FileInfo} from "../../def/entity";
 import {ajaxGet, Kit} from "../../common/kit";
 import {update} from "../../common/updater";
 
@@ -32,20 +32,17 @@ class CoursewareListInner extends CurdComponent<Courseware> {
                        onSubmit: EH,
                        onCancel: EH): any {
         let onUpload = (file: FileInfo) => {
-            let courseware = _.clone(this.state.item);
-            courseware.fileId = file.fileId;
-            courseware.fileName = file.fileName;
-            courseware.ext = file.ext;
-            courseware.size = file.size;
-            onChange(courseware);
+            let item = _.clone(this.state.item);
+            item.file = file;
+            onChange(item);
         };
         let accept = {
             extensions: "ppt,pptx",
             mimeTypes: "application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation"
         };
         let file = <WebUploader onChange={onUpload} accept={accept}/>;
-        if (this.state.item.fileName) {
-            file = <div>{this.state.item.fileName}</div>
+        if (this.state.item.file.fileName) {
+            file = <div>{this.state.item.file.fileName}</div>
         }
         return <div>
             {this.renderPairInputText("item.name", "名称")}
@@ -74,7 +71,7 @@ class CoursewareListInner extends CurdComponent<Courseware> {
             name: "大小", render: "size",
         }, {
             name: "操作", render: (item: Courseware) => <div>
-                <a href={`/upload/${item.fileId}`} target="_blank">下载</a>
+                <a href={`/upload/${item.file.fileId}`} target="_blank">下载</a>
                 <a href={JVOID0} onClick={onUpdate.bind(null, item)}>修改</a>
                 <a href={JVOID0} onClick={onDelete.bind(null, item)}>删除</a>
             </div>

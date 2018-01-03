@@ -3,8 +3,6 @@ import {Component} from "react";
 import {Route, RouteComponentProps} from "react-router";
 import {CourseList} from "./List/index";
 import {CourseInfo} from "./Info/index";
-import {VideoList} from "./Video/index";
-import {QuestionList} from "./Question/index";
 import {CourseItemList} from "./ItemList/index";
 
 export class CourseRouter extends Component {

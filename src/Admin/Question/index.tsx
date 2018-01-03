@@ -4,7 +4,7 @@ import {ListPageComponent, ListPageState} from "../../common/list-page-component
 import {CurdComponent, CurdState} from "../../common/curd-component";
 import {EH, TEH} from "../../common/render-component";
 import {JVOID0, Def} from "../../def/data";
-import {FileInfo, WebUploader} from "../../component/WebUploader/index";
+import {WebUploader} from "../../component/WebUploader/index";
 import {Question} from "../../def/entity";
 import {QuestionInfo} from "./QuestionInfo/index";
 import {ajaxGet} from "../../common/kit";

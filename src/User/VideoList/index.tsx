@@ -7,7 +7,7 @@ import {Def} from "../../def/data";
 import {Table} from "../../common/Table";
 import {Link} from "react-router-dom";
 import {RenderPairComponent} from "../../component/RenderPair/index";
-import {FileInfo, WebUploader} from "../../component/WebUploader/index";
+import {WebUploader} from "../../component/WebUploader/index";
 import {update} from "../../common/updater";
 import {ListPageComponent, ListPageState} from "../../common/list-page-component";
 

@@ -66,14 +66,22 @@ export class Courseware {
 	id: number = undefined;
 	crTime: string = undefined;
 	name: string = undefined;
-	fileId: string = undefined;
-	fileName: string = undefined;
-	size: number = undefined;
-	ext: string = undefined;
+	file: FileInfo = new FileInfo();
+	swf: FileInfo = new FileInfo();
 	cate0Id: number = undefined;
 	cate0: Category = new Category();
 	cate1Id: number = undefined;
 	cate1: Category = new Category();
+}
+
+export class FileInfo {
+	id: number = undefined;
+	crTime: string = undefined;
+	fileId: string = undefined;
+	fileName: string = undefined;
+	size: number = undefined;
+	ext: string = undefined;
+	tag: string = undefined;
 }
 
 export class Question {
@@ -102,10 +110,12 @@ export class QuestionChoice {
 export class Quiz {
 	id: number = undefined;
 	crTime: string = undefined;
+	name: string = undefined;
 	limitDate: string = undefined;
 	questions: QuizQuestion[] = [];
 	clazz: Clazz = new Clazz();
 	clazzId: number = undefined;
+	status: string = undefined;
 	jobs: QuizJob[] = [];
 }
 
@@ -119,6 +129,9 @@ export class QuizJob {
 	status: string = undefined;
 	score: number = undefined;
 	items: QuizJobItem[] = [];
+	itemCount: number = undefined;
+	finishCount: number = undefined;
+	totalScore: number = undefined;
 }
 
 export class QuizJobItem {
@@ -148,9 +161,8 @@ export class Student {
 	user: User = new User();
 	name: string = undefined;
 	mobile: string = undefined;
-	password: string = undefined;
 	email: string = undefined;
-	avatar: string = undefined;
+	avatar: FileInfo = new FileInfo();
 	clazz: Clazz = new Clazz();
 	clazzId: number = undefined;
 	team: TeamApply = new TeamApply();
@@ -225,10 +237,7 @@ export class Video {
 	id: number = undefined;
 	crTime: string = undefined;
 	name: string = undefined;
-	fileId: string = undefined;
-	fileName: string = undefined;
-	size: number = undefined;
-	ext: string = undefined;
+	file: FileInfo = new FileInfo();
 	cate0Id: number = undefined;
 	cate0: Category = new Category();
 	cate1Id: number = undefined;
