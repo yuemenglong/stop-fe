@@ -41,8 +41,9 @@ class CoursewareListInner extends CurdComponent<Courseware> {
             mimeTypes: "application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation"
         };
         let file = <WebUploader onChange={onUpload} accept={accept}/>;
-        if (this.state.item.file.fileName) {
-            file = <div>{this.state.item.file.fileName}</div>
+        let fileName = _.get(this.state, "item.file.fileName");
+        if (fileName) {
+            file = <div>{fileName}</div>
         }
         return <div>
             {this.renderPairInputText("item.name", "名称")}

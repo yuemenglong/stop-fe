@@ -42,7 +42,7 @@ export class WebUploader extends Component<Props, State> {
         });
         this.setState({uploader: uploader});
         uploader.on('fileQueued', function (file) {
-            // console.log("fileQueued", file)
+            console.log("fileQueued", file)
             uploader.upload();
         });
         uploader.on('startUpload', () => {
@@ -69,8 +69,6 @@ export class WebUploader extends Component<Props, State> {
     }
 
     render() {
-        return <div className={this.props.className}>
-            <div id={this.state.id}>{this.props.text}</div>
-        </div>
+        return <div className={this.props.className} id={this.state.id}>{this.props.text}</div>
     }
 }

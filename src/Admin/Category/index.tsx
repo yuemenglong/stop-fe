@@ -50,7 +50,7 @@ class Categor2Inner extends RenderPairComponent<{
             c.ty = this.props.cate.ty;
             c.name = this.state.name;
             c.parentId = this.props.cate.id;
-            c.level = this.props.cate.id + 1;
+            c.level = this.props.cate.level + 1;
             ajaxPost(`${location.pathname}`, c, (res) => {
                 let cate = update(this.props.cate, "children[]", res);
                 this.props.onChange(cate);

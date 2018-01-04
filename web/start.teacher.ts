@@ -25,6 +25,7 @@ app.use(cookieParser());
 app.use("/deploy", express.static(P.resolve(BASEDIR, "deploy")));
 app.use("/upload", express.static(teacherConf.uploadPath));
 app.post("/upload", Upload(teacherConf.uploadPath, "file"));
+app.use("/target", express.static(teacherConf.targetPath));
 
 app.get("/favicon.ico", (req, res) => {
     res.status(404).end()

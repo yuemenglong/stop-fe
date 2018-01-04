@@ -37,22 +37,23 @@ export class UserHome extends RenderPairComponent<RouteComponentProps<any>, Stat
     }
 
     renderAvater() {
-        let avater = this.state.user.avatar.fileId;
-        console.log(avater);
+        let avatar = _.get(this.state, "user.avatar.fileId");
         let img = null;
-        if (avater != null) {
-            img = <img src={`/upload/${avater}`}/>
+        if (avatar != null) {
+            img = <img src={`/upload/${avatar}`}/>
         }
         let onChange = (info: FileInfo) => {
+            console.log("onChange");
             ajaxPut(`/user/${this.getUid()}`, {avatar: info}, () => {
+                console.log(avatar);
                 let state = update(this.state, "user.avatar", info);
                 this.setState(state);
             })
         };
-        let accept = {extensions: "jpg,jpeg", mimeTypes: "image/*"};
+        let accept = {extensions: "jpg,jpeg,png,bmp", mimeTypes: "image/*"};
         return <div>
             {img}
-            <WebUploader key={avater || ""} onChange={onChange} text="上传头像"
+            <WebUploader key={avatar || ""} onChange={onChange} text="上传头像"
                          accept={accept}/>
         </div>
     }

@@ -25,6 +25,7 @@ app.use(cookieParser());
 app.use("/deploy", express.static(P.resolve(BASEDIR, "deploy")));
 app.use("/upload", express.static(userConf.uploadPath));
 app.post("/upload", Upload(userConf.uploadPath, "file"));
+app.use("/target", express.static(userConf.targetPath));
 app.use("/memberfiles", express.static(userConf.uploadPath));
 
 app.get("/favicon.ico", (req, res) => {
@@ -65,10 +66,13 @@ app.ajaxPut("/user/:uid/quiz-job/:jid/items/:id", transmit);
 app.ajaxPut("/user/:uid/quiz-job/:jid", transmit);
 
 app.ajaxGet("/teacher/team/list", transmit);// team列表
+app.ajaxGet("/admin/category", transmit);//
 app.ajaxGet("/admin/courseware/list", transmit);//
 app.ajaxGet("/admin/courseware/count", transmit);//
 app.ajaxGet("/admin/video/list", transmit);//
 app.ajaxGet("/admin/video/count", transmit);//
+app.ajaxGet("/admin/target/list", transmit);//
+app.ajaxGet("/admin/target/count", transmit);//
 
 let v = new Date().getTime();
 app.httpGet("/*", (req, res) => {
