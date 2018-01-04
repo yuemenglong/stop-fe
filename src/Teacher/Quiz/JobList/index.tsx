@@ -26,7 +26,6 @@ export class QuizJobList extends Component<RouteComponentProps<any>, State> {
 
     componentDidMount() {
         ajaxGet(`/teacher/quiz/${this.getQid()}/jobs`, (res) => {
-            console.log(res);
             this.setState({jobs: res})
         })
     }

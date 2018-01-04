@@ -42,7 +42,6 @@ export class WebUploader extends Component<Props, State> {
         });
         this.setState({uploader: uploader});
         uploader.on('fileQueued', function (file) {
-            console.log("fileQueued", file)
             uploader.upload();
         });
         uploader.on('startUpload', () => {

@@ -43,9 +43,7 @@ export class UserHome extends RenderPairComponent<RouteComponentProps<any>, Stat
             img = <img src={`/upload/${avatar}`}/>
         }
         let onChange = (info: FileInfo) => {
-            console.log("onChange");
             ajaxPut(`/user/${this.getUid()}`, {avatar: info}, () => {
-                console.log(avatar);
                 let state = update(this.state, "user.avatar", info);
                 this.setState(state);
             })

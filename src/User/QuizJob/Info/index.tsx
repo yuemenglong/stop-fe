@@ -46,7 +46,6 @@ export class QuizJobInfo extends RenderPairComponent<RouteComponentProps<any>, S
     render() {
         let onChange = (item: QuizJobItem, answer) => {
             ajaxPut(`/user/${this.getUid()}/quiz-job/${item.jobId}/items/${item.id}`, {answer}, (res) => {
-                console.log(res);
                 let state = update(this.state, "job.items[id]{}", res, [item.id]);
                 this.setState(state)
             });

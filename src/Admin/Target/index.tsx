@@ -52,7 +52,6 @@ class TargetListInner extends CurdComponent<Target> {
         if (_.get(this.state.item, "file.fileName")) {
             file = <div>{_.get(this.state.item, "file.fileName")}</div>
         }
-        console.log(this.state.item);
         return <div>
             {this.renderPairTextArea("item.name", "名称")}
             {this.renderPairTextArea("item.title", "描述")}

@@ -100,7 +100,6 @@ export class VideoList extends ListPageComponent<Video> {
             this.setState({data});
         });
         ajaxGet(`/admin/category?ty=video&level=1`, (res) => {
-            console.log("cate1", res)
             let data = update(this.state.data, "cate1", res);
             this.setState({data});
         })

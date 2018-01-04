@@ -53,7 +53,6 @@ export class DatePicker extends Component<Props, State> {
             // validateOnBlur: false,
             onSelectDate: (ct) => {
                 let date = moment(ct).format("YYYY-MM-DD");
-                console.log(date);
                 this.props.onChange(date);
             },
             // autoclose: true,
