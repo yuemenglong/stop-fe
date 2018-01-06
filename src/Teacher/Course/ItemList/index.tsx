@@ -100,7 +100,6 @@ export class CourseItemList extends Component<RouteComponentProps<any>, { list: 
     }
 
     render() {
-        console.log(this.state.list);
         let onChange = (list) => {
             this.setState({list})
         };

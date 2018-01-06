@@ -35,7 +35,6 @@ export class QuizJobList extends ListPageComponent<QuizJob> {
     }
 
     renderPage(renderPagination: () => any, refresh: (e?: any) => void, swtch: (page: number) => void): any {
-        console.log(this.state.list);
         let headers = [{
             name: "名称", render: "quiz.name",
         }, {

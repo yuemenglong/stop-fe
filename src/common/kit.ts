@@ -42,6 +42,17 @@ export function encodeObject(obj: Object) {
     return res.join("&");
 }
 
+export function match(cond, map) {
+    let key = cond.toString();
+    if (map[key] !== undefined) {
+        return map[key];
+    } else if (map["_"] !== undefined) {
+        return map["_"];
+    } else {
+        throw Error("Unmatch For " + key)
+    }
+}
+
 export function ajax(opt: any) {
     showLoading();
     opt = _.merge({contentType: 'application/json', dataType: 'json',}, opt);

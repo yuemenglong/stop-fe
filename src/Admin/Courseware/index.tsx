@@ -2,7 +2,7 @@ import * as React from "react";
 import _ = require("lodash");
 import {ListPageComponent, ListPageState} from "../../common/list-page-component";
 import {CurdComponent, CurdState} from "../../common/curd-component";
-import {EH, TEH} from "../../common/render-component";
+import {EH, TEH, validateRegex} from "../../common/render-component";
 import {JVOID0} from "../../def/data";
 import {FileInfo, WebUploader} from "../../component/WebUploader/index";
 import {Courseware} from "../../def/entity";
@@ -13,6 +13,15 @@ class CoursewareListInner extends CurdComponent<Courseware> {
     constructor(props) {
         super(props);
         this.state = new CurdState<Courseware>();
+    }
+
+    getRenderValidator() {
+        let re = validateRegex;
+        return {
+            item: {
+                name: re(/.+/, "请输入姓名")
+            }
+        }
     }
 
     itemConstructor(): Courseware {
@@ -30,7 +39,10 @@ class CoursewareListInner extends CurdComponent<Courseware> {
             courseware.size = file.size;
             onChange(courseware);
         };
-        let accept = {extensions: "ppt,pptx", mimeTypes: "application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation"};
+        let accept = {
+            extensions: "ppt,pptx",
+            mimeTypes: "application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation"
+        };
         let file = <WebUploader onChange={onUpload} accept={accept}/>;
         if (this.state.item.fileName) {
             file = <div>{this.state.item.fileName}</div>
