@@ -67,9 +67,9 @@ class CoursewareListInner extends CurdComponent<Courseware> {
         return [{
             name: "名称", render: "name",
         }, {
-            name: "类型", render: "ext",
+            name: "类型", render: "file.ext",
         }, {
-            name: "大小", render: "size",
+            name: "大小", render: "file.size",
         }, {
             name: "操作", render: (item: Courseware) => <div>
                 <a href={`/upload/${item.file.fileId}`} target="_blank">下载</a>

@@ -10,6 +10,7 @@ import {ajaxGet, Kit} from "../../../common/kit";
 import {update} from "../../../common/updater";
 import {DatePicker} from "../../../component/DatePicker/index";
 import {Link} from "react-router-dom";
+import _ = require("lodash");
 
 class StudyJobListInner extends CurdComponent<StudyJob> {
 
@@ -21,10 +22,14 @@ class StudyJobListInner extends CurdComponent<StudyJob> {
     componentDidMount() {
         ajaxGet(`/teacher/course/list?limit=10000`, (res) => {
             let state = update(this.state, "data.courses", res);
+            let courseMap = _.fromPairs(res.map(c => [c.id, c.name]));
+            state = update(state, "data.courseMap", courseMap);
             this.setState(state)
         });
         ajaxGet(`/teacher/clazz/list?limit=10000`, (res) => {
-            let state = update(this.state, "data.clazzs", res);
+            let state = update(this.state, "data.clazzes", res);
+            let clazzMap = _.fromPairs(res.map(c => [c.id, c.name]));
+            state = update(state, "data.clazzMap", clazzMap);
             this.setState(state)
         });
     }
@@ -33,14 +38,13 @@ class StudyJobListInner extends CurdComponent<StudyJob> {
         return "id";
     }
 
-    urlSlice(): number {
-        return 3;
-    }
-
     getHeaderRender(onCreate: EH, onUpdate: TEH<StudyJob>, onDelete: TEH<StudyJob>): Array<{ name: string; render: any }> {
+        console.log(this.props.list);
+        console.log(this.state.data.clazzMap);
         return [
             {name: "名称", render: "name"},
-            {name: "课程", render: "course.name"},
+            {name: "课程", render: (item) => (this.state.data.courseMap || {})[item.courseId]},
+            {name: "班级", render: (item) => (this.state.data.clazzMap || {})[item.clazzId]},
             {
                 name: "操作", render: (job: StudyJob) => {
                 return <div>
@@ -67,7 +71,7 @@ class StudyJobListInner extends CurdComponent<StudyJob> {
 
     renderModalContent(onChange: TEH<StudyJob>, onSubmit: EH, onCancel: EH): any {
         let courseList = Kit.optionValueList(this.state.data.courses, "name");
-        let clazzList = Kit.optionValueList(this.state.data.clazzs, "name");
+        let clazzList = Kit.optionValueList(this.state.data.clazzes, "name");
         return <div>
             {this.renderPairInputText("item.name", "名称")}
             {this.renderPairSelect("item.courseId", "课程", courseList)}

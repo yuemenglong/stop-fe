@@ -82,7 +82,7 @@ export class QuizList extends ListPageComponent<Quiz> {
             this.setState({list})
         };
         return <div>
-            <h1>Quiz List</h1>
+            <h1>考试任务列表</h1>
             <QuizListInner
                 match={this.props.match}
                 history={this.props.history}

@@ -46,10 +46,6 @@ class VideoListInner extends CurdComponent<Video> {
         </div>
     }
 
-    urlSlice(): number {
-        return 5;
-    }
-
     idField(): string {
         return "id";
     }
@@ -58,9 +54,9 @@ class VideoListInner extends CurdComponent<Video> {
         return [{
             name: "名称", render: "name",
         }, {
-            name: "类型", render: "ext",
+            name: "类型", render: "file.ext",
         }, {
-            name: "大小", render: "size",
+            name: "大小", render: "file.size",
         }, {
             name: "操作", render: (item: Video) => <div>
                 <a href={`/upload/${item.file.fileId}`} target="_blank">下载</a>
@@ -76,7 +72,7 @@ class VideoListInner extends CurdComponent<Video> {
                   onUpdate: TEH<Video>,
                   onDelete: TEH<Video>): any {
         return <div>
-            <h1>课件</h1>
+            <h1>视频</h1>
             {renderTable()}
             <button onClick={onCreate}>添加</button>
             {renderRoute()}

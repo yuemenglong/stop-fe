@@ -22,16 +22,11 @@ class ClazzStudentInner extends CurdComponent<Student> {
         return "id"
     }
 
-    urlSlice(): number {
-        return 5;
-    }
-
     getHeaderRender(onCreate: EH, onUpdate: TEH<Student>, onDelete: TEH<Student>): Array<{ name: string; render: any }> {
         return [
             {name: "姓名", render: "name"},
             {name: "电话", render: "mobile"},
             {name: "邮箱", render: "email"},
-            {name: "班级", render: "clazzId"},
             {
                 name: "操作", render: (student) => {
                 return <a href={JVOID0} onClick={onDelete.bind(null, student)}>删除</a>

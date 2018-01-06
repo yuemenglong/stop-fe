@@ -27,8 +27,9 @@ export class StudyJobStudentList extends Component<RouteComponentProps<any>, { j
     renderTable() {
         let headers = [
             {name: "姓名", render: "student.name"},
+            {name: "状态", render: (item) => Def.statusMap[item.status]},
             {
-                name: "完成情况", render: (job: StudentStudyJob) => {
+                name: "详细情况", render: (job: StudentStudyJob) => {
                 return _(job.items).groupBy(item => item.ty).toPairs().map((p) => {
                     let ty: string = p[0];
                     let items: Array<StudentStudyJobItem> = p[1];
@@ -45,7 +46,7 @@ export class StudyJobStudentList extends Component<RouteComponentProps<any>, { j
 
     render() {
         return <div>
-            <h1>Detail</h1>
+            <h1>任务完成情况</h1>
             {this.renderTable()}
         </div>
     }

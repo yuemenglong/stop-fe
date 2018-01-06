@@ -6,6 +6,8 @@ import {EH, TEH} from "../../common/render-component";
 import {JVOID0} from "../../def/data";
 import {update} from "../../common/updater";
 import {WebUploader} from "../../component/WebUploader/index";
+import {ajaxGet} from "../../common/kit";
+import _ = require("lodash");
 
 class State extends ListPageState<Student> {
 
@@ -17,12 +19,16 @@ class StudentListInner extends CurdComponent<Student> {
         this.state = new CurdState<Student>();
     }
 
-    idField(): string {
-        return "id";
+    componentDidMount() {
+        ajaxGet(`/teacher/clazz/list?limit=99999&offset=0&fields=name`, (res) => {
+            let clazzMap = _.fromPairs(res.map(c => [c.id, c.name]));
+            let state = update(this.state, "data.clazzMap", clazzMap);
+            this.setState(state)
+        })
     }
 
-    urlSlice(): number {
-        return 3;
+    idField(): string {
+        return "id";
     }
 
     getHeaderRender(onCreate: EH, onUpdate: TEH<Student>, onDelete: TEH<Student>): Array<{ name: string; render: any }> {
@@ -39,6 +45,11 @@ class StudentListInner extends CurdComponent<Student> {
             {name: "姓名", render: "name"},
             {name: "手机", render: "mobile"},
             {name: "邮箱", render: "email"},
+            {
+                name: "班级", render: (item) => {
+                return (this.state.data.clazzMap || {})[item.clazzId]
+            }
+            },
             {name: "操作", render: op}
         ];
     }
@@ -57,25 +68,12 @@ class StudentListInner extends CurdComponent<Student> {
     }
 
     renderModalContent(onChange: TEH<Student>, onSubmit: EH, onCancel: EH): any {
-        let onUpload = (file) => {
-            let item = update(this.state.item, "avatar", file.fileId);
-            onChange(item);
-            // let student = _.defaults({avatar: file.fileId}, this.state.student);
-            // this.setState({student});
-        };
-        let file = <WebUploader onChange={onUpload}/>;
-        if (this.state.item.avatar) {
-            file = <div>
-                <img src={`/upload/${this.state.item.avatar}`} style={{width: 200, height: 200}}/>
-            </div>
-        }
         return <div>
             {this.renderPairInputText("item.user.username", "登录名")}
             {this.renderPairInputPassword("item.user.password", "密码")}
             {this.renderPairInputText("item.name", "姓名")}
             {this.renderPairInputText("item.mobile", "手机")}
             {this.renderPairInputText("item.email", "邮箱")}
-            {file}
             <button className="btn" onClick={onSubmit}>确定</button>
             <button className="btn" onClick={onCancel}>取消</button>
         </div>
