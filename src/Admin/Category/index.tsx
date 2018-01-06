@@ -84,10 +84,6 @@ class CategoryInner extends CurdComponent<Category, CurdProps<Category>, InnerSt
         return "id";
     }
 
-    urlSlice(): number {
-        return 3;
-    }
-
     getHeaderRender(onCreate: EH, onUpdate: TEH<Category>, onDelete: TEH<Category>): Array<{ name: string; render: any }> {
         let onCate2 = (cate) => {
             this.setState({cate2: cate})
@@ -95,7 +91,7 @@ class CategoryInner extends CurdComponent<Category, CurdProps<Category>, InnerSt
         return [
             {name: "一级体系", render: "name"},
             {
-                name: "名称", render: (item: Category) => {
+                name: "二级体系", render: (item: Category) => {
                 return item.children.map(c => {
                     return <a key={c.id}>{c.name}</a>
                 })
