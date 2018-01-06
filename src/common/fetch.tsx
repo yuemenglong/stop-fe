@@ -34,6 +34,7 @@ export class Fetch {
         url = decodeURIComponent(url);
         if (Fetch.getFetchData()[url] != null && Fetch.getFetchData()[url].data !== undefined) {
             // 已经fetch过并且拿到了数据
+            cb && cb(Fetch.getFetchData()[url].data);
             return Fetch.getFetchData()[url].data;
         } else if (Fetch.getFetchData()[url] != null) {
             // 已经fetch过但是数据还没有拉回来
@@ -86,17 +87,17 @@ if (!g.window) {
 }
 
 function fetchLoop() {
-    const fetchPrefix = "/FETCH";
+    const fetchPrefix = "/__FETCH__";
     let url = Fetch.getFetchUrl(fetchPrefix);
     if (url === fetchPrefix) {
         return setTimeout(fetchLoop, FETCH_TIMEOUT)
     } else {
-        let loading = showLoading();
+        showLoading();
         $.ajax({
             url: url,
             type: "GET",
             success: function (res) {
-                Fetch.handleFetchResult(res)
+                Fetch.handleFetchResult(res);
                 setTimeout(fetchLoop, FETCH_TIMEOUT)
             }, error: function (err) {
                 window.alert("页面加载异常");

@@ -3,6 +3,7 @@ import * as React from "react"
 import {Component} from "react";
 import {hideLoading, showLoading} from "../../common/loading";
 import _ = require("lodash");
+import moment = require("moment");
 
 interface Props {
     className?: string,
@@ -31,12 +32,33 @@ export class DatePicker extends Component<Props, State> {
     };
 
     componentDidMount() {
-        ($(`#${this.state.id}`) as any).datepicker({
-            format: "yyyy-mm-dd",
-            autoclose: true,
-        }).on("changeDate", (e) => {
-            this.props.onChange(e.target.value);
-        });
+        ($(`#${this.state.id}`) as any).datetimepicker({
+            format: "Y-m-d",
+            closeOnDateSelect: true,
+            i18n: {
+                en: {
+                    months: [
+                        '一月', '二月', '三月', '四月',
+                        '五月', '六月', '七月', '八月',
+                        '九月', '十月', '十一月', '十二月',
+                    ],
+                    dayOfWeekShort: [
+                        "日", "一", "二", "三",
+                        "四", "五", "六",
+                    ]
+                }
+            },
+            // lang: "zh",
+            timepicker: false,
+            // validateOnBlur: false,
+            onSelectDate: (ct) => {
+                let date = moment(ct).format("YYYY-MM-DD");
+                this.props.onChange(date);
+            },
+            // autoclose: true,
+            // }).on("changeDate", (ct) => {
+            //     this.props.onChange(ct.);
+        })
     }
 
     render() {

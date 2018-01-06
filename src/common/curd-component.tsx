@@ -93,7 +93,6 @@ export abstract class CurdComponent<T, //
             };
             let onSubmit = () => {
                 let msg = this.validate();
-                console.log(msg);
                 if (msg.length > 0) {
                     this.setState({validate: true});
                     alert(msg.join("\n"));

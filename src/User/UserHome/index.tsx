@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Student, StudentStudyJob, StudentStudyJobItem, StudyJob} from "../../def/entity";
+import {FileInfo, Student, StudentStudyJob, StudentStudyJobItem, StudyJob} from "../../def/entity";
 import {Component} from "react";
 import {RouteComponentProps} from "react-router";
 import {ajaxGet, ajaxPut} from "../../common/kit";
@@ -7,7 +7,7 @@ import {Def} from "../../def/data";
 import {Table} from "../../common/Table";
 import {Link} from "react-router-dom";
 import {RenderPairComponent} from "../../component/RenderPair/index";
-import {FileInfo, WebUploader} from "../../component/WebUploader/index";
+import {WebUploader} from "../../component/WebUploader/index";
 import {update} from "../../common/updater";
 import {Chosen} from "../../component/Chosen/index";
 import _ = require("lodash");
@@ -32,28 +32,26 @@ export class UserHome extends RenderPairComponent<RouteComponentProps<any>, Stat
 
     componentDidMount() {
         ajaxGet(location.pathname, (user) => {
-            console.log(user);
             this.setState({user})
         })
     }
 
     renderAvater() {
-        let avater = this.state.user.avatar;
-        console.log(avater);
+        let avatar = _.get(this.state, "user.avatar.fileId");
         let img = null;
-        if (avater != null) {
-            img = <img src={`/upload/${avater}`}/>
+        if (avatar != null) {
+            img = <img src={`/upload/${avatar}`}/>
         }
         let onChange = (info: FileInfo) => {
-            ajaxPut(`/user/${this.getUid()}`, {avatar: info.fileId}, () => {
-                let state = update(this.state, "user.avatar", info.fileId);
+            ajaxPut(`/user/${this.getUid()}`, {avatar: info}, () => {
+                let state = update(this.state, "user.avatar", info);
                 this.setState(state);
             })
         };
-        let accept = {extensions: "jpg,jpeg", mimeTypes: "image/*"};
+        let accept = {extensions: "jpg,jpeg,png,bmp", mimeTypes: "image/*"};
         return <div>
             {img}
-            <WebUploader key={avater || ""} onChange={onChange} text="上传头像"
+            <WebUploader key={avatar || ""} onChange={onChange} text="上传头像"
                          accept={accept}/>
         </div>
     }

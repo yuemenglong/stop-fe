@@ -2,6 +2,7 @@ import * as React from "react"
 import {Component} from "react";
 import {hideLoading, showLoading} from "../../common/loading";
 import {Kit} from "../../common/kit";
+import {FileInfo} from "../../def/entity";
 
 interface Props {
     className?: string,
@@ -9,13 +10,6 @@ interface Props {
     onError?: (err: any) => void,
     text?: string,
     accept?: { title?: string, extensions?: string, mimeTypes?: string }
-}
-
-export interface FileInfo {
-    fileId: string,
-    fileName: string,
-    size: number,
-    ext: string,
 }
 
 class State {
@@ -48,7 +42,6 @@ export class WebUploader extends Component<Props, State> {
         });
         this.setState({uploader: uploader});
         uploader.on('fileQueued', function (file) {
-            // console.log("fileQueued", file)
             uploader.upload();
         });
         uploader.on('startUpload', () => {
@@ -56,7 +49,7 @@ export class WebUploader extends Component<Props, State> {
         });
         uploader.on('uploadSuccess', (file, res) => {
             hideLoading();
-            let info = {fileId: res._raw, fileName: file.name, size: file.size, ext: file.ext}
+            let info = {fileId: res._raw, fileName: file.name, size: file.size, ext: file.ext} as FileInfo;
             this.props.onChange(info)
         });
 
@@ -75,8 +68,6 @@ export class WebUploader extends Component<Props, State> {
     }
 
     render() {
-        return <div className={this.props.className}>
-            <div id={this.state.id}>{this.props.text}</div>
-        </div>
+        return <div className={this.props.className} id={this.state.id}>{this.props.text}</div>
     }
 }

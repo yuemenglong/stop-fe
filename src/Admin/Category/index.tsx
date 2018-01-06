@@ -50,7 +50,7 @@ class Categor2Inner extends RenderPairComponent<{
             c.ty = this.props.cate.ty;
             c.name = this.state.name;
             c.parentId = this.props.cate.id;
-            c.level = this.props.cate.id + 1;
+            c.level = this.props.cate.level + 1;
             ajaxPost(`${location.pathname}`, c, (res) => {
                 let cate = update(this.props.cate, "children[]", res);
                 this.props.onChange(cate);
@@ -84,10 +84,6 @@ class CategoryInner extends CurdComponent<Category, CurdProps<Category>, InnerSt
         return "id";
     }
 
-    urlSlice(): number {
-        return 3;
-    }
-
     getHeaderRender(onCreate: EH, onUpdate: TEH<Category>, onDelete: TEH<Category>): Array<{ name: string; render: any }> {
         let onCate2 = (cate) => {
             this.setState({cate2: cate})
@@ -95,7 +91,7 @@ class CategoryInner extends CurdComponent<Category, CurdProps<Category>, InnerSt
         return [
             {name: "一级体系", render: "name"},
             {
-                name: "名称", render: (item: Category) => {
+                name: "二级体系", render: (item: Category) => {
                 return item.children.map(c => {
                     return <a key={c.id}>{c.name}</a>
                 })

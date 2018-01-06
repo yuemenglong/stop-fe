@@ -4,8 +4,8 @@ import {ListPageComponent, ListPageState} from "../../common/list-page-component
 import {CurdComponent, CurdState} from "../../common/curd-component";
 import {EH, TEH} from "../../common/render-component";
 import {JVOID0} from "../../def/data";
-import {FileInfo, WebUploader} from "../../component/WebUploader/index";
-import {Video} from "../../def/entity";
+import {WebUploader} from "../../component/WebUploader/index";
+import {FileInfo, Video} from "../../def/entity";
 import {ajaxGet, Kit} from "../../common/kit";
 import {update} from "../../common/updater";
 
@@ -23,16 +23,18 @@ class VideoListInner extends CurdComponent<Video> {
                        onSubmit: EH,
                        onCancel: EH): any {
         let onUpload = (file: FileInfo) => {
-            let video = _.clone(this.state.item);
-            video.fileId = file.fileId;
-            video.fileName = file.fileName;
-            video.ext = file.ext;
-            video.size = file.size;
-            onChange(video);
+            let item = _.clone(this.state.item);
+            item.file = file;
+            // video.fileId = file.fileId;
+            // video.fileName = file.fileName;
+            // video.ext = file.ext;
+            // video.size = file.size;
+            onChange(item);
         };
         let file = <WebUploader onChange={onUpload}/>;
-        if (this.state.item.fileName) {
-            file = <div>{this.state.item.fileName}</div>
+        let fileName = _.get(this.state, "item.file.fileName");
+        if (fileName) {
+            file = <div>{fileName}</div>
         }
         return <div>
             {this.renderPairInputText("item.name", "名称")}
@@ -61,7 +63,7 @@ class VideoListInner extends CurdComponent<Video> {
             name: "大小", render: "size",
         }, {
             name: "操作", render: (item: Video) => <div>
-                <a href={`/upload/${item.fileId}`} target="_blank">下载</a>
+                <a href={`/upload/${item.file.fileId}`} target="_blank">下载</a>
                 <a href={JVOID0} onClick={onUpdate.bind(null, item)}>修改</a>
                 <a href={JVOID0} onClick={onDelete.bind(null, item)}>删除</a>
             </div>

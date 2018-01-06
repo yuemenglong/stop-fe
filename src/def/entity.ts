@@ -30,50 +30,58 @@ export class Course {
 	coursewareCount: number = undefined;
 	videoCount: number = undefined;
 	cate0Id: number = undefined;
-	cate0: Category = new Category();
+	cate0: Category = undefined;
 	cate1Id: number = undefined;
-	cate1: Category = new Category();
+	cate1: Category = undefined;
 }
 
 export class CourseCourseware {
 	id: number = undefined;
 	crTime: string = undefined;
 	courseId: number = undefined;
-	course: Course = new Course();
+	course: Course = undefined;
 	coursewareId: number = undefined;
-	courseware: Courseware = new Courseware();
+	courseware: Courseware = undefined;
 }
 
 export class CourseQuestion {
 	id: number = undefined;
 	crTime: string = undefined;
 	courseId: number = undefined;
-	course: Course = new Course();
+	course: Course = undefined;
 	questionId: number = undefined;
-	question: Question = new Question();
+	question: Question = undefined;
 }
 
 export class CourseVideo {
 	id: number = undefined;
 	crTime: string = undefined;
 	courseId: number = undefined;
-	course: Course = new Course();
+	course: Course = undefined;
 	videoId: number = undefined;
-	video: Video = new Video();
+	video: Video = undefined;
 }
 
 export class Courseware {
 	id: number = undefined;
 	crTime: string = undefined;
 	name: string = undefined;
+	file: FileInfo = undefined;
+	swf: FileInfo = undefined;
+	cate0Id: number = undefined;
+	cate0: Category = undefined;
+	cate1Id: number = undefined;
+	cate1: Category = undefined;
+}
+
+export class FileInfo {
+	id: number = undefined;
+	crTime: string = undefined;
 	fileId: string = undefined;
 	fileName: string = undefined;
 	size: number = undefined;
 	ext: string = undefined;
-	cate0Id: number = undefined;
-	cate0: Category = new Category();
-	cate1Id: number = undefined;
-	cate1: Category = new Category();
+	tag: string = undefined;
 }
 
 export class Question {
@@ -83,11 +91,11 @@ export class Question {
 	score: number = undefined;
 	answer: string = undefined;
 	ty: string = undefined;
-	sc: QuestionChoice = new QuestionChoice();
+	sc: QuestionChoice = undefined;
 	cate0Id: number = undefined;
-	cate0: Category = new Category();
+	cate0: Category = undefined;
 	cate1Id: number = undefined;
-	cate1: Category = new Category();
+	cate1: Category = undefined;
 }
 
 export class QuestionChoice {
@@ -102,23 +110,28 @@ export class QuestionChoice {
 export class Quiz {
 	id: number = undefined;
 	crTime: string = undefined;
+	name: string = undefined;
 	limitDate: string = undefined;
 	questions: QuizQuestion[] = [];
-	clazz: Clazz = new Clazz();
+	clazz: Clazz = undefined;
 	clazzId: number = undefined;
+	status: string = undefined;
 	jobs: QuizJob[] = [];
 }
 
 export class QuizJob {
 	id: number = undefined;
 	crTime: string = undefined;
-	quiz: Quiz = new Quiz();
+	quiz: Quiz = undefined;
 	quizId: number = undefined;
-	student: Student = new Student();
+	student: Student = undefined;
 	studentId: number = undefined;
 	status: string = undefined;
 	score: number = undefined;
 	items: QuizJobItem[] = [];
+	itemCount: number = undefined;
+	finishCount: number = undefined;
+	totalScore: number = undefined;
 }
 
 export class QuizJobItem {
@@ -129,40 +142,39 @@ export class QuizJobItem {
 	score: number = undefined;
 	correct: boolean = undefined;
 	status: string = undefined;
-	question: Question = new Question();
+	question: Question = undefined;
 	questionId: number = undefined;
 }
 
 export class QuizQuestion {
 	id: number = undefined;
 	crTime: string = undefined;
-	quiz: Quiz = new Quiz();
+	quiz: Quiz = undefined;
 	quizId: number = undefined;
-	question: Question = new Question();
+	question: Question = undefined;
 	questionId: number = undefined;
 }
 
 export class Student {
 	id: number = undefined;
 	crTime: string = undefined;
-	user: User = new User();
+	user: User = undefined;
 	name: string = undefined;
 	mobile: string = undefined;
-	password: string = undefined;
 	email: string = undefined;
-	avatar: string = undefined;
-	clazz: Clazz = new Clazz();
+	avatar: FileInfo = undefined;
+	clazz: Clazz = undefined;
 	clazzId: number = undefined;
-	team: TeamApply = new TeamApply();
+	team: TeamApply = undefined;
 	jobs: StudentStudyJob[] = [];
 }
 
 export class StudentStudyJob {
 	id: number = undefined;
 	crTime: string = undefined;
-	job: StudyJob = new StudyJob();
+	job: StudyJob = undefined;
 	jobId: number = undefined;
-	student: Student = new Student();
+	student: Student = undefined;
 	studentId: number = undefined;
 	status: string = undefined;
 	items: StudentStudyJobItem[] = [];
@@ -184,19 +196,35 @@ export class StudyJob {
 	id: number = undefined;
 	crTime: string = undefined;
 	name: string = undefined;
-	course: Course = new Course();
+	course: Course = undefined;
 	courseId: number = undefined;
-	clazz: Clazz = new Clazz();
+	clazz: Clazz = undefined;
 	clazzId: number = undefined;
 	limitDate: string = undefined;
 	jobs: StudentStudyJob[] = [];
+}
+
+export class Target {
+	id: number = undefined;
+	crTime: string = undefined;
+	name: string = undefined;
+	title: string = undefined;
+	score: number = undefined;
+	answer: string = undefined;
+	ty: string = undefined;
+	baseDir: string = undefined;
+	file: FileInfo = undefined;
+	cate0Id: number = undefined;
+	cate0: Category = undefined;
+	cate1Id: number = undefined;
+	cate1: Category = undefined;
 }
 
 export class Team {
 	id: number = undefined;
 	crTime: string = undefined;
 	name: string = undefined;
-	creater: Student = new Student();
+	creater: Student = undefined;
 	createrId: number = undefined;
 	students: TeamApply[] = [];
 	studentCount: number = undefined;
@@ -225,12 +253,9 @@ export class Video {
 	id: number = undefined;
 	crTime: string = undefined;
 	name: string = undefined;
-	fileId: string = undefined;
-	fileName: string = undefined;
-	size: number = undefined;
-	ext: string = undefined;
+	file: FileInfo = undefined;
 	cate0Id: number = undefined;
-	cate0: Category = new Category();
+	cate0: Category = undefined;
 	cate1Id: number = undefined;
-	cate1: Category = new Category();
+	cate1: Category = undefined;
 }

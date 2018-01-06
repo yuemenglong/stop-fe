@@ -15,6 +15,7 @@ import {UserHome} from "./UserHome/index";
 import {QuizJobRouter} from "./QuizJob/index";
 import {CoursewareList} from "./CoursewareList/index";
 import {VideoList} from "./VideoList/index";
+import {UserTargetList} from "./UserTarget/index";
 
 export class UserApp extends Component {
     getUid() {
@@ -34,6 +35,7 @@ export class UserApp extends Component {
         };
         if (uid) {
             return <div>
+                <Link to={`/user/${uid}/target`}>靶场</Link>
                 <Link to={`/user/${uid}/courseware`}>查看课件</Link>
                 <Link to={`/user/${uid}/video`}>查看视频</Link>
                 <Link to={`/user/${uid}/team`}>查看队伍</Link>
@@ -60,6 +62,7 @@ export class UserApp extends Component {
                 <Route path="/user/:uid/team" exact={true} component={UserTeam}/>
                 <Route path="/user/:uid/team/init" component={UserTeamInit}/>
                 <Route path="/user/:uid/team/join" component={UserTeamJoin}/>
+                <Route path="/user/:uid/target" component={UserTargetList}/>
                 <Route path="/login" component={UserLogin}/>
                 <Route path="/" exact={true} component={UserLogin}/>
             </switch>

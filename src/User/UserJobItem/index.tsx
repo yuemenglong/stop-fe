@@ -71,11 +71,11 @@ export class UserStudyJobItem extends Component<RouteComponentProps<any>, { ques
         ajaxGet(`/user/${this.getUid()}/study-job/${this.getJobId()}/item/${this.getItemId()}`, (res: StudentStudyJobItem) => {
             if (res.ty == "courseware") {
                 ajaxGet(`/user/${this.getUid()}/study-job/${this.getJobId()}/courseware/${res.targetId}`, (courseware: Courseware) => {
-                    location.href = `/upload/${courseware.fileId}`
+                    location.href = `/upload/${courseware.file.fileId}`
                 })
             } else if (res.ty == "video") {
                 ajaxGet(`/user/${this.getUid()}/study-job/${this.getJobId()}/video/${res.targetId}`, (video: Video) => {
-                    location.href = `/upload/${video.fileId}`
+                    location.href = `/upload/${video.file.fileId}`
                 })
             } else if (res.ty == "question") {
                 ajaxGet(`/user/${this.getUid()}/study-job/${this.getJobId()}/question/${res.targetId}`, (question: Question) => {
