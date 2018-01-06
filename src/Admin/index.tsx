@@ -9,6 +9,7 @@ import {CategoryList} from "./Category/index";
 import {CoursewareList} from "./Courseware/index";
 import {QuestionList} from "./Question/index";
 import {VideoList} from "./Video/index";
+import {HeadMenu} from "../component/HeadMenu/index";
 
 export class AdminApp extends Component {
     renderNavs() {
@@ -35,6 +36,7 @@ export class AdminApp extends Component {
         let videoCagetory = (props) => <CategoryList history={props.history} match={props.match} ty="video"/>;
         let questionCagetory = (props) => <CategoryList history={props.history} match={props.match} ty="question"/>;
         return <div className="container">
+            <HeadMenu/>
             {this.renderNavs()}
             <switch>
                 <Route path="/admin/course-category" exact={true} render={courseCagetory}/>
