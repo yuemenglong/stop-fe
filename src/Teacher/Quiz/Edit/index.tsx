@@ -112,11 +112,9 @@ export class QuizEdit extends RenderPairComponent<RouteComponentProps<any>, Stat
             this.setState({selected: list})
         };
         let onCancel = () => {
-            console.log("onCancel", this.state.questions, this.state.selected);
             let questions = this.state.questions.concat(this.state.selected);
             let selected = [];
             let selectors = null;
-            console.log("onCancel: Questions", questions);
             this.setState({questions, selected, selectors})
         };
         return <Modal>
@@ -138,7 +136,6 @@ export class QuizEdit extends RenderPairComponent<RouteComponentProps<any>, Stat
                 this.setState({selectors: res, selected, questions})
             })
         };
-        console.log(this.state.selected, this.state.cates);
         return this.state.cates.map((cate0: Category) => {
             return <div key={cate0.id}>
                 <h3>一级类别{cate0.name}</h3>

@@ -39,8 +39,6 @@ class StudyJobListInner extends CurdComponent<StudyJob> {
     }
 
     getHeaderRender(onCreate: EH, onUpdate: TEH<StudyJob>, onDelete: TEH<StudyJob>): Array<{ name: string; render: any }> {
-        console.log(this.props.list);
-        console.log(this.state.data.clazzMap);
         return [
             {name: "名称", render: "name"},
             {name: "课程", render: (item) => (this.state.data.courseMap || {})[item.courseId]},
