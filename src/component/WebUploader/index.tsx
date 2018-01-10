@@ -13,6 +13,7 @@ interface Props {
     accept?: { title?: string, extensions?: string, mimeTypes?: string },
     server?: string,
     multiple?: boolean,
+    disabled?: boolean,
 }
 
 class State {
@@ -51,6 +52,7 @@ class WebUploaderInner extends Component<Props, State> {
         text: "选择文件",
         server: "/upload",
         multiple: false,
+        disabled: false,
     };
 
 

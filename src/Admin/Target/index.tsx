@@ -44,6 +44,12 @@ class TargetListInner extends CurdComponent<Target> {
             item.file = file;
             onChange(item);
         };
+        let onUploadTargets = (files) => {
+            let item = _.clone(this.state.item) as any;
+            item.files = files;
+            console.log(item);
+            onChange(item);
+        };
         let accept = {
             extensions: "ppt,pptx",
             mimeTypes: "application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation"
@@ -52,12 +58,22 @@ class TargetListInner extends CurdComponent<Target> {
         if (_.get(this.state.item, "file.fileName")) {
             file = <div>{_.get(this.state.item, "file.fileName")}</div>
         }
+        let targets = <WebUploader onChange={onUploadTargets} multiple={true}/>;
+        if (_.get(this.state.item, "files")) {
+            targets = _.get(this.state.item, "files", []).map(f => {
+                return <div key={f.fileId}>{f.fileName}</div>
+            });
+        }
         return <div>
             {this.renderPairTextArea("item.name", "名称")}
             {this.renderPairTextArea("item.title", "描述")}
-            {this.renderPairInputText("item.baseDir", "路径")}
             {this.renderPairInputText("item.answer", "答案")}
             {this.renderPairInputText("item.score", "分数")}
+            {this.renderPairInputText("item.baseDir", "路径")}
+            <div>
+                <span>靶场文件</span>
+                {targets}
+            </div>
             <div>
                 <span>课件</span>
                 {file}
