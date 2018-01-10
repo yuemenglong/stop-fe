@@ -25,13 +25,13 @@ class VideoListInner extends CurdComponent<Video> {
         let onUpload = (file: FileInfo) => {
             let item = _.clone(this.state.item);
             item.file = file;
-            // video.fileId = file.fileId;
-            // video.fileName = file.fileName;
-            // video.ext = file.ext;
-            // video.size = file.size;
             onChange(item);
         };
-        let file = <WebUploader onChange={onUpload}/>;
+        let accept = {
+            extensions: ".mp4",
+            mimeTypes: "video/mp4"
+        };
+        let file = <WebUploader onChange={onUpload} accept={accept} server="/video"/>;
         let fileName = _.get(this.state, "item.file.fileName");
         if (fileName) {
             file = <div>{fileName}</div>

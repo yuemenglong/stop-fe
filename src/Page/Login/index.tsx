@@ -2,6 +2,7 @@ import * as React from "react";
 import {RenderPairComponent} from "../../component/RenderPair/index";
 import {ajaxPost} from "../../common/kit";
 import {RouteComponentProps} from "react-router";
+import {WebUploader} from "../../component/WebUploader/index";
 
 class State {
     user = {};
