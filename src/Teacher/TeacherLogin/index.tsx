@@ -2,13 +2,12 @@ import * as React from "react";
 import {RenderPairComponent} from "../../component/RenderPair/index";
 import {ajaxPost} from "../../common/kit";
 import {RouteComponentProps} from "react-router";
-import {WebUploader} from "../../component/WebUploader/index";
 
 class State {
     user = {};
 }
 
-export class LoginPage extends RenderPairComponent<RouteComponentProps<any>, State> {
+export class TeacherLogin extends RenderPairComponent<RouteComponentProps<any>, State> {
     getRenderRootMode(): { root: any; mode: string; onChange?: Function } {
         return {root: this.state, mode: "state"}
     }
@@ -20,8 +19,8 @@ export class LoginPage extends RenderPairComponent<RouteComponentProps<any>, Sta
 
     render() {
         let login = () => {
-            ajaxPost(`/teacher/login`, this.state.user, () => {
-                this.props.history.push("/")
+            ajaxPost(`/teacher/login`, this.state.user, (user) => {
+                this.props.history.push(`/teacher/course-category`)
             })
         };
         return <div>

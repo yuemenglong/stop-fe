@@ -10,6 +10,7 @@ import {CoursewareList} from "./Courseware/index";
 import {QuestionList} from "./Question/index";
 import {VideoList} from "./Video/index";
 import {TargetList} from "./Target/index";
+import {VideoView} from "../Page/VideoVidw/index";
 
 export class AdminApp extends Component {
     renderNavs() {
@@ -50,6 +51,7 @@ export class AdminApp extends Component {
                 <Route path="/admin/video" exact={true} component={VideoList}/>
                 <Route path="/admin/question" exact={true} component={QuestionList}/>
                 <Route path="/admin/target" exact={true} component={TargetList}/>
+                <Route path="/video" exact={true} component={VideoView}/>
                 <Route path="/login" exact={true} component={AdminLogin}/>
                 <Route path="/" exact={true} render={() => <Redirect to="/admin/course-category"/>}/>
             </switch>

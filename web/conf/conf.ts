@@ -27,17 +27,17 @@ class Conf {
 const adminConf = new Conf(82, "localhost", 8080,
     "D:/upload",
     "D:/upload/ppt",
-    "D:upload/video",
+    "D:/upload/video",
     "D:/target");
 const teacherConf = new Conf(81, "localhost", 8080,
     "D:/upload",
     "D:/upload/ppt",
-    "D:upload/video",
+    "D:/upload/video",
     "D:/target");
 const userConf = new Conf(80, "localhost", 8080,
     "D:/upload",
     "D:/upload/ppt",
-    "D:upload/video",
+    "D:/upload/video",
     "D:/target");
 // const userConf = new Conf(80, "localhost", 8080, "D:\\upload");
 

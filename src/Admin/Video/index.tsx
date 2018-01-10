@@ -28,8 +28,8 @@ class VideoListInner extends CurdComponent<Video> {
             onChange(item);
         };
         let accept = {
-            extensions: ".mp4",
-            mimeTypes: "video/mp4"
+            // extensions: ".mp4",
+            // mimeTypes: "video/mp4"
         };
         let file = <WebUploader onChange={onUpload} accept={accept} server="/video"/>;
         let fileName = _.get(this.state, "item.file.fileName");
@@ -59,7 +59,7 @@ class VideoListInner extends CurdComponent<Video> {
             name: "大小", render: "file.size",
         }, {
             name: "操作", render: (item: Video) => <div>
-                <a href={`/upload/${item.file.fileId}`} target="_blank">下载</a>
+                <a href={`/video?fileId=${item.file.fileId}`} target="_blank">播放</a>
                 <a href={JVOID0} onClick={onUpdate.bind(null, item)}>修改</a>
                 <a href={JVOID0} onClick={onDelete.bind(null, item)}>删除</a>
             </div>

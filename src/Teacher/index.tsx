@@ -8,8 +8,8 @@ import {Link} from "react-router-dom";
 import {StudyJobRouter} from "./StudyJob/index";
 import {JVOID0} from "../def/data";
 import {ajaxGet} from "../common/kit";
-import {LoginPage} from "../Page/Login/index";
 import {QuizRouter} from "./Quiz/index";
+import {TeacherLogin} from "./TeacherLogin/index";
 
 export class TeacherApp extends Component {
     render() {
@@ -27,7 +27,7 @@ export class TeacherApp extends Component {
                 <Route path="/teacher/clazz" component={ClazzRouter}/>
                 <Route path="/teacher/study-job" component={StudyJobRouter}/>
                 <Route path="/teacher/quiz" component={QuizRouter}/>
-                <Route path="/login" component={LoginPage}/>
+                <Route path="/login" component={TeacherLogin}/>
             </switch>
         </div>
     }

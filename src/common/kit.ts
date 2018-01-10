@@ -1,7 +1,7 @@
 import _ = require("lodash");
 import {hideLoading, showLoading} from "./loading";
 
-export function decodeObject(str: string): Object {
+export function decodeObject(str: string): any {
     let obj = {};
     _(str).split("&").map(function (kv) {
         let kvs = kv.split("=");
@@ -13,7 +13,7 @@ export function decodeObject(str: string): Object {
     return obj;
 }
 
-export function encodeObject(obj: Object) {
+export function encodeObject(obj: any): string {
     function go(obj: any, res: string[], prefix: string) {
         let kv;
         if (obj == null) {

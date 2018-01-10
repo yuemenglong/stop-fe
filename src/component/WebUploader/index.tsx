@@ -30,8 +30,8 @@ export class WebUploader extends Component<Props, { key: string }> {
 
     render() {
         let onChange = (file) => {
-            this.props.onChange(file);
             this.setState({key: Kit.randomId()});
+            this.props.onChange(file);
         };
         let props = _.defaults({onChange}, this.props);
         return <WebUploaderInner key={this.state.key} {...props}/>
@@ -64,14 +64,16 @@ class WebUploaderInner extends Component<Props, State> {
             resize: false
         });
         this.setState({uploader: uploader});
-        // uploader.on('fileQueued', (file) => {
-        //     this.setState({counter: this.state.counter + 1});
-        //     uploader.upload();
-        // });
-        uploader.on("filesQueued", files => {
-            this.setState({counter: files.length});
-            uploader.upload();
-        });
+        if (!this.props.multiple) {
+            uploader.on('fileQueued', (file) => {
+                uploader.upload();
+            });
+        } else {
+            uploader.on("filesQueued", files => {
+                this.setState({counter: files.length});
+                uploader.upload();
+            });
+        }
         uploader.on('startUpload', () => {
             showLoading();
         });
@@ -100,7 +102,7 @@ class WebUploaderInner extends Component<Props, State> {
     }
 
     componentWillUnmount() {
-        this.state.uploader.destroy();
+        // this.state.uploader.destroy();
     }
 
     upload() {
