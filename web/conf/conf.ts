@@ -18,9 +18,15 @@ class Conf {
     }
 }
 
-const adminConf = new Conf(82, "localhost", 8080, "D:\\upload", "D:/target");
-const teacherConf = new Conf(81, "localhost", 8080, "D:\\upload", "D:/target");
-const userConf = new Conf(80, "localhost", 8080, "D:\\upload", "D:/target");
+
+const adminConf = new Conf(90, "localhost", 8080, "D:\\upload");
+const teacherConf = new Conf(87, "localhost", 8080, "D:\\upload");
+const userConf = new Conf(86, "localhost", 8080, "D:\\upload");
+
+
+// const adminConf = new Conf(82, "localhost", 8080, "D:\\upload");
+// const teacherConf = new Conf(81, "localhost", 8080, "D:\\upload");
+// const userConf = new Conf(80, "localhost", 8080, "D:\\upload");
 // const userConf = new Conf(80, "localhost", 8080, "D:\\upload");
 
 export {userConf, teacherConf, adminConf}
