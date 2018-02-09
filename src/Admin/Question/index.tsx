@@ -9,6 +9,7 @@ import {Question} from "../../def/entity";
 import {QuestionInfo} from "./QuestionInfo/index";
 import {ajaxGet} from "../../common/kit";
 import {update} from "../../common/updater";
+import './style.less';
 
 class QuestionListInner extends CurdComponent<Question> {
     constructor(props) {
@@ -24,10 +25,12 @@ class QuestionListInner extends CurdComponent<Question> {
 
     renderModalContent(onChange: TEH<Question>,
                        onSubmit: EH,
-                       onCancel: EH): any {
+                       onCancel: EH,
+                       modalHeader: (item: string) => void): any {
         return <QuestionInfo onCancel={onCancel}
                              onSubmit={onSubmit}
                              onChange={onChange}
+                             modalHeader={modalHeader}
                              question={this.state.item}
                              cate0={this.props.data.cate0}
                              cate1={this.props.data.cate1}/>
@@ -49,7 +52,7 @@ class QuestionListInner extends CurdComponent<Question> {
         }, {
             name: "分值", render: "score",
         }, {
-            name: "操作", render: (item: Question) => <div>
+            name: "操作", render: (item: Question) => <div className={'question-table-oprate-btns'}>
                 <a href={JVOID0} onClick={onUpdate.bind(null, item)}>查看</a>
                 <a href={JVOID0} onClick={onDelete.bind(null, item)}>删除</a>
             </div>
@@ -61,10 +64,10 @@ class QuestionListInner extends CurdComponent<Question> {
                   onCreate: EH,
                   onUpdate: TEH<Question>,
                   onDelete: TEH<Question>): any {
-        return <div>
+        return <div className={'question-con box'}>
+            <button onClick={onCreate} className={'btn bg-orange btn-add'}>新增</button>
             {renderTable()}
             {renderModal()}
-            <button onClick={onCreate}>新增</button>
         </div>
     }
 

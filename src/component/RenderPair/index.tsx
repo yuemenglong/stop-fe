@@ -52,7 +52,7 @@ export abstract class RenderPairComponent<P={}, S={}> extends RenderComponent<P,
 
     // noinspection JSUnusedGlobalSymbols
     renderPairTextArea(name: string, ph: string, className?: string) {
-        return <div>
+        return <div className={'render-pair-text-area'}>
             <span>{ph}</span>
             <span>{this.renderTextarea(name, ph, className)}</span>
         </div>
