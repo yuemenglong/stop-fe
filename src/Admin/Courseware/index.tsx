@@ -8,6 +8,7 @@ import {WebUploader} from "../../component/WebUploader/index";
 import {Courseware, FileInfo} from "../../def/entity";
 import {ajaxGet, Kit} from "../../common/kit";
 import {update} from "../../common/updater";
+import './style.less';
 
 class CoursewareListInner extends CurdComponent<Courseware> {
     constructor(props) {
@@ -30,7 +31,8 @@ class CoursewareListInner extends CurdComponent<Courseware> {
 
     renderModalContent(onChange: TEH<Courseware>,
                        onSubmit: EH,
-                       onCancel: EH): any {
+                       onCancel: EH,
+                       modalHeader: (item: string) => void): any {
         let onUpload = (file: FileInfo) => {
             let item = _.clone(this.state.item);
             item.file = file;
@@ -40,18 +42,24 @@ class CoursewareListInner extends CurdComponent<Courseware> {
             extensions: "ppt,pptx",
             mimeTypes: "application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation"
         };
-        let file = <WebUploader onChange={onUpload} accept={accept}/>;
+        let liClass = 'mb-li';
+        let file = <WebUploader onChange={onUpload} accept={accept} className={liClass}/>;
         let fileName = _.get(this.state, "item.file.fileName");
         if (fileName) {
-            file = <div>{fileName}</div>
+            file = <div className={liClass}>{fileName}</div>
         }
-        return <div>
-            {this.renderPairInputText("item.name", "名称")}
-            {file}
-            {this.renderPairSelect("item.cate0Id", "一级类别", Kit.optionValueList(this.props.data.cate0, "name", "id"))}
-            {this.renderPairSelect("item.cate1Id", "二级类别", Kit.optionValueList(this.props.data.cate1.filter(c => c.parentId == this.state.item.cate0Id), "name", "id"))}
-            <button onClick={onSubmit}>确定</button>
-            <button onClick={onCancel}>取消</button>
+        return <div className={'modal-content courseware-modal-add'}>
+            {modalHeader('新增课件')}
+            <div className={'modal-body'}>
+                {this.renderPairInputText("item.name", "名称", liClass)}
+                {file}
+                {this.renderPairSelect("item.cate0Id", "一级类别", Kit.optionValueList(this.props.data.cate0, "name", "id"), liClass)}
+                {this.renderPairSelect("item.cate1Id", "二级类别", Kit.optionValueList(this.props.data.cate1.filter(c => c.parentId == this.state.item.cate0Id), "name", "id"), liClass)}
+            </div>
+            <div className={'modal-footer'}>
+                <button onClick={onCancel} className={'btn btn-default'}>取消</button>
+                <button onClick={onSubmit} className={'btn btn-primary'}>确定</button>
+            </div>
         </div>
     }
 
@@ -84,10 +92,9 @@ class CoursewareListInner extends CurdComponent<Courseware> {
                   onCreate: EH,
                   onUpdate: TEH<Courseware>,
                   onDelete: TEH<Courseware>): any {
-        return <div>
-            <h1>课件</h1>
+        return <div className={'courseware-con box'}>
+            <button onClick={onCreate} className={'btn bg-orange btn-add'}>新增</button>
             {renderTable()}
-            <button onClick={onCreate}>添加</button>
             {renderRoute()}
         </div>
     }

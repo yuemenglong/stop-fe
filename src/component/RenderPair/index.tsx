@@ -28,7 +28,7 @@ export abstract class RenderPairComponent<P={}, S={}> extends RenderComponent<P,
 
     // noinspection JSUnusedGlobalSymbols
     renderPairSelect(name: string, ph: string, args: any, className?: string, props?: any) {
-        return <div>
+        return <div className={'render-pair-select'}>
             <span>{ph}</span>
             <span>{this.renderSelect(name, args, className, props)}</span>
         </div>
