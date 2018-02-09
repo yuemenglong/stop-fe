@@ -11,6 +11,7 @@ import {Modal} from "../../common/modal";
 import {RenderPairComponent} from "../../component/RenderPair/index";
 import './style.less';
 import * as _ from "lodash";
+import {_adminLeftLocation} from "../../common/common-method";
 
 class Categor2Inner extends RenderPairComponent<{
     cate: Category,
@@ -127,11 +128,14 @@ class CategoryInner extends CurdComponent<Category, CurdProps<Category>, InnerSt
     }
 
     renderContent(renderTable: (clssName: string) => any, renderModal: () => any, onCreate: EH, onUpdate: TEH<Category>, onDelete: TEH<Category>): any {
-        return <div className={'category-con box'}>
-            <button type={'button'} className={'btn bg-orange btn-add'} onClick={onCreate}>新增</button>
-            {renderTable("category-table")}
-            {renderModal()}
-            {this.renderCate2Modal()}
+        return <div className={'category-con'}>
+            <div>{'当前位置：' + _adminLeftLocation}</div>
+            <div className={'box'}>
+                <button type={'button'} className={'btn bg-orange btn-add'} onClick={onCreate}>新增</button>
+                {renderTable("category-table")}
+                {renderModal()}
+                {this.renderCate2Modal()}
+            </div>
         </div>
     }
 

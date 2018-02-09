@@ -9,6 +9,7 @@ import {Target, FileInfo} from "../../def/entity";
 import {ajaxGet, Kit} from "../../common/kit";
 import {update} from "../../common/updater";
 import './style.less';
+import {_adminLeftLocation} from "../../common/common-method";
 
 class TargetListInner extends CurdComponent<Target> {
     constructor(props) {
@@ -54,7 +55,7 @@ class TargetListInner extends CurdComponent<Target> {
         if (_.get(this.state.item, "file.fileName")) {
             file = <div>{_.get(this.state.item, "file.fileName")}</div>
         }
-        return <div  className={'modal-content target-modal-add'}>
+        return <div className={'modal-content target-modal-add'}>
             {modalHeader('新增靶场题目')}
             <div className={'modal-body'}>
                 {this.renderPairTextArea("item.name", "名称")}
@@ -103,10 +104,13 @@ class TargetListInner extends CurdComponent<Target> {
                   onCreate: EH,
                   onUpdate: TEH<Target>,
                   onDelete: TEH<Target>): any {
-        return <div className={'target-con box'}>
-            <button onClick={onCreate} className={'btn bg-orange btn-add'}>新增</button>
-            {renderTable()}
-            {renderRoute()}
+        return <div className={'target-con'}>
+            <div>{'当前位置：' + _adminLeftLocation}</div>
+            <div className={'box'}>
+                <button onClick={onCreate} className={'btn bg-orange btn-add'}>新增</button>
+                {renderTable()}
+                {renderRoute()}
+            </div>
         </div>
     }
 

@@ -9,6 +9,7 @@ import {Courseware, FileInfo} from "../../def/entity";
 import {ajaxGet, Kit} from "../../common/kit";
 import {update} from "../../common/updater";
 import './style.less';
+import {_adminLeftLocation} from "../../common/common-method";
 
 class CoursewareListInner extends CurdComponent<Courseware> {
     constructor(props) {
@@ -91,10 +92,13 @@ class CoursewareListInner extends CurdComponent<Courseware> {
                   onCreate: EH,
                   onUpdate: TEH<Courseware>,
                   onDelete: TEH<Courseware>): any {
-        return <div className={'courseware-con box'}>
-            <button onClick={onCreate} className={'btn bg-orange btn-add'}>新增</button>
-            {renderTable()}
-            {renderRoute()}
+        return <div className={'courseware-con'}>
+            <div>{'当前位置：' + _adminLeftLocation}</div>
+            <div className={'box'}>
+                <button onClick={onCreate} className={'btn bg-orange btn-add'}>新增</button>
+                {renderTable()}
+                {renderRoute()}
+            </div>
         </div>
     }
 

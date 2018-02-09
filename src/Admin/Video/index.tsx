@@ -9,6 +9,7 @@ import {FileInfo, Video} from "../../def/entity";
 import {ajaxGet, Kit} from "../../common/kit";
 import {update} from "../../common/updater";
 import './style.less';
+import {_adminLeftLocation} from "../../common/common-method";
 
 class VideoListInner extends CurdComponent<Video> {
     constructor(props) {
@@ -82,10 +83,13 @@ class VideoListInner extends CurdComponent<Video> {
                   onCreate: EH,
                   onUpdate: TEH<Video>,
                   onDelete: TEH<Video>): any {
-        return <div className={'video-con box'}>
-            <button onClick={onCreate} className={'btn bg-orange btn-add'}>新增</button>
-            {renderTable()}
-            {renderRoute()}
+        return <div className={'video-con'}>
+            <div>{'当前位置：' + _adminLeftLocation}</div>
+            <div className={'box'}>
+                <button onClick={onCreate} className={'btn bg-orange btn-add'}>新增</button>
+                {renderTable()}
+                {renderRoute()}
+            </div>
         </div>
     }
 

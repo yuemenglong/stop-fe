@@ -10,6 +10,7 @@ import {QuestionInfo} from "./QuestionInfo/index";
 import {ajaxGet} from "../../common/kit";
 import {update} from "../../common/updater";
 import './style.less';
+import {_adminLeftLocation} from "../../common/common-method";
 
 class QuestionListInner extends CurdComponent<Question> {
     constructor(props) {
@@ -64,10 +65,13 @@ class QuestionListInner extends CurdComponent<Question> {
                   onCreate: EH,
                   onUpdate: TEH<Question>,
                   onDelete: TEH<Question>): any {
-        return <div className={'question-con box'}>
-            <button onClick={onCreate} className={'btn bg-orange btn-add'}>新增</button>
-            {renderTable()}
-            {renderModal()}
+        return <div className={'question-con'}>
+            <div>{'当前位置：' + _adminLeftLocation}</div>
+            <div className={'box'}>
+                <button onClick={onCreate} className={'btn bg-orange btn-add'}>新增</button>
+                {renderTable()}
+                {renderModal()}
+            </div>
         </div>
     }
 
