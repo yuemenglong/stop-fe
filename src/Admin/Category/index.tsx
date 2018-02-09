@@ -142,11 +142,14 @@ class CategoryInner extends CurdComponent<Category, CurdProps<Category>, InnerSt
         </Modal>
     }
 
-    renderModalContent(onChange: TEH<Category>, onSubmit: EH, onCancel: EH): any {
-        return <div>
-            {this.renderPairInputText("item.name", "名称")}
-            <button onClick={onSubmit}>保存</button>
-            <button onClick={onCancel}>取消</button>
+    renderModalContent(onChange: TEH<Category>, onSubmit: EH, onCancel: EH, modalHeader: (item: string) => void): any {
+        return <div className={'modal-content'}>
+            {modalHeader('新增课程一级体系')}
+            <div className={'modal-body'}>{this.renderPairInputText("item.name", "名称")}</div>
+            <div className={'modal-footer'}>
+                <button onClick={onCancel} className={'btn btn-default pull-left'}>取消</button>
+                <button onClick={onSubmit} className={'btn btn-primary'}>保存</button>
+            </div>
         </div>
     }
 

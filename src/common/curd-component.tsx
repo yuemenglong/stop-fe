@@ -59,7 +59,7 @@ export abstract class CurdComponent<T, //
 
     abstract itemConstructor(): T
 
-    abstract renderModalContent(onChange: TEH<T>, onSubmit: EH, onCancel: EH): any
+    abstract renderModalContent(onChange: TEH<T>, onSubmit: EH, onCancel: EH, modalHeader: (item: string) => void): any
 
     render(): any {
         let onCreate = () => {
@@ -124,9 +124,15 @@ export abstract class CurdComponent<T, //
                 this.setState({item: null});
                 // (this.props.history as any).push(this.getBaseUrl());
             };
-            let content = this.renderModalContent(onChange, onSubmit, onCancel);
+            let modalHeader = (text: string) => {
+                return <div className={'modal-header'}>
+                    <button type={'button'} className={'close'} onClick={onCancel}>×</button>
+                    <h4 className={'modal-title'} style={{textAlign: 'left'}}>{text}</h4>
+                </div>;
+            };
+            let content = this.renderModalContent(onChange, onSubmit, onCancel, modalHeader);
             if (content) {
-                return <Modal>{content}</Modal>
+                return <Modal className={'modal-dialog'}>{content}</Modal>
             } else {
                 return <div/>
             }

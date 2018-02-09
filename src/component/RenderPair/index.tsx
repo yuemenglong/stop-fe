@@ -1,5 +1,6 @@
 import * as React from "react"
 import {RenderComponent} from "../../common/render-component";
+import './style.less';
 
 export abstract class RenderPairComponent<P={}, S={}> extends RenderComponent<P, S> {
     renderPairText(name: string, ph: string, className?: string) {
@@ -11,7 +12,7 @@ export abstract class RenderPairComponent<P={}, S={}> extends RenderComponent<P,
 
     // noinspection JSUnusedGlobalSymbols
     renderPairInputText(name: string, ph: string, className?: string) {
-        return <div>
+        return <div className={'render-pair-input-text'}>
             <span>{ph}</span>
             <span>{this.renderInputText(name, ph, className)}</span>
         </div>
