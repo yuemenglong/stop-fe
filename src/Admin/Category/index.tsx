@@ -10,6 +10,7 @@ import {update, updates} from "../../common/updater";
 import {Modal} from "../../common/modal";
 import {RenderPairComponent} from "../../component/RenderPair/index";
 import './style.less';
+import * as _ from "lodash";
 
 class Categor2Inner extends RenderPairComponent<{
     cate: Category,
@@ -58,11 +59,22 @@ class Categor2Inner extends RenderPairComponent<{
                 this.setState({name: ""})
             })
         };
-        return <div>
-            <Table className="table" list={this.props.cate.children} headers={headerRender} getKey={(c) => c.id}/>;
-            {this.renderPairInputText("name", "二级体系名称")}
-            <button onClick={onSaveSub}>新增二级体系</button>
-            <button onClick={this.props.onCancel}>关闭</button>
+        let children=this.props.cate.children;
+        let table=!_.get(children,'length')?false:
+            <Table className="table  table-bordered table-striped dataTable" list={this.props.cate.children} headers={headerRender} getKey={(c) => c.id}/>;
+        return <div className={'modal-content two-cate-modal'}>
+            <div className={'modal-header'}>
+                <button type={'button'} className={'close'} onClick={this.props.onCancel}>×</button>
+                <h4 className={'modal-title'} style={{textAlign: 'left'}}>编辑课程二级体系</h4>
+            </div>
+            <div className={'modal-body'}>
+                {table}
+                {this.renderPairInputText("name", "二级体系名称")}
+                <button onClick={onSaveSub} className={'btn bg-orange btn-add-two-cate'}>新增二级体系</button>
+            </div>
+            <div className={'modal-footer'}>
+                <button onClick={this.props.onCancel} className={'btn btn-default'}>关闭</button>
+            </div>
         </div>
     }
 }
@@ -137,7 +149,7 @@ class CategoryInner extends CurdComponent<Category, CurdProps<Category>, InnerSt
         let onCancel = () => {
             this.setState({cate2: null})
         };
-        return <Modal>
+        return <Modal className={'modal-dialog'}>
             <Categor2Inner cate={this.state.cate2} onChange={onChange} onCancel={onCancel}/>
         </Modal>
     }
@@ -147,7 +159,7 @@ class CategoryInner extends CurdComponent<Category, CurdProps<Category>, InnerSt
             {modalHeader('新增课程一级体系')}
             <div className={'modal-body'}>{this.renderPairInputText("item.name", "名称")}</div>
             <div className={'modal-footer'}>
-                <button onClick={onCancel} className={'btn btn-default pull-left'}>取消</button>
+                <button onClick={onCancel} className={'btn btn-default'}>取消</button>
                 <button onClick={onSubmit} className={'btn btn-primary'}>保存</button>
             </div>
         </div>
