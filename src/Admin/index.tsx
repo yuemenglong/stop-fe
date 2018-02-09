@@ -49,7 +49,7 @@ export class AdminApp extends Component {
             },
             {
                 name: '靶场体系', iconClass: 'fa fa-bullseye',
-                values: [{name: '体系', url: '/admin/target-category'}, {name: '靶场', url: '/admin/target'}]
+                values: [{name: '体系', url: '/admin/target-category'}, {name: '靶场题目', url: '/admin/target'}]
             }
         ];
         return <div className={'admin-side'}>
