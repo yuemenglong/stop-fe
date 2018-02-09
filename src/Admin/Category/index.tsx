@@ -56,12 +56,14 @@ class Categor2Inner extends RenderPairComponent<{
             ajaxPost(`${location.pathname}`, c, (res) => {
                 let cate = update(this.props.cate, "children[]", res);
                 this.props.onChange(cate);
-                this.setState({name: ""})
+                this.setState({name: ""});
+                $('.category-table-two tbody').scrollTop($('.category-table-two tbody')[0].scrollHeight)
             })
         };
-        let children=this.props.cate.children;
-        let table=!_.get(children,'length')?false:
-            <Table className="table  table-bordered table-striped dataTable" list={this.props.cate.children} headers={headerRender} getKey={(c) => c.id}/>;
+        let children = this.props.cate.children;
+        let table = !_.get(children, 'length') ? false :
+            <Table className="table  table-bordered table-striped dataTable category-table-two"
+                   list={this.props.cate.children} headers={headerRender} getKey={(c) => c.id}/>;
         return <div className={'modal-content two-cate-modal'}>
             <div className={'modal-header'}>
                 <button type={'button'} className={'close'} onClick={this.props.onCancel}>×</button>
@@ -105,9 +107,11 @@ class CategoryInner extends CurdComponent<Category, CurdProps<Category>, InnerSt
             {name: "一级体系", render: "name"},
             {
                 name: "二级体系", render: (item: Category) => {
-                return item.children.map(c => {
-                    return <a key={c.id}>{c.name}</a>
-                })
+                return <div className={'cate-two-con'}>{
+                    item.children.map(c => {
+                        return <a key={c.id}>{c.name}</a>
+                    })
+                }</div>
             }
             },
             {
@@ -122,10 +126,10 @@ class CategoryInner extends CurdComponent<Category, CurdProps<Category>, InnerSt
         ]
     }
 
-    renderContent(renderTable: () => any, renderModal: () => any, onCreate: EH, onUpdate: TEH<Category>, onDelete: TEH<Category>): any {
+    renderContent(renderTable: (clssName: string) => any, renderModal: () => any, onCreate: EH, onUpdate: TEH<Category>, onDelete: TEH<Category>): any {
         return <div className={'category-con box'}>
             <button type={'button'} className={'btn bg-orange btn-add'} onClick={onCreate}>新增</button>
-            {renderTable()}
+            {renderTable("category-table")}
             {renderModal()}
             {this.renderCate2Modal()}
         </div>

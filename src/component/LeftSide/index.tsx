@@ -18,8 +18,9 @@ export class LeftSideClass extends Component<Props, null> {
                     let url = _.get(item, 'url', '#');
                     let iconClass = _.get(item, 'iconClass', '');
                     if (!_.get(item, 'values.length')) {
+                        let liaClass = pathname == url ? 'active' : '';
                         return <li key={idx}>
-                            <a href={url}><i className={iconClass}/><span>{item.name}</span></a>
+                            <a href={url} className={liaClass}><i className={iconClass}/><span>{item.name}</span></a>
                         </li>
                     } else {
                         let hasUrl = _.some(item.values, ['url', pathname]);
@@ -31,7 +32,7 @@ export class LeftSideClass extends Component<Props, null> {
                             </a>
                             <ul className="treeview-menu">{
                                 item.values.map((v: { name: string, url: string }, i: number) => {
-                                    let aClass = pathname == url ? 'active' : '';
+                                    let aClass = pathname == v.url ? 'active' : '';
                                     return <li key={i}>
                                         <a href={v.url} className={aClass}><i className="fa fa-circle-o"/>{v.name}</a>
                                     </li>
