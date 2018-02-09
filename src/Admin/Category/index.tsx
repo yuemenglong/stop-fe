@@ -9,6 +9,7 @@ import {Table} from "../../common/Table";
 import {update, updates} from "../../common/updater";
 import {Modal} from "../../common/modal";
 import {RenderPairComponent} from "../../component/RenderPair/index";
+import './style.less';
 
 class Categor2Inner extends RenderPairComponent<{
     cate: Category,
@@ -99,7 +100,7 @@ class CategoryInner extends CurdComponent<Category, CurdProps<Category>, InnerSt
             },
             {
                 name: "操作", render: (item: Category) => {
-                return <div>
+                return <div className={'category-table-btn'}>
                     <a href={JVOID0} onClick={onUpdate.bind(null, item)}>编辑</a>
                     <a href={JVOID0} onClick={onCate2.bind(null, item)}>编辑二级体系</a>
                     <a href={JVOID0} onClick={onDelete.bind(null, item)}>删除</a>
@@ -110,11 +111,11 @@ class CategoryInner extends CurdComponent<Category, CurdProps<Category>, InnerSt
     }
 
     renderContent(renderTable: () => any, renderModal: () => any, onCreate: EH, onUpdate: TEH<Category>, onDelete: TEH<Category>): any {
-        return <div>
+        return <div className={'category-con box'}>
+            <button type={'button'} className={'btn bg-orange btn-add'} onClick={onCreate}>新增</button>
             {renderTable()}
             {renderModal()}
             {this.renderCate2Modal()}
-            <button onClick={onCreate}>新增</button>
         </div>
     }
 

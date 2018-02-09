@@ -80,7 +80,7 @@ export abstract class CurdComponent<T, //
         };
         let headers = this.getHeaderRender(onCreate, onUpdate, onDelete);
         let renderTable = () => {
-            return <Table className="table" list={this.props.list}
+            return <Table className="table  table-bordered table-striped dataTable" list={this.props.list}
                           headers={headers} getKey={this.$getId.bind(this)}/>
         };
         let renderModal = () => {
