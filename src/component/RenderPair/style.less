@@ -1,22 +1,36 @@
-.render-pair-input-text,.render-pair-select {
+.render-pair-input-text, .render-pair-select {
   margin-bottom: 10px;
   span:nth-child(1) {
     margin-right: 10px;
   }
-  input,select {
+  input, select {
     padding-left: 5px;
     height: 25px;
     line-height: 25px;
     width: 150px;
+    color: #999999;
+  }
+  input::-webkit-input-placeholder { /* WebKit browsers */
+    color: #999;
+  }
+  input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color: #999;
+  }
+  input::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color: #999;
+  }
+  input:-ms-input-placeholder { /* Internet Explorer 10+ */
+    color: #999;
   }
 }
-.render-pair-text-area{
+
+.render-pair-text-area {
   margin-bottom: 10px;
-  span:nth-child(1){
+  span:nth-child(1) {
     vertical-align: top;
     margin-right: 10px;
   }
-  textarea{
+  textarea {
     width: 150px;
   }
 }
