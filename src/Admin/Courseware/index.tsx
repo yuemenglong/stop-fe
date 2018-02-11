@@ -43,16 +43,20 @@ class CoursewareListInner extends CurdComponent<Courseware> {
             extensions: "ppt,pptx",
             mimeTypes: "application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation"
         };
-        let file = <WebUploader onChange={onUpload} accept={accept}/>;
         let fileName = _.get(this.state, "item.file.fileName");
+        let inb = {display: "inline-block"};
+        let file = <div style={inb}>
+            <WebUploader onChange={onUpload} accept={accept}/>
+            <span className={'tip'}>请上传ppt,pptx格式</span>
+        </div>;
         if (fileName) {
-            file = <div>{fileName}</div>
+            file = <div style={inb}>{fileName}</div>;
         }
         return <div className={'modal-content courseware-modal-add'}>
             {modalHeader('新增课件')}
             <div className={'modal-body'}>
                 {this.renderPairInputText("item.name", "名称")}
-                {file}
+                <div className={'admin-upload'}><span className={'upload-title'}>文件</span>{file}</div>
                 {this.renderPairSelect("item.cate0Id", "一级类别", Kit.optionValueList(this.props.data.cate0, "name", "id"))}
                 {this.renderPairSelect("item.cate1Id", "二级类别", Kit.optionValueList(this.props.data.cate1.filter(c => c.parentId == this.state.item.cate0Id), "name", "id"))}
             </div>
@@ -75,11 +79,11 @@ class CoursewareListInner extends CurdComponent<Courseware> {
         return [{
             name: "名称", render: "name",
         }, {
-            name: "类型", render: "ext",
+            name: "类型", render: "file.ext",
         }, {
-            name: "大小", render: "size",
+            name: "大小", render: "file.size",
         }, {
-            name: "操作", render: (item: Courseware) => <div>
+            name: "操作", render: (item: Courseware) => <div className={'courseware-table-btn'}>
                 <a href={`/upload/${item.file.fileId}`} target="_blank">下载</a>
                 <a href={JVOID0} onClick={onUpdate.bind(null, item)}>修改</a>
                 <a href={JVOID0} onClick={onDelete.bind(null, item)}>删除</a>

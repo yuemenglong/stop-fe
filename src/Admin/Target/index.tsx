@@ -51,9 +51,14 @@ class TargetListInner extends CurdComponent<Target> {
             extensions: "ppt,pptx",
             mimeTypes: "application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation"
         };
-        let file = <WebUploader onChange={onUpload} accept={accept}/>;
-        if (_.get(this.state.item, "file.fileName")) {
-            file = <div>{_.get(this.state.item, "file.fileName")}</div>
+        let fileName = _.get(this.state.item, "file.fileName");
+        let inb = {display: "inline-block"};
+        let file = <div style={inb}>
+            <WebUploader onChange={onUpload} accept={accept}/>
+            <span className={'tip'}>请上传ppt,pptx格式</span>
+        </div>;
+        if (fileName) {
+            file = <div style={inb}>{fileName}</div>
         }
         return <div className={'modal-content target-modal-add'}>
             {modalHeader('新增靶场题目')}
@@ -63,10 +68,7 @@ class TargetListInner extends CurdComponent<Target> {
                 {this.renderPairInputText("item.baseDir", "路径")}
                 {this.renderPairInputText("item.answer", "答案")}
                 {this.renderPairInputText("item.score", "分数")}
-                <div>
-                    <span>课件</span>
-                    {file}
-                </div>
+                <div className={'target-upload'}><span className={'upload-title'}>课件</span>{file}</div>
                 {this.renderPairSelect("item.cate0Id", "一级类别", Kit.optionValueList(this.props.data.cate0, "name", "id"))}
                 {this.renderPairSelect("item.cate1Id", "二级类别", Kit.optionValueList(this.props.data.cate1.filter(c => c.parentId == this.state.item.cate0Id), "name", "id"))}
             </div>

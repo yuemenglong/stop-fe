@@ -34,16 +34,17 @@ class VideoListInner extends CurdComponent<Video> {
             // video.size = file.size;
             onChange(item);
         };
-        let file = <WebUploader onChange={onUpload}/>;
         let fileName = _.get(this.state, "item.file.fileName");
+        let inb = {display: "inline-block"};
+        let file = <div style={inb}><WebUploader onChange={onUpload}/></div>;
         if (fileName) {
-            file = <div>{fileName}</div>
+            file = <div style={inb}>{fileName}</div>;
         }
         return <div className={'modal-content video-modal-add'}>
             {modalHeader('新增视频')}
             <div className={'modal-body'}>
                 {this.renderPairInputText("item.name", "名称")}
-                {file}
+                <div className={'video-upload'}><span className={'upload-title'}>文件</span>{file}</div>
                 {this.renderPairSelect("item.cate0Id", "一级类别", Kit.optionValueList(this.props.data.cate0, "name", "id"))}
                 {this.renderPairSelect("item.cate1Id", "二级类别", Kit.optionValueList(this.props.data.cate1.filter(c => c.parentId == this.state.item.cate0Id), "name", "id"))}
             </div>
