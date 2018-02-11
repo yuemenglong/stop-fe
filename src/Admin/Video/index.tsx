@@ -67,11 +67,11 @@ class VideoListInner extends CurdComponent<Video> {
         return [{
             name: "名称", render: "name",
         }, {
-            name: "类型", render: "ext",
+            name: "类型", render: "file.ext",
         }, {
-            name: "大小", render: "size",
+            name: "大小", render: "file.size",
         }, {
-            name: "操作", render: (item: Video) => <div>
+            name: "操作", render: (item: Video) => <div className={'video-table-btns'}>
                 <a href={`/upload/${item.file.fileId}`} target="_blank">下载</a>
                 <a href={JVOID0} onClick={onUpdate.bind(null, item)}>修改</a>
                 <a href={JVOID0} onClick={onDelete.bind(null, item)}>删除</a>
