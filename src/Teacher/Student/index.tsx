@@ -6,6 +6,8 @@ import {EH, TEH} from "../../common/render-component";
 import {JVOID0} from "../../def/data";
 import {update} from "../../common/updater";
 import {WebUploader} from "../../component/WebUploader/index";
+import './style.less';
+import {_teacherLeftLocation} from "../../common/common-method";
 
 class State extends ListPageState<Student> {
 
@@ -27,7 +29,7 @@ class StudentListInner extends CurdComponent<Student> {
 
     getHeaderRender(onCreate: EH, onUpdate: TEH<Student>, onDelete: TEH<Student>): Array<{ name: string; render: any }> {
         let op = (s: Student) => {
-            return <div>
+            return <div className={'student-table-btns'}>
                 <a href={JVOID0} onClick={onUpdate.bind(null, s)}>查看</a>
                 <a href={JVOID0} onClick={onDelete.bind(null, s)}>删除</a>
                 {/*<Link to={`/student/${s.id}`}>查看</Link>*/}
@@ -44,11 +46,13 @@ class StudentListInner extends CurdComponent<Student> {
     }
 
     renderContent(renderTable: () => any, renderRoute: () => any, onCreate: EH, onUpdate: TEH<Student>, onDelete: TEH<Student>): any {
-        return <div>
-            <h1>学生列表</h1>
-            {renderTable()}
-            {renderRoute()}
-            <button onClick={onCreate}>新增</button>
+        return <div className={'teacher-student-con'}>
+            <div>{"当前位置：" + _teacherLeftLocation}</div>
+            <div className={'box'}>
+                <button onClick={onCreate} className={'btn bg-orange btn-add'}>新增</button>
+                {renderTable()}
+                {renderRoute()}
+            </div>
         </div>;
     }
 
@@ -56,28 +60,34 @@ class StudentListInner extends CurdComponent<Student> {
         return new Student();
     }
 
-    renderModalContent(onChange: TEH<Student>, onSubmit: EH, onCancel: EH): any {
+    renderModalContent(onChange: TEH<Student>, onSubmit: EH, onCancel: EH, modalHeader: (item: string) => void): any {
         let onUpload = (file) => {
             let item = update(this.state.item, "avatar", file.fileId);
             onChange(item);
             // let student = _.defaults({avatar: file.fileId}, this.state.student);
             // this.setState({student});
         };
-        let file = <WebUploader onChange={onUpload}/>;
+        let inb = {display: "inline-block"};
+        let file = <div style={inb}><WebUploader onChange={onUpload}/></div>;
         if (this.state.item.avatar) {
-            file = <div>
+            file = <div style={inb}>
                 <img src={`/upload/${this.state.item.avatar}`} style={{width: 200, height: 200}}/>
             </div>
         }
-        return <div>
-            {this.renderPairInputText("item.user.username", "登录名")}
-            {this.renderPairInputPassword("item.user.password", "密码")}
-            {this.renderPairInputText("item.name", "姓名")}
-            {this.renderPairInputText("item.mobile", "手机")}
-            {this.renderPairInputText("item.email", "邮箱")}
-            {file}
-            <button className="btn" onClick={onSubmit}>确定</button>
-            <button className="btn" onClick={onCancel}>取消</button>
+        return <div className={'modal-content teacher-student-modal-con'}>
+            {modalHeader('新增学生')}
+            <div className={'modal-body'}>
+                <div className={'head-img'}><span>头像</span>{file}</div>
+                {this.renderPairInputText("item.user.username", "登录名")}
+                {this.renderPairInputPassword("item.user.password", "密码")}
+                {this.renderPairInputText("item.name", "姓名")}
+                {this.renderPairInputText("item.mobile", "手机")}
+                {this.renderPairInputText("item.email", "邮箱")}
+            </div>
+            <div className={'modal-footer'}>
+                <button className="btn btn-default" onClick={onCancel}>取消</button>
+                <button className="btn btn-primary" onClick={onSubmit}>确定</button>
+            </div>
         </div>
     }
 

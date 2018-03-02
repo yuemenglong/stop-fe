@@ -20,7 +20,7 @@ export abstract class RenderPairComponent<P={}, S={}> extends RenderComponent<P,
 
     // noinspection JSUnusedGlobalSymbols
     renderPairInputPassword(name: string, ph: string, className?: string) {
-        return <div>
+        return <div className={'render-pair-input-password'}>
             <span>{ph}</span>
             <span>{this.renderInputPassword(name, ph, className)}</span>
         </div>
