@@ -44,7 +44,7 @@ export abstract class RenderPairComponent<P={}, S={}> extends RenderComponent<P,
 
     // noinspection JSUnusedGlobalSymbols
     renderPairCheckGroup(name: string, ph: string, args: any, className?: string) {
-        return <div>
+        return <div className={'render-pair-check-group'}>
             <span>{ph}</span>
             <span>{this.renderCheckGroup(name, args, className)}</span>
         </div>

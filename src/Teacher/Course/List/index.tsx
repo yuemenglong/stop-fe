@@ -6,6 +6,8 @@ import {CurdComponent} from "../../../common/curd-component";
 import {EH, TEH} from "../../../common/render-component";
 import {Link} from "react-router-dom";
 import {ajaxDelete} from "../../../common/kit";
+import {_teacherLeftLocation} from "../../../common/common-method";
+import './style.less';
 
 class CourseListInner extends CurdComponent<Course> {
     idField(): string {
@@ -28,7 +30,7 @@ class CourseListInner extends CurdComponent<Course> {
             },
             {
                 name: "操作", render: (item) => {
-                return <div>
+                return <div className={'course-table-btns'}>
                     <Link to={`/teacher/course/${item.id}`}>查看</Link>
                     <a href={JVOID0} onClick={onDelete.bind(null, item)}>删除</a>
                 </div>
@@ -37,11 +39,13 @@ class CourseListInner extends CurdComponent<Course> {
         ]
     }
 
-    renderContent(renderTable: () => any, renderRoute: () => any, onCreate: EH, onUpdate: TEH<Course>, onDelete: TEH<Course>): any {
-        return <div>
-            <h1>课程列表</h1>
-            <Link to={`/teacher/course/init`}>新增课程</Link>
-            {renderTable()}
+    renderContent(renderTable: (className: string) => any, renderRoute: () => any, onCreate: EH, onUpdate: TEH<Course>, onDelete: TEH<Course>): any {
+        return <div className={'teacher-course-list-con'}>
+            <div>{"当前位置：" + _teacherLeftLocation}</div>
+            <div className={'box'}>
+                <Link to={`/teacher/course/init`} className={'btn bg-orange btn-add'}>新增课程</Link>
+                {renderTable("course-list-table")}
+            </div>
         </div>
     }
 
@@ -105,7 +109,7 @@ export class CourseList extends ListPageComponent<Course> {
             this.setState({list: list})
         };
         let history = (this.props as any).history;
-        return <div>
+        return <div className={'teacher-course-list-content'}>
             <CourseListInner history={history} onChange={onChange} list={this.state.list}/>
             {renderPagination()}
         </div>

@@ -6,6 +6,7 @@ import {ajaxGet} from "../../../common/kit";
 import {EH, TEH} from "../../../common/render-component";
 import {CourseItemSelector} from "../Selector/index";
 import {JVOID0} from "../../../def/data";
+import './style.less';
 
 
 class ListInner extends CurdComponent<any> {
@@ -53,10 +54,10 @@ class ListInner extends CurdComponent<any> {
     }
 
     renderContent(renderTable: () => any, renderModal: () => any, onCreate: EH, onUpdate: TEH<any>, onDelete: TEH<any>): any {
-        return <div>
+        return <div className={'teacher-course-item-list'}>
+            <button onClick={onCreate} className={'btn bg-orange btn-add'}>新增</button>
             {renderTable()}
             {renderModal()}
-            <button onClick={onCreate}>增加</button>
         </div>;
     }
 
