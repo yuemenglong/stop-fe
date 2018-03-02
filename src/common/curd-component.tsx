@@ -17,6 +17,7 @@ export interface CurdProps<T> {
     history: any,
     match?: any,
     data?: any,
+    title?: string
 }
 
 export class CurdState<T> {
@@ -79,8 +80,9 @@ export abstract class CurdComponent<T, //
             });
         };
         let headers = this.getHeaderRender(onCreate, onUpdate, onDelete);
-        let renderTable = (className?:string) => {
-            return <Table className={"table  table-bordered table-striped dataTable "+className} list={this.props.list}
+        let renderTable = (className?: string) => {
+            return <Table className={"table  table-bordered table-striped dataTable " + className}
+                          list={this.props.list}
                           headers={headers} getKey={this.$getId.bind(this)}/>
         };
         let renderModal = () => {

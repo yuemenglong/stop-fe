@@ -164,7 +164,7 @@ class CategoryInner extends CurdComponent<Category, CurdProps<Category>, InnerSt
 
     renderModalContent(onChange: TEH<Category>, onSubmit: EH, onCancel: EH, modalHeader: (item: string) => void): any {
         return <div className={'modal-content'}>
-            {modalHeader('新增课程一级体系')}
+            {modalHeader('新增' + this.props.title + '一级体系')}
             <div className={'modal-body'}>{this.renderPairInputText("item.name", "名称")}</div>
             <div className={'modal-footer'}>
                 <button onClick={onCancel} className={'btn btn-default'}>取消</button>
@@ -187,6 +187,7 @@ class Props {
     ty: string;
     match?: any;
     history?: any;
+    title?: string;
 }
 
 export class CategoryList extends Component<Props, State> {
@@ -205,11 +206,8 @@ export class CategoryList extends Component<Props, State> {
         let onChange = (list) => {
             this.setState({list})
         };
-        return <CategoryInner
-            list={this.state.list}
-            history={this.props.history} onChange={onChange}
-            data={{ty: this.props.ty}}
-        />
+        return <CategoryInner list={this.state.list} history={this.props.history} onChange={onChange}
+                              data={{ty: this.props.ty}} title={this.props.title}/>
     }
 }
 

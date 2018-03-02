@@ -40,11 +40,16 @@ export class AdminApp extends Component {
     }
 
     render() {
-        let courseCagetory = (props) => <CategoryList history={props.history} match={props.match} ty="course"/>;
-        let coursewareCagetory = (props) => <CategoryList history={props.history} match={props.match} ty="courseware"/>;
-        let videoCagetory = (props) => <CategoryList history={props.history} match={props.match} ty="video"/>;
-        let questionCagetory = (props) => <CategoryList history={props.history} match={props.match} ty="question"/>;
-        let targetCagetory = (props) => <CategoryList history={props.history} match={props.match} ty="target"/>;
+        let courseCagetory = (props) => <CategoryList history={props.history} match={props.match} ty="course"
+                                                      title='课程'/>;
+        let coursewareCagetory = (props) => <CategoryList history={props.history} match={props.match} ty="courseware"
+                                                          title='课件'/>;
+        let videoCagetory = (props) => <CategoryList history={props.history} match={props.match} ty="video"
+                                                     title='视频'/>;
+        let questionCagetory = (props) => <CategoryList history={props.history} match={props.match} ty="question"
+                                                        title='问题'/>;
+        let targetCagetory = (props) => <CategoryList history={props.history} match={props.match} ty="target"
+                                                      title='靶场'/>;
         return <div className="container">
             <HeadMenu/>
             {this.renderNavs()}
