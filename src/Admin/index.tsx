@@ -11,9 +11,9 @@ import {QuestionList} from "./Question/index";
 import {VideoList} from "./Video/index";
 import {HeadMenu} from "../component/HeadMenu/index";
 import {TargetList} from "./Target/index";
-import './style.less';
 import {LeftSideClass} from "../component/LeftSide/index";
 import {_adminLeftCon} from "../common/common-method";
+import '../common/style.less';
 
 export class AdminApp extends Component {
     renderNavs() {
@@ -34,7 +34,7 @@ export class AdminApp extends Component {
         //     <Link to={`/admin/target`}>靶场</Link>
         //     <a href={JVOID0} onClick={logout}>注销</a>
         // </div>
-        return <div className={'admin-side'}>
+        return <div className={'common-left-side'}>
             <LeftSideClass cons={_adminLeftCon}/>
         </div>
     }
@@ -50,10 +50,10 @@ export class AdminApp extends Component {
                                                         title='问题'/>;
         let targetCagetory = (props) => <CategoryList history={props.history} match={props.match} ty="target"
                                                       title='靶场'/>;
-        return <div className="container">
+        return <div className="container common-container">
             <HeadMenu/>
             {this.renderNavs()}
-            <switch className={'admin-con'}>
+            <switch className={'common-right-con'}>
                 <Route path="/admin/course-category" exact={true} render={courseCagetory}/>
                 <Route path="/admin/courseware-category" exact={true} render={coursewareCagetory}/>
                 <Route path="/admin/video-category" exact={true} render={videoCagetory}/>

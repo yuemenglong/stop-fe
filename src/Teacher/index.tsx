@@ -10,18 +10,26 @@ import {JVOID0} from "../def/data";
 import {ajaxGet} from "../common/kit";
 import {LoginPage} from "../Page/Login/index";
 import {QuizRouter} from "./Quiz/index";
+import {HeadMenu} from "../component/HeadMenu/index";
+import {LeftSideClass} from "../component/LeftSide/index";
+import {_teacherLeftCon} from "../common/common-method";
+import "../common/style.less";
 
 export class TeacherApp extends Component {
     render() {
-        return <div className="container">
-            <div>
-                <Link to="/teacher/course">课程列表</Link>
-                <Link to="/teacher/student">学生列表</Link>
-                <Link to="/teacher/clazz">班级列表</Link>
-                <Link to="/teacher/study-job">学习任务</Link>
-                <Link to="/teacher/quiz">考试任务</Link>
+        return <div className="container common-container">
+            {/*<div>*/}
+            {/*<Link to="/teacher/course">课程列表</Link>*/}
+            {/*<Link to="/teacher/student">学生列表</Link>*/}
+            {/*<Link to="/teacher/clazz">班级列表</Link>*/}
+            {/*<Link to="/teacher/study-job">学习任务</Link>*/}
+            {/*<Link to="/teacher/quiz">考试任务</Link>*/}
+            {/*</div>*/}
+            <HeadMenu/>
+            <div className={'common-left-side'}>
+                <LeftSideClass cons={_teacherLeftCon}/>
             </div>
-            <switch>
+            <switch className={'common-right-con'}>
                 <Route path="/teacher/course" component={CourseRouter}/>
                 <Route path="/teacher/student" component={StudentList}/>
                 <Route path="/teacher/clazz" component={ClazzRouter}/>

@@ -43,3 +43,15 @@ export const _adminLeftCon = [
 ];
 //admin-左侧当前位置
 export const _adminLeftLocation = _currentLocation(_adminLeftCon);
+
+//teacher 左侧内容
+export const _teacherLeftCon = [
+    {name: '课程列表', url: "/teacher/course", iconClass: 'fa fa-book'},
+    {name: '学生列表', url: "/teacher/student", iconClass: 'fa fa-book'},
+    {name: '班级列表', url: "/teacher/clazz", iconClass: 'fa fa-book'},
+    {name: '学习任务', url: "/teacher/study-job", iconClass: 'fa fa-book'},
+    {name: '考试任务', url: "/teacher/quiz", iconClass: 'fa fa-book'}
+];
+
+//teacher -左侧当前位置
+export const _teacherLeftLocation = _currentLocation(_teacherLeftCon);
