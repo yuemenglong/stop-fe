@@ -5,6 +5,8 @@ import {CurdComponent, CurdState} from "../../common/curd-component";
 import {EH, TEH} from "../../common/render-component";
 import _ = require("lodash");
 import {Link} from "react-router-dom";
+import "./style.less";
+import {_getUid, _userLeftLocation} from "../../common/common-method";
 
 class UserStudyJobListInner extends CurdComponent<StudyJob> {
 
@@ -46,8 +48,9 @@ class UserStudyJobListInner extends CurdComponent<StudyJob> {
     }
 
     renderContent(renderTable: () => any, renderModal: () => any, onCreate: EH, onUpdate: TEH<StudyJob>, onDelete: TEH<StudyJob>): any {
-        return <div>
-            {renderTable()}
+        return <div className='user-team-job-list-content'>
+            <div>{"当前位置：" + _userLeftLocation(_getUid())}</div>
+            <div className='box'>{renderTable()}</div>
         </div>
     }
 
