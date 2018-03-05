@@ -7,6 +7,8 @@ import {ajaxDelete, ajaxGet, ajaxPut} from "../../common/kit";
 import {Table} from "../../common/Table";
 import _ = require("lodash");
 import {update} from "../../common/updater";
+import {_getUid, _userLeftLocation} from "../../common/common-method";
+import "./style.less";
 
 export class UserTeam extends Component<RouteComponentProps<any>, { team: TeamApply }> {
 
@@ -41,10 +43,12 @@ export class UserTeam extends Component<RouteComponentProps<any>, { team: TeamAp
         let onJoin = () => {
             this.props.history.push(`/user/${this.getUid()}/team/join`)
         };
-        return <div>
+        return <div className='user-team-init'>
+            <img src='/deploy/imgs/user/team.png' className='team-null-img'/>
+            <div className='init-tip'>暂未参加队伍</div>
             <div>{last}</div>
-            <a href={JVOID0} onClick={onInit}>创建队伍</a>
-            <a href={JVOID0} onClick={onJoin}>加入队伍</a>
+            <a href={JVOID0} onClick={onInit} className='btn bg-orange'>创建队伍</a>
+            <a href={JVOID0} onClick={onJoin} className='btn btn-primary'>加入队伍</a>
         </div>
     }
 
@@ -54,9 +58,10 @@ export class UserTeam extends Component<RouteComponentProps<any>, { team: TeamAp
                 this.setState({team: null})
             })
         };
-        return <div>
-            <div>正在审核</div>
-            <a href={JVOID0} onClick={exit}>撤销申请</a>
+        return <div className='user-team-waiting'>
+            <img src='/deploy/imgs/user/team.png' className='team-null-img'/>
+            <div className='init-tip'>正在申请加入队伍</div>
+            <a href={JVOID0} onClick={exit} className='btn bg-orange'>撤销申请</a>
         </div>
 
     }
@@ -93,7 +98,7 @@ export class UserTeam extends Component<RouteComponentProps<any>, { team: TeamAp
             (headers as any).push({
                 name: "操作", render: (apply: TeamApply) => {
                     if (apply.status == "waiting") {
-                        return <div>
+                        return <div className={'info-btns-oprate'}>
                             <a href={JVOID0} onClick={permit.bind(null, apply)}>同意</a>
                             <a href={JVOID0} onClick={forbid.bind(null, apply)}>拒绝</a>
                         </div>
@@ -103,17 +108,16 @@ export class UserTeam extends Component<RouteComponentProps<any>, { team: TeamAp
                 }
             });
         }
-        return <div>
-            <h1>{this.state.team.team.name}</h1>
-            <Table list={list} className="table" headers={headers}/>
-            <button onClick={exit}>退出队伍</button>
+        return <div className='user-team-info'>
+            <div className='user-team-info-header'>
+                <h3>{this.state.team.team.name}</h3>
+                <button onClick={exit} className='btn bg-orange'>退出队伍</button>
+            </div>
+            <Table list={list} className="table table-bordered table-striped dataTable" headers={headers}/>
         </div>
     };
 
-    render() {
-        if (this.state.team === undefined) {
-            return <div/>
-        }
+    renderTeamCon() {
         if (this.state.team == null) {
             return this.renderInit();
         }
@@ -126,6 +130,18 @@ export class UserTeam extends Component<RouteComponentProps<any>, { team: TeamAp
             case "delete":
                 return this.renderInit();
         }
+    }
+
+    render() {
+        console.log('props', this.props)
+        console.log('state', this.state)
+        if (this.state.team === undefined) {
+            return <div/>
+        }
+        return <div className='user-team-content'>
+            <div>{"当前位置：" + _userLeftLocation(_getUid())}</div>
+            <div className='box'>{this.renderTeamCon()}</div>
+        </div>
     }
 }
 

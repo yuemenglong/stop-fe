@@ -3,7 +3,6 @@ import * as _ from "lodash";
 
 function _currentLocation(leftCon: Array<{ name: string, url?: string, iconClass?: string, values?: Array<{ name: string, url: string }> }>) {
     let pathname = window.location.pathname;
-    console.log('pathname', pathname)
     let locations = leftCon.map((item: any) => {
         if (!_.get(item, 'values.length')) {
             return _.get(item, 'url') == pathname ? _.get(item, 'name') : "";
@@ -15,7 +14,6 @@ function _currentLocation(leftCon: Array<{ name: string, url?: string, iconClass
             return !name ? '' : _.get(item, 'name') + " > " + name;
         }
     }) || [];
-    console.log('loca', locations)
     return locations.filter((item: any) => {
         return !!item;
     })[0];
