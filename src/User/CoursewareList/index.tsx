@@ -10,6 +10,8 @@ import {RenderPairComponent} from "../../component/RenderPair/index";
 import {WebUploader} from "../../component/WebUploader/index";
 import {update} from "../../common/updater";
 import {ListPageComponent, ListPageState} from "../../common/list-page-component";
+import "./style.less";
+import {_getUid, _userLeftLocation} from "../../common/common-method";
 
 export class CoursewareList extends ListPageComponent<Courseware> {
     constructor(props) {
@@ -37,9 +39,13 @@ export class CoursewareList extends ListPageComponent<Courseware> {
         let headers = [{
             name: "名称", render: "name"
         }];
-        return <div>
-            <Table className="table" list={this.state.list} headers={headers}/>
-            {renderPagination()}
+        return <div className='user-team-courseware-list-con'>
+            <div>{"当前位置：" + _userLeftLocation(_getUid())}</div>
+            <div className='box'>
+                <Table className="table table-bordered table-striped dataTable" list={this.state.list}
+                       headers={headers}/>
+                {renderPagination()}
+            </div>
         </div>;
     }
 }
