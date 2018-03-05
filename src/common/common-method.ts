@@ -65,3 +65,17 @@ export const _userLeftCon = (uid: string) => {
         {name: '学习任务', url: `/user/${uid}/study-job`},
         {name: '考试任务', url: `/user/${uid}/quiz-job`}];
 };
+
+//user-获得当前位置
+export const _userLeftLocation = (uid: string) => {
+    return _currentLocation(_userLeftCon(uid));
+};
+
+//user-获得用户id
+export function _getUid() {
+    let m = location.pathname.match(/^\/user\/(\d+).*$/);
+    if (!m) {
+        return;
+    }
+    return m[1];
+}

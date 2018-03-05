@@ -19,7 +19,7 @@ import {UserTargetList} from "./UserTarget/index";
 import {HeadMenu} from "../component/HeadMenu/index";
 import "../common/style.less";
 import {LeftSideClass} from "../component/LeftSide/index";
-import {_userLeftCon} from "../common/common-method";
+import {_getUid, _userLeftCon} from "../common/common-method";
 
 export class UserApp extends Component {
     getUid() {
@@ -53,7 +53,7 @@ export class UserApp extends Component {
     }
 
     renderNewNavs() {
-        let uid = this.getUid();
+        let uid = _getUid();
         return !uid ? null : <div className={'common-left-side'}>
             <LeftSideClass cons={_userLeftCon(uid)}/>
         </div>
