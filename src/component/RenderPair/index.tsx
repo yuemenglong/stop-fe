@@ -60,7 +60,7 @@ export abstract class RenderPairComponent<P={}, S={}> extends RenderComponent<P,
 
     // noinspection JSUnusedGlobalSymbols
     renderPairDatePicker(name: string, ph: string, className?: string) {
-        return <div>
+        return <div className={'render-pair-date-picker'}>
             <span>{ph}</span>
             <span>{this.renderDatePicker(name, ph, className)}</span>
         </div>

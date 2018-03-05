@@ -7,6 +7,7 @@ import {RouteComponentProps} from "react-router";
 import _ = require("lodash");
 import {Table} from "../../../common/Table";
 import {Def} from "../../../def/data";
+import "./style.less";
 
 export class StudyJobStudentList extends Component<RouteComponentProps<any>, { job: StudyJob }> {
     constructor(props) {
@@ -40,13 +41,14 @@ export class StudyJobStudentList extends Component<RouteComponentProps<any>, { j
             }
             }
         ];
-        return <Table className="table" list={this.state.job.jobs} headers={headers}/>
+        return <Table className="table table-bordered table-striped dataTable" list={this.state.job.jobs}
+                      headers={headers}/>
     }
 
     render() {
-        return <div>
-            <h1>Detail</h1>
-            {this.renderTable()}
+        return <div className={'teacher-study-job-student-list'}>
+            <div>当前位置：学习任务 > 完成情况</div>
+            <div className={'box'}>{this.renderTable()}</div>
         </div>
     }
 
