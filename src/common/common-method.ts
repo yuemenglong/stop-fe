@@ -55,3 +55,13 @@ export const _teacherLeftCon = [
 
 //teacher -左侧当前位置
 export const _teacherLeftLocation = _currentLocation(_teacherLeftCon);
+
+//user-左侧内容
+export const _userLeftCon = (uid: string) => {
+    return [{name: '靶场', url: `/user/${uid}/target`},
+        {name: '查看课件', url: `/user/${uid}/courseware`},
+        {name: '查看视频', url: `/user/${uid}/video`},
+        {name: '查看队伍', url: `/user/${uid}/team`},
+        {name: '学习任务', url: `/user/${uid}/study-job`},
+        {name: '考试任务', url: `/user/${uid}/quiz-job`}];
+};

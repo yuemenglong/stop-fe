@@ -16,6 +16,10 @@ import {QuizJobRouter} from "./QuizJob/index";
 import {CoursewareList} from "./CoursewareList/index";
 import {VideoList} from "./VideoList/index";
 import {UserTargetList} from "./UserTarget/index";
+import {HeadMenu} from "../component/HeadMenu/index";
+import "../common/style.less";
+import {LeftSideClass} from "../component/LeftSide/index";
+import {_userLeftCon} from "../common/common-method";
 
 export class UserApp extends Component {
     getUid() {
@@ -48,10 +52,19 @@ export class UserApp extends Component {
         }
     }
 
+    renderNewNavs() {
+        let uid = this.getUid();
+        return !uid ? null : <div className={'common-left-side'}>
+            <LeftSideClass cons={_userLeftCon(uid)}/>
+        </div>
+    }
+
     render() {
-        return <div className="container">
-            {this.renderNavs()}
-            <switch>
+        return <div className="container common-container">
+            {/*{this.renderNavs()}*/}
+            <HeadMenu/>
+            {this.renderNewNavs()}
+            <switch className={'common-right-con'}>
                 <Route path="/user/:uid" exact={true} component={UserHome}/>
                 <Route path="/user/:uid/courseware" exact={true} component={CoursewareList}/>
                 <Route path="/user/:uid/video" exact={true} component={VideoList}/>
