@@ -9,6 +9,7 @@ import {CurdComponent, CurdState} from "../../../common/curd-component";
 import {EH, TEH} from "../../../common/render-component";
 import {ajaxGet} from "../../../common/kit";
 import {Table} from "../../../common/Table";
+import './style.less';
 
 class State {
     jobs: Array<QuizJob> = [];
@@ -40,8 +41,12 @@ export class QuizJobList extends Component<RouteComponentProps<any>, State> {
         }, {
             name: "分数", render: "score",
         }];
-        return <div>
-            <Table className="table" list={this.state.jobs} headers={headers}/>
+        return <div className={'teacher-quiz-job-list-con'}>
+            <div>当前位置：考试任务 > 完成情况</div>
+            <div className={'box'}>
+                <Table className="table table-bordered table-striped dataTable" list={this.state.jobs}
+                       headers={headers}/>
+            </div>
         </div>
     }
 }
