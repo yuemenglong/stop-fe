@@ -29,7 +29,7 @@ class Selector extends SelectorComponent<Student> {
     }
 
     renderContent(renderItem: (item: Student, idx: number) => any, checkedAll: boolean, onChangeAll: () => void): any {
-        return <table className="table">
+        return <table className="table student-selector-table">
             <thead>
             <tr>
                 <th>选择</th>
@@ -59,6 +59,7 @@ interface Props {
     onSelect: (selected) => any
     onCancel: () => any
     match: any
+    modalHeader: (item: string) => void
 }
 
 export class ClazzStudentSelector extends RenderPairComponent<Props, State> {
@@ -93,10 +94,15 @@ export class ClazzStudentSelector extends RenderPairComponent<Props, State> {
                 this.props.onSelect(this.state.selected)
             })
         };
-        return <div>
-            <Selector list={this.state.students} onChange={onChange} selected={this.state.selected} maxSelect={10000}/>
-            <button onClick={submit}>确定</button>
-            <a href={JVOID0} onClick={this.props.onCancel}>取消</a>
+        return <div className={'modal-content'}>
+            {this.props.modalHeader('添加学生')}
+            <div className={'modal-body'}>
+                <Selector list={this.state.students} onChange={onChange} selected={this.state.selected}
+                          maxSelect={10000}/></div>
+            <div className={'modal-footer'}>
+                <button className={'btn btn-default'} onClick={this.props.onCancel}>取消</button>
+                <button className={'btn btn-primary'} onClick={submit}>确定</button>
+            </div>
         </div>
     }
 }

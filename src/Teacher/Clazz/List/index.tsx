@@ -7,6 +7,8 @@ import {Link} from "react-router-dom";
 import {CurdComponent, CurdState} from "../../../common/curd-component";
 import {EH, TEH} from "../../../common/render-component";
 import {JVOID0} from "../../../def/data";
+import {_teacherLeftLocation} from "../../../common/common-method";
+import '../style.less';
 
 class State extends ListPageState<Clazz> {
 
@@ -28,7 +30,7 @@ class ClazzListInner extends CurdComponent<Clazz> {
 
     getHeaderRender(onCreate: EH, onUpdate: TEH<Clazz>, onDelete: TEH<Clazz>): Array<{ name: string; render: any }> {
         let op = (clazz: Clazz) => {
-            return <div>
+            return <div className={'clazz-list-table-btns'}>
                 <a href={JVOID0} onClick={onUpdate.bind(null, clazz)}>修改名称</a>
                 <a href={JVOID0} onClick={onDelete.bind(null, clazz)}>删除</a>
                 <Link to={`/teacher/clazz/${clazz.id}/student`}>学生管理</Link>
@@ -42,10 +44,13 @@ class ClazzListInner extends CurdComponent<Clazz> {
     }
 
     renderContent(renderTable: () => any, renderModal: () => any, onCreate: EH, onUpdate: TEH<Clazz>, onDelete: TEH<Clazz>): any {
-        return <div>
-            {renderTable()}
-            {renderModal()}
-            <button onClick={onCreate}>新增</button>
+        return <div className={'teacher-clazz-list'}>
+            <div>{"当前位置：" + _teacherLeftLocation}</div>
+            <div className={'box'}>
+                <button onClick={onCreate} className={'btn bg-orange btn-add'}>新增</button>
+                {renderTable()}
+                {renderModal()}
+            </div>
         </div>;
     }
 
@@ -55,11 +60,14 @@ class ClazzListInner extends CurdComponent<Clazz> {
         return ret;
     }
 
-    renderModalContent(onChange: TEH<Clazz>, onSubmit: EH, onCancel: EH): any {
-        return <div>
-            {this.renderPairInputText("item.name", "班级名称")}
-            <button className="btn" onClick={onSubmit}>确定</button>
-            <a href={JVOID0} onClick={onCancel}>取消</a>
+    renderModalContent(onChange: TEH<Clazz>, onSubmit: EH, onCancel: EH, modalHeader: (item: string) => void): any {
+        return <div className={'modal-content clazz-list-modal-con'}>
+            {modalHeader('新增班级')}
+            <div className={'modal-body'}>{this.renderPairInputText("item.name", "班级名称")}</div>
+            <div className={'modal-footer'}>
+                <button className="btn btn-default" onClick={onCancel}>取消</button>
+                <button className="btn btn-primary" onClick={onSubmit}>确定</button>
+            </div>
         </div>
     }
 
@@ -114,7 +122,7 @@ export class ClazzList extends ListPageComponent<Clazz, any, State> {
         let onChange = (list) => {
             this.setState({list})
         };
-        return <div>
+        return <div className={'teacher-clazz-con'}>
             {/*<Route path="/clazz/:id" exact={true} component={ClazzEdit}/>*/}
             {/*<Link className="btn" to={"/clazz/init"}>新增</Link>*/}
             {/*<Table list={this.state.list} headers={headers} getKey={getKey}*/}
