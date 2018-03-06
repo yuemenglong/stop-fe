@@ -45,10 +45,10 @@ export const _adminLeftLocation = _currentLocation(_adminLeftCon);
 //teacher 左侧内容
 export const _teacherLeftCon = [
     {name: '课程列表', url: "/teacher/course", iconClass: 'fa fa-book'},
-    {name: '学生列表', url: "/teacher/student", iconClass: 'fa fa-book'},
-    {name: '班级列表', url: "/teacher/clazz", iconClass: 'fa fa-book'},
-    {name: '学习任务', url: "/teacher/study-job", iconClass: 'fa fa-book'},
-    {name: '考试任务', url: "/teacher/quiz", iconClass: 'fa fa-book'}
+    {name: '学生列表', url: "/teacher/student", iconClass: 'fa fa-child'},
+    {name: '班级列表', url: "/teacher/clazz", iconClass: 'fa fa-users'},
+    {name: '学习任务', url: "/teacher/study-job", iconClass: 'fa fa-pencil'},
+    {name: '考试任务', url: "/teacher/quiz", iconClass: 'fa fa-edit'}
 ];
 
 //teacher -左侧当前位置
@@ -56,12 +56,12 @@ export const _teacherLeftLocation = _currentLocation(_teacherLeftCon);
 
 //user-左侧内容
 export const _userLeftCon = (uid: string) => {
-    return [{name: '靶场', url: `/user/${uid}/target`},
-        {name: '查看课件', url: `/user/${uid}/courseware`},
-        {name: '查看视频', url: `/user/${uid}/video`},
-        {name: '查看队伍', url: `/user/${uid}/team`},
-        {name: '学习任务', url: `/user/${uid}/study-job`},
-        {name: '考试任务', url: `/user/${uid}/quiz-job`}];
+    return [{name: '靶场', url: `/user/${uid}/target`, iconClass: 'fa fa-bullseye'},
+        {name: '查看课件', url: `/user/${uid}/courseware`, iconClass: 'fa fa-laptop'},
+        {name: '查看视频', url: `/user/${uid}/video`, iconClass: 'fa fa-play-circle'},
+        {name: '查看队伍', url: `/user/${uid}/team`, iconClass: 'fa fa-book'},
+        {name: '学习任务', url: `/user/${uid}/study-job`, iconClass: 'fa fa-pencil'},
+        {name: '考试任务', url: `/user/${uid}/quiz-job`, iconClass: 'fa fa-edit'}];
 };
 
 //user-获得当前位置
