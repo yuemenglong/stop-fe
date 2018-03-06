@@ -65,7 +65,7 @@ class ListInner extends CurdComponent<any> {
         return {};
     }
 
-    renderModalContent(onChange: TEH<any>, onSubmit: EH, onCancel: EH): any {
+    renderModalContent(onChange: TEH<any>, onSubmit: EH, onCancel: EH, modalHeader: (item: string) => void): any {
         let onSelect = (item) => {
             this.props.onChange(this.props.list.concat(item))
         };
@@ -75,6 +75,7 @@ class ListInner extends CurdComponent<any> {
             courseId={this.props.match.params.id}
             onSelect={onSelect}
             onCancel={onCancel}
+            modalHeader={modalHeader}
             ty={this.getTy()}
         />
     }
