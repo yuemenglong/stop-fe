@@ -8,6 +8,7 @@ import {update} from "../../common/updater";
 import {WebUploader} from "../../component/WebUploader/index";
 import './style.less';
 import {_teacherLeftLocation} from "../../common/common-method";
+import * as _ from "lodash";
 
 class State extends ListPageState<Student> {
 
@@ -69,9 +70,10 @@ class StudentListInner extends CurdComponent<Student> {
         };
         let inb = {display: "inline-block"};
         let file = <div style={inb}><WebUploader onChange={onUpload}/></div>;
-        if (this.state.item.avatar) {
+        let imgUrl = _.get(this, 'state.item.avatar.fileId', '');
+        if (imgUrl) {
             file = <div style={inb}>
-                <img src={`/upload/${this.state.item.avatar}`} style={{width: 200, height: 200}}/>
+                <img src={`/upload/${imgUrl}`} style={{width: 100, height: 100}}/>
             </div>
         }
         return <div className={'modal-content teacher-student-modal-con'}>
