@@ -154,16 +154,17 @@ export class QuizEdit extends RenderPairComponent<RouteComponentProps<any>, Stat
             })
         };
         let children = (c: Category) => {
+            let cId = _.get(c, 'id', '');
             let cateCount = this.state.cateCount;
-            let questions = this.state.selected.filter(q => q.cate1Id == c.id);
+            let questions = this.state.selected.filter(q => q.cate1Id == cId);
             let choice = match(this.isInit(), {
-                true: <a href={JVOID0} onClick={onClick.bind(null, c.id)}>选择</a>,
+                true: <a href={JVOID0} onClick={onClick.bind(null, cId)}>选择</a>,
                 false: null,
             });
             let questionsCon = questions.map(q => {
                 return <div key={q.id}>{q.title}</div>
             });
-            let values = [_.get(c, 'name', ''), _.get(cateCount, c.id, 0),
+            let values = [_.get(c, 'name', ''), _.get(cateCount, cId, 0),
                 _.get(questions, 'length', 0), questionsCon, choice];
             return values.map((v: any, i: number) => {
                 let title = i + 1 == values.length ? '' : v;
