@@ -10,6 +10,7 @@ interface Props {
     onError?: (err: any) => void,
     text?: string,
     accept?: { title?: string, extensions?: string, mimeTypes?: string }
+    multiple?: boolean
 }
 
 class State {
@@ -36,7 +37,7 @@ export class WebUploader extends Component<Props, State> {
             // swf文件路径
             swf: '/deploy/webuploader/Uploader.swf',
             server: '/upload',
-            pick: {id: `#${this.state.id}`, multiple: false},
+            pick: {id: `#${this.state.id}`, multiple: this.props.multiple},
             accept: this.props.accept,
             resize: false
         });
