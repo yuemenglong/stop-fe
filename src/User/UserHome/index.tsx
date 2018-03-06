@@ -11,6 +11,7 @@ import {WebUploader} from "../../component/WebUploader/index";
 import {update} from "../../common/updater";
 import {Chosen} from "../../component/Chosen/index";
 import _ = require("lodash");
+import "./style.less";
 
 class State {
     user: Student = new Student();
@@ -38,10 +39,11 @@ export class UserHome extends RenderPairComponent<RouteComponentProps<any>, Stat
 
     renderAvater() {
         let avatar = _.get(this.state, "user.avatar.fileId");
-        let img = null;
-        if (avatar != null) {
-            img = <img src={`/upload/${avatar}`}/>
-        }
+        let imgSrc = avatar != null ? `/upload/${avatar}` : "/deploy/imgs/user/head_pic.png";
+        // let img = null;
+        // if (avatar != null) {
+        //     img = <img src={`/upload/${avatar}`}/>
+        // }
         let onChange = (info: FileInfo) => {
             ajaxPut(`/user/${this.getUid()}`, {avatar: info}, () => {
                 let state = update(this.state, "user.avatar", info);
@@ -49,8 +51,9 @@ export class UserHome extends RenderPairComponent<RouteComponentProps<any>, Stat
             })
         };
         let accept = {extensions: "jpg,jpeg,png,bmp", mimeTypes: "image/*"};
-        return <div>
-            {img}
+        return <div className='user-home-img pull-left'>
+            {/*{img}*/}
+            <img src={imgSrc} className='head-pic'/>
             <WebUploader key={avatar || ""} onChange={onChange} text="上传头像"
                          accept={accept}/>
         </div>
@@ -60,13 +63,18 @@ export class UserHome extends RenderPairComponent<RouteComponentProps<any>, Stat
         let list = [1, 2, 3].map(i => {
             return {value: i, option: i}
         });
-        return <div>
-            {this.renderAvater()}
-            {this.renderPairText("user.name", "姓名")}
-            {this.renderPairText("user.mobile", "电话")}
-            {this.renderPairText("user.email", "邮箱")}
-            {this.renderPairText("user.clazz.name", "班级")}
-            {this.renderPairText("user.team.name", "团队")}
+        return <div className='user-home'>
+            <div>当前位置：个人资料</div>
+            <div className='box'>
+                {this.renderAvater()}
+                <div className='user-home-texts pull-left'>
+                    {this.renderPairText("user.name", "姓名：")}
+                    {this.renderPairText("user.mobile", "电话：")}
+                    {this.renderPairText("user.email", "邮箱：")}
+                    {this.renderPairText("user.clazz.name", "班级：")}
+                    {this.renderPairText("user.team.name", "团队：")}
+                </div>
+            </div>
         </div>
     }
 }

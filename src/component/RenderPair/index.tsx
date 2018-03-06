@@ -4,7 +4,7 @@ import './style.less';
 
 export abstract class RenderPairComponent<P={}, S={}> extends RenderComponent<P, S> {
     renderPairText(name: string, ph: string, className?: string) {
-        return <div>
+        return <div className='render-pair-text'>
             <span>{ph}</span>
             <span>{this.$getValue(name)}</span>
         </div>
