@@ -59,10 +59,23 @@ export class UserApp extends Component {
         </div>
     }
 
+    onLogout() {
+        ajaxGet(`/user/logout`, () => {
+            location.href = `/login`
+        })
+    }
+
+    //个人信息
+    personalInfo() {
+        return <div className="pull-left">
+            <a href={`/user/${_getUid()}`} className="btn btn-default btn-flat">个人资料</a>
+        </div>
+    }
+
     render() {
         return <div className="container common-container">
             {/*{this.renderNavs()}*/}
-            <HeadMenu/>
+            <HeadMenu onLogout={this.onLogout.bind(this)} logo={'学生攻防平台'} personalInfo={this.personalInfo()}/>
             {this.renderNewNavs()}
             <switch className={'common-right-con'}>
                 <Route path="/user/:uid" exact={true} component={UserHome}/>

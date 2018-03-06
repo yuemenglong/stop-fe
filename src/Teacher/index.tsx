@@ -16,6 +16,13 @@ import {_teacherLeftCon} from "../common/common-method";
 import "../common/style.less";
 
 export class TeacherApp extends Component {
+
+    onLogout() {
+        ajaxGet(`/teacher/logout`, () => {
+            location.href = `/login`
+        })
+    }
+
     render() {
         return <div className="container common-container">
             {/*<div>*/}
@@ -25,7 +32,7 @@ export class TeacherApp extends Component {
             {/*<Link to="/teacher/study-job">学习任务</Link>*/}
             {/*<Link to="/teacher/quiz">考试任务</Link>*/}
             {/*</div>*/}
-            <HeadMenu/>
+            <HeadMenu onLogout={this.onLogout.bind(this)} logo={'老师攻防平台'}/>
             <div className={'common-left-side'}>
                 <LeftSideClass cons={_teacherLeftCon}/>
             </div>

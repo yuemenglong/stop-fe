@@ -39,6 +39,12 @@ export class AdminApp extends Component {
         </div>
     }
 
+    onLogout() {
+        ajaxGet(`/admin/logout`, () => {
+            location.href = `/login`
+        })
+    }
+
     render() {
         let courseCagetory = (props) => <CategoryList history={props.history} match={props.match} ty="course"
                                                       title='课程'/>;
@@ -51,7 +57,7 @@ export class AdminApp extends Component {
         let targetCagetory = (props) => <CategoryList history={props.history} match={props.match} ty="target"
                                                       title='靶场'/>;
         return <div className="container common-container">
-            <HeadMenu/>
+            <HeadMenu onLogout={this.onLogout.bind(this)} logo={'管理员攻防平台'}/>
             {this.renderNavs()}
             <switch className={'common-right-con'}>
                 <Route path="/admin/course-category" exact={true} render={courseCagetory}/>

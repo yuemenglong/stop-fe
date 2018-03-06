@@ -4,16 +4,16 @@ import './style.less';
 import {JVOID0} from "../../def/data";
 import {ajaxGet} from "../../common/kit";
 
-export class HeadMenu extends Component<null, null> {
-    logout() {
-        ajaxGet(`/admin/logout`, () => {
-            location.href = `/login`
-        })
-    }
+interface Props {
+    onLogout: () => void;
+    logo: string;
+    personalInfo?: any;
+}
 
+export class HeadMenu extends Component<Props, null> {
     render() {
         return <header className="main-header">
-            <a href="javascript:void(0)" className="logo">攻防平台</a>
+            <a href="javascript:void(0)" className="logo">{this.props.logo}</a>
             <nav className="navbar navbar-static-top">
                 <a href="#" className="sidebar-toggle" data-toggle="push-menu" role="button"/>
                 <div className="navbar-custom-menu">
@@ -29,8 +29,9 @@ export class HeadMenu extends Component<null, null> {
                                     <p>XXX,欢迎来到攻防平台!</p>
                                 </li>
                                 <li className="user-footer">
+                                    {this.props.personalInfo}
                                     <div className="pull-right">
-                                        <a href={JVOID0} onClick={this.logout.bind(this)}
+                                        <a href={JVOID0} onClick={this.props.onLogout}
                                            className="btn btn-default btn-flat">注销</a>
                                     </div>
                                 </li>
