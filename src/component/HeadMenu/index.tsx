@@ -15,7 +15,6 @@ export class HeadMenu extends Component<Props, null> {
         return <header className="main-header">
             <a href="javascript:void(0)" className="logo">{this.props.logo}</a>
             <nav className="navbar navbar-static-top">
-                <a href="#" className="sidebar-toggle" data-toggle="push-menu" role="button"/>
                 <div className="navbar-custom-menu">
                     <ul className="nav navbar-nav">
                         <li className="dropdown user user-menu">
