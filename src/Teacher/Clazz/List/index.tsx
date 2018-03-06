@@ -5,7 +5,7 @@ import {ListPageComponent, ListPageState} from "../../../common/list-page-compon
 import {Clazz} from "../../../def/entity";
 import {Link} from "react-router-dom";
 import {CurdComponent, CurdState} from "../../../common/curd-component";
-import {EH, TEH} from "../../../common/render-component";
+import {EH, TEH, validateRegex} from "../../../common/render-component";
 import {JVOID0} from "../../../def/data";
 import {_teacherLeftLocation} from "../../../common/common-method";
 import '../style.less';
@@ -59,6 +59,16 @@ class ClazzListInner extends CurdComponent<Clazz> {
         ret.studentCount = 0;
         return ret;
     }
+
+    getRenderValidator() {
+        let re = validateRegex;
+        return {
+            item: {
+                name: re(/\S+/, "请输入班级名称")
+            }
+        }
+    }
+
 
     renderModalContent(onChange: TEH<Clazz>, onSubmit: EH, onCancel: EH, modalHeader: (item: string) => void): any {
         return <div className={'modal-content clazz-list-modal-con'}>
