@@ -2,7 +2,7 @@ import * as React from "react";
 import {Component} from "react";
 import {CurdComponent, CurdProps, CurdState} from "../../common/curd-component";
 import {Category} from "../../def/entity";
-import {EH, TEH} from "../../common/render-component";
+import {EH, TEH, validateRegex} from "../../common/render-component";
 import {JVOID0} from "../../def/data";
 import {ajaxDelete, ajaxGet, ajaxPost} from "../../common/kit";
 import {Table} from "../../common/Table";
@@ -160,6 +160,16 @@ class CategoryInner extends CurdComponent<Category, CurdProps<Category>, InnerSt
         return <Modal className={'modal-dialog'}>
             <Categor2Inner cate={this.state.cate2} onChange={onChange} onCancel={onCancel}/>
         </Modal>
+    }
+
+
+    getRenderValidator() {
+        let re = validateRegex;
+        return {
+            item: {
+                name: re(/\S+/, "请输入名称")
+            }
+        }
     }
 
     renderModalContent(onChange: TEH<Category>, onSubmit: EH, onCancel: EH, modalHeader: (item: string) => void): any {
