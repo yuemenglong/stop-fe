@@ -63,7 +63,7 @@ class StudentListInner extends CurdComponent<Student> {
 
     renderModalContent(onChange: TEH<Student>, onSubmit: EH, onCancel: EH, modalHeader: (item: string) => void): any {
         let onUpload = (file) => {
-            let item = update(this.state.item, "avatar", file.fileId);
+            let item = update(this.state.item, "avatar", file);
             onChange(item);
             // let student = _.defaults({avatar: file.fileId}, this.state.student);
             // this.setState({student});
