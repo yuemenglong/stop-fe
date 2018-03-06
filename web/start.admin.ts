@@ -60,6 +60,7 @@ app.ajaxDelete("/admin/courseware-category/:id", transmit);
 app.ajaxDelete("/admin/video-category/:id", transmit);
 app.ajaxDelete("/admin/question-category/:id", transmit);
 app.ajaxDelete("/admin/target-category", transmit);
+app.ajaxDelete("/admin/target-category/:id", transmit);
 
 app.ajaxGet("/admin/course", transmit);
 app.ajaxGet("/admin/courseware", transmit);
