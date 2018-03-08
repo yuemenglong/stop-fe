@@ -8,8 +8,8 @@ import {WebUploader} from "../../component/WebUploader/index";
 import {FileInfo, Video} from "../../def/entity";
 import {ajaxGet, Kit} from "../../common/kit";
 import {update} from "../../common/updater";
-import './style.less';
 import {_adminLeftLocation} from "../../common/common-method";
+import './style.less';
 
 class VideoListInner extends CurdComponent<Video> {
     constructor(props) {
@@ -28,15 +28,15 @@ class VideoListInner extends CurdComponent<Video> {
         let onUpload = (file: FileInfo) => {
             let item = _.clone(this.state.item);
             item.file = file;
-            // video.fileId = file.fileId;
-            // video.fileName = file.fileName;
-            // video.ext = file.ext;
-            // video.size = file.size;
             onChange(item);
+        };
+        let accept = {
+            // extensions: ".mp4",
+            // mimeTypes: "video/mp4"
         };
         let fileName = _.get(this.state, "item.file.fileName");
         let inb = {display: "inline-block"};
-        let file = <div style={inb}><WebUploader onChange={onUpload}/></div>;
+        let file = <div style={inb}><WebUploader onChange={onUpload} accept={accept} server="/video"/></div>;
         if (fileName) {
             file = <div style={inb}>{fileName}</div>;
         }
@@ -55,10 +55,6 @@ class VideoListInner extends CurdComponent<Video> {
         </div>
     }
 
-    urlSlice(): number {
-        return 5;
-    }
-
     idField(): string {
         return "id";
     }
@@ -72,24 +68,20 @@ class VideoListInner extends CurdComponent<Video> {
             name: "大小", render: "file.size",
         }, {
             name: "操作", render: (item: Video) => <div className={'video-table-btns'}>
-                <a href={`/upload/${item.file.fileId}`} target="_blank">下载</a>
+                <a href={`/video?fileId=${item.file.fileId}`} target="_blank">播放</a>
                 <a href={JVOID0} onClick={onUpdate.bind(null, item)}>修改</a>
                 <a href={JVOID0} onClick={onDelete.bind(null, item)}>删除</a>
             </div>
         }];
     }
 
-    renderContent(renderTable: () => any,
-                  renderRoute: () => any,
-                  onCreate: EH,
-                  onUpdate: TEH<Video>,
-                  onDelete: TEH<Video>): any {
-        return <div className={'video-con'}>
+    renderContent(renderTable: () => any, renderModal: () => any, onCreate: EH, onUpdate: TEH<Video>, onDelete: TEH<Video>) {
+        return <div className='video-con'>
             <div>{'当前位置：' + _adminLeftLocation}</div>
             <div className={'box'}>
                 <button onClick={onCreate} className={'btn bg-orange btn-add'}>新增</button>
                 {renderTable()}
-                {renderRoute()}
+                {renderModal()}
             </div>
         </div>
     }

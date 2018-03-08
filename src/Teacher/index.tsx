@@ -1,22 +1,19 @@
-import * as React from "react";
 import {Component} from "react";
-import {Route} from "react-router";
+import * as React from "react";
+import {ajaxGet} from "../common/kit";
 import {CourseRouter} from "./Course/index";
 import {StudentList} from "./Student/index";
 import {ClazzRouter} from "./Clazz/index";
-import {Link} from "react-router-dom";
 import {StudyJobRouter} from "./StudyJob/index";
-import {JVOID0} from "../def/data";
-import {ajaxGet} from "../common/kit";
-import {LoginPage} from "../Page/Login/index";
 import {QuizRouter} from "./Quiz/index";
-import {HeadMenu} from "../component/HeadMenu/index";
-import {LeftSideClass} from "../component/LeftSide/index";
+import {TeacherLogin} from "./TeacherLogin/index";
 import {_teacherLeftCon} from "../common/common-method";
-import "../common/style.less";
+import {LeftSideClass} from "../component/LeftSide/index";
+import {HeadMenu} from "../component/HeadMenu/index";
+import {Route} from "react-router";
+import '../common/style.less';
 
 export class TeacherApp extends Component {
-
     onLogout() {
         ajaxGet(`/teacher/logout`, () => {
             location.href = `/login`
@@ -42,7 +39,7 @@ export class TeacherApp extends Component {
                 <Route path="/teacher/clazz" component={ClazzRouter}/>
                 <Route path="/teacher/study-job" component={StudyJobRouter}/>
                 <Route path="/teacher/quiz" component={QuizRouter}/>
-                <Route path="/login" component={LoginPage}/>
+                <Route path="/login" component={TeacherLogin}/>
             </switch>
         </div>
     }

@@ -47,6 +47,12 @@ class TargetListInner extends CurdComponent<Target> {
             item.file = file;
             onChange(item);
         };
+        let onUploadTargets = (files) => {
+            let item = _.clone(this.state.item) as any;
+            item.files = files;
+            console.log(item);
+            onChange(item);
+        };
         let accept = {
             extensions: "ppt,pptx",
             mimeTypes: "application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation"
@@ -61,25 +67,32 @@ class TargetListInner extends CurdComponent<Target> {
             file = <div style={inb}>{fileName}</div>
         }
 
+
+        let targets = <WebUploader onChange={onUploadTargets} multiple={true}/>;
+        if (_.get(this.state.item, "files")) {
+            targets = _.get(this.state.item, "files", []).map(f => {
+                return <div key={f.fileId}>{f.fileName}</div>
+            });
+        }
         //题目
-        let subjectUpload = (file: FileInfo) => {
-            let item = _.cloneDeep(this.state.item);
-            let files = (item as any).files || [];
-            (item as any).files = files.concat([file]);
-            onChange(item);
-        };
-        console.log('sdfsd', this.state.item);
-        let subjectFile = <WebUploader onChange={subjectUpload} multiple={true}/>;
+        // let subjectUpload = (file: FileInfo) => {
+        //     let item = _.cloneDeep(this.state.item);
+        //     let files = (item as any).files || [];
+        //     (item as any).files = files.concat([file]);
+        //     onChange(item);
+        // };
+        // console.log('sdfsd', this.state.item);
+        // let subjectFile = <WebUploader onChange={subjectUpload} multiple={true}/>;
         return <div className={'modal-content target-modal-add'}>
             {modalHeader('新增靶场题目')}
             <div className={'modal-body'}>
                 {this.renderPairTextArea("item.name", "名称")}
                 {this.renderPairTextArea("item.title", "描述")}
-                <div className={'target-upload'}><span className={'upload-title'}>题目</span>{subjectFile}</div>
-                {this.renderPairInputText("item.baseDir", "路径")}
-                {this.renderPairInputText("item.score", "分数")}
                 {this.renderPairInputText("item.answer", "答案")}
-                <div className={'target-upload'}><span className={'upload-title'}>详细答案</span>{file}</div>
+                {this.renderPairInputText("item.score", "分数")}
+                {this.renderPairInputText("item.baseDir", "路径")}
+                <div className={'target-upload'}><span className={'upload-title'}>靶场文件</span>{targets}</div>
+                <div className={'target-upload'}><span className={'upload-title'}>课件</span>{file}</div>
                 {this.renderPairSelect("item.cate0Id", "一级类别", Kit.optionValueList(this.props.data.cate0, "name", "id"))}
                 {this.renderPairSelect("item.cate1Id", "二级类别", Kit.optionValueList(this.props.data.cate1.filter(c => c.parentId == this.state.item.cate0Id), "name", "id"))}
             </div>

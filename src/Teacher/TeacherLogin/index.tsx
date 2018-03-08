@@ -8,7 +8,7 @@ class State {
     user = {};
 }
 
-export class LoginPage extends RenderPairComponent<RouteComponentProps<any>, State> {
+export class TeacherLogin extends RenderPairComponent<RouteComponentProps<any>, State> {
     getRenderRootMode(): { root: any; mode: string; onChange?: Function } {
         return {root: this.state, mode: "state"}
     }
@@ -20,8 +20,8 @@ export class LoginPage extends RenderPairComponent<RouteComponentProps<any>, Sta
 
     render() {
         let login = () => {
-            ajaxPost(`/teacher/login`, this.state.user, () => {
-                this.props.history.push("/")
+            ajaxPost(`/teacher/login`, this.state.user, (user) => {
+                this.props.history.push(`/teacher/course`)
             })
         };
         return <div className={'login-box teacher-login'}>

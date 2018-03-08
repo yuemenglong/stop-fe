@@ -64,11 +64,11 @@ class Selector extends SelectorComponent<Question, SProps> {
 
 class State {
     quiz: { clazzId: string, name: string } = {clazzId: ""} as any;
-    cateCount: Object = {};
+    cateCountMap: Object = {};
     cates: Array<Category> = [];
-    questions: Array<Question> = [];
-    selected: Array<Question> = [];
-    selectors: Array<Question> = null;
+    questions: Array<Question> = []; // 本次考试对应的题目
+    selected: Array<Question> = []; // 面板中选中的题目
+    selectors: Array<Question> = null; // 面板中待选的题目
     clazzes: Array<Clazz> = [];
     disabled: boolean = false;
 }
@@ -93,7 +93,7 @@ export class QuizEdit extends RenderPairComponent<RouteComponentProps<any>, Stat
 
     componentDidMount() {
         ajaxGet(`/admin/question/cate-count`, (res) => {
-            this.setState({cateCount: res})
+            this.setState({cateCountMap: res})
         });
         ajaxGet(`/admin/category?ty=question`, (res) => {
             this.setState({cates: res})
@@ -155,7 +155,8 @@ export class QuizEdit extends RenderPairComponent<RouteComponentProps<any>, Stat
         };
         let children = (c: Category) => {
             let cId = _.get(c, 'id', '');
-            let cateCount = this.state.cateCount;
+            let cateCount = "";
+            // let cateCount = this.state.cateCount;
             let questions = this.state.selected.filter(q => q.cate1Id == cId);
             let choice = match(this.isInit(), {
                 true: <a href={JVOID0} onClick={onClick.bind(null, cId)}>选择</a>,
@@ -193,6 +194,7 @@ export class QuizEdit extends RenderPairComponent<RouteComponentProps<any>, Stat
     renderQuestions() {
         let onClick = (cate1Id) => {
             ajaxGet(`/admin/question/list?cate1Id=${cate1Id}`, (res) => {
+                // 提交的时候会再加上，不然concat会把已经删除的又加回来
                 let questions = this.state.questions.filter(q => q.cate1Id != cate1Id);
                 let selected = this.state.questions.filter(q => q.cate1Id == cate1Id);
                 this.setState({selectors: res, selected, questions})
@@ -202,7 +204,7 @@ export class QuizEdit extends RenderPairComponent<RouteComponentProps<any>, Stat
             return <div key={cate0.id}>
                 <h3>一级类别{cate0.name}</h3>
                 {cate0.children.map(cate1 => {
-                    let questions = this.state.selected.filter(q => q.cate1Id == cate1.id);
+                    let questions = this.state.questions.concat(this.state.selected).filter(q => q.cate1Id == cate1.id);
                     // noinspection ReservedWordAsName
                     let choice = match(this.isInit(), {
                         true: <a href={JVOID0} onClick={onClick.bind(null, cate1.id)}>选择</a>,
@@ -210,7 +212,7 @@ export class QuizEdit extends RenderPairComponent<RouteComponentProps<any>, Stat
                     });
                     return <div key={cate1.id}>
                         <h5>二级类别{cate1.name}</h5>
-                        <span>共有{this.state.cateCount[cate1.id] || 0}题</span>
+                        <span>共有{this.state.cateCountMap[cate1.id] || 0}题</span>
                         <span>选择{questions.length}题</span>
                         {choice}
                         {questions.map(q => {

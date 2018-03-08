@@ -65,4 +65,12 @@ export abstract class RenderPairComponent<P={}, S={}> extends RenderComponent<P,
             <span>{this.renderDatePicker(name, ph, className)}</span>
         </div>
     }
+
+    // noinspection JSUnusedGlobalSymbols
+    renderPairUploader(name: string, ph: string, className?: string, props?: any) {
+        return <div>
+            <span>{ph}</span>
+            <span>{this.renderUploader(name, false, false, false, className, props)}</span>
+        </div>
+    }
 }

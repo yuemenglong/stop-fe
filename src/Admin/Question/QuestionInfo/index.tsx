@@ -69,7 +69,7 @@ export class QuestionInfo extends RenderPairComponent<Props, State> {
     renderType() {
         let map = Def.questionTypeMap;
         if (!this.props.question.id) {
-            return this.renderPairSelect("ty", "题目类型", map)
+            return this.renderPairCheckGroup("ty", "题目类型", map)
         } else {
             return <span className={'question-type'}>{map[this.props.question.ty]}</span>
         }

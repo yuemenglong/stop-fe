@@ -4,6 +4,7 @@ import {ComponentEx} from "./component-ex";
 import {DatePicker} from "../component/DatePicker/index";
 import {CheckGroup} from "../component/CheckGroup/index";
 import {Chosen} from "../component/Chosen/index";
+import {WebUploader} from "../component/WebUploader/index";
 
 export class OptionItem {
     value: string | number = null;
@@ -290,5 +291,26 @@ export abstract class RenderComponent<P={}, S={}> extends ComponentEx<P, S> {
         let value = this.$getValue(name) as string;
         return <DatePicker className={className} value={value}
                            disabled={disabled} placeholder={placeholder} {...props}/>
+    }
+
+    renderUploader(name: string, keep: boolean, multi: boolean, append: boolean, className: string, props: any) {
+        let onChange = (file: any) => {
+            if (!this.$validateChangeField(name)) {
+                this.$setValue(name, file);
+            }
+        };
+        let file = this.$getValue(name);
+        if (file && !keep) {
+            return <span>{file.fileName}</span>
+        }
+        if (this.$needValidate() && this.$validateField(name)) {
+            className = [className, "invalid"].filter(_.isString).join(" ");
+        }
+        let disabled = (this.props as any).disabled || (this.state as any).disabled;
+        props = _.merge({onChange}, props);
+        return <WebUploader onChange={onChange}
+                            className={className}
+                            disabled={disabled}
+                            {...props}/>
     }
 }

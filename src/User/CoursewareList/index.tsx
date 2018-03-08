@@ -1,14 +1,6 @@
 import * as React from "react";
-import {Courseware, Student, StudentStudyJob, StudentStudyJobItem, StudyJob} from "../../def/entity";
-import {Component} from "react";
-import {RouteComponentProps} from "react-router";
-import {ajaxGet, ajaxPut} from "../../common/kit";
-import {Def} from "../../def/data";
+import {Courseware} from "../../def/entity";
 import {Table} from "../../common/Table";
-import {Link} from "react-router-dom";
-import {RenderPairComponent} from "../../component/RenderPair/index";
-import {WebUploader} from "../../component/WebUploader/index";
-import {update} from "../../common/updater";
 import {ListPageComponent, ListPageState} from "../../common/list-page-component";
 import "./style.less";
 import {_getUid, _userLeftLocation} from "../../common/common-method";

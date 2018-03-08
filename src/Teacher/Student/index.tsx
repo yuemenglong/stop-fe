@@ -6,8 +6,9 @@ import {EH, TEH} from "../../common/render-component";
 import {JVOID0} from "../../def/data";
 import {update} from "../../common/updater";
 import {WebUploader} from "../../component/WebUploader/index";
-import './style.less';
 import {_teacherLeftLocation} from "../../common/common-method";
+import {ajaxGet} from "../../common/kit";
+import "./style.less";
 import * as _ from "lodash";
 
 class State extends ListPageState<Student> {
@@ -20,12 +21,16 @@ class StudentListInner extends CurdComponent<Student> {
         this.state = new CurdState<Student>();
     }
 
-    idField(): string {
-        return "id";
+    componentDidMount() {
+        ajaxGet(`/teacher/clazz/list?limit=99999&offset=0&fields=name`, (res) => {
+            let clazzMap = _.fromPairs(res.map(c => [c.id, c.name]));
+            let state = update(this.state, "data.clazzMap", clazzMap);
+            this.setState(state)
+        })
     }
 
-    urlSlice(): number {
-        return 3;
+    idField(): string {
+        return "id";
     }
 
     getHeaderRender(onCreate: EH, onUpdate: TEH<Student>, onDelete: TEH<Student>): Array<{ name: string; render: any }> {
@@ -42,6 +47,11 @@ class StudentListInner extends CurdComponent<Student> {
             {name: "姓名", render: "name"},
             {name: "手机", render: "mobile"},
             {name: "邮箱", render: "email"},
+            {
+                name: "班级", render: (item) => {
+                return (this.state.data.clazzMap || {})[item.clazzId]
+            }
+            },
             {name: "操作", render: op}
         ];
     }

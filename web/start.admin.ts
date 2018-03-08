@@ -23,15 +23,21 @@ process.on('uncaughtException', function (err) {
 app.set('view engine', 'pug');
 app.use(cookieParser());
 app.use("/deploy", express.static(P.resolve(BASEDIR, "deploy")));
-app.use("/upload", express.static(adminConf.uploadPath));
+
 app.post("/upload", Upload(adminConf.uploadPath, "file"));
+app.use("/upload", express.static(adminConf.uploadPath));
+
+app.post("/ppt", Upload(adminConf.pptPath, "file"));
+app.use("/ppt", express.static(adminConf.pptPath));
+app.post("/video", Upload(adminConf.videoPath, "file"));
+app.use("/video", express.static(adminConf.videoPath));
+
 app.use("/target", express.static(adminConf.targetPath));
 app.use("/memberfiles", express.static(adminConf.uploadPath));
 
 app.get("/favicon.ico", (req, res) => {
     res.status(404).end()
 });
-
 
 app.ajaxPost("/admin/login", transmit);
 app.ajaxGet("/admin/logout", transmit);
