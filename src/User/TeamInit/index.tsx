@@ -5,6 +5,7 @@ import {Team} from "../../def/entity";
 import {JVOID0} from "../../def/data";
 import {RenderPairComponent} from "../../component/RenderPair/index";
 import {ajaxPost} from "../../common/kit";
+import "./style.less";
 
 export class UserTeamInit extends RenderPairComponent<RouteComponentProps<any>, { team: Team }> {
     getUid() {
@@ -29,10 +30,13 @@ export class UserTeamInit extends RenderPairComponent<RouteComponentProps<any>, 
         let cancel = () => {
             this.props.history.push(`/user/${this.getUid()}/team`)
         };
-        return <div>
-            {this.renderPairInputText("team.name", "队伍名称")}
-            <button onClick={submit}>确定</button>
-            <button onClick={cancel}>取消</button>
+        return <div className={'user-team-init-con'}>
+            <div>当前位置：查看队伍 > 创建队伍</div>
+            <div className={'box'}>
+                {this.renderPairInputText("team.name", "队伍名称")}
+                <button onClick={submit} className='btn bg-orange'>确定</button>
+                <a href={JVOID0} onClick={cancel}>取消</a>
+            </div>
         </div>
     }
 }

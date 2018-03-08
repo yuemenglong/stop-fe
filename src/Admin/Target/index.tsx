@@ -8,6 +8,8 @@ import {WebUploader} from "../../component/WebUploader/index";
 import {Target, FileInfo} from "../../def/entity";
 import {ajaxGet, Kit} from "../../common/kit";
 import {update} from "../../common/updater";
+import './style.less';
+import {_adminLeftLocation} from "../../common/common-method";
 
 class TargetListInner extends CurdComponent<Target> {
     constructor(props) {
@@ -38,7 +40,8 @@ class TargetListInner extends CurdComponent<Target> {
 
     renderModalContent(onChange: TEH<Target>,
                        onSubmit: EH,
-                       onCancel: EH): any {
+                       onCancel: EH,
+                       modalHeader: (item: string) => void): any {
         let onUpload = (file: FileInfo) => {
             let item = _.clone(this.state.item);
             item.file = file;
@@ -54,34 +57,49 @@ class TargetListInner extends CurdComponent<Target> {
             extensions: "ppt,pptx",
             mimeTypes: "application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation"
         };
-        let file = <WebUploader onChange={onUpload} accept={accept}/>;
-        if (_.get(this.state.item, "file.fileName")) {
-            file = <div>{_.get(this.state.item, "file.fileName")}</div>
+        let fileName = _.get(this.state.item, "file.fileName");
+        let inb = {display: "inline-block"};
+        let file = <div style={inb}>
+            <WebUploader onChange={onUpload} accept={accept}/>
+            <span className={'tip'}>请上传ppt,pptx格式</span>
+        </div>;
+        if (fileName) {
+            file = <div style={inb}>{fileName}</div>
         }
+
+
         let targets = <WebUploader onChange={onUploadTargets} multiple={true}/>;
         if (_.get(this.state.item, "files")) {
             targets = _.get(this.state.item, "files", []).map(f => {
                 return <div key={f.fileId}>{f.fileName}</div>
             });
         }
-        return <div>
-            {this.renderPairTextArea("item.name", "名称")}
-            {this.renderPairTextArea("item.title", "描述")}
-            {this.renderPairInputText("item.answer", "答案")}
-            {this.renderPairInputText("item.score", "分数")}
-            {this.renderPairInputText("item.baseDir", "路径")}
-            <div>
-                <span>靶场文件</span>
-                {targets}
+        //题目
+        // let subjectUpload = (file: FileInfo) => {
+        //     let item = _.cloneDeep(this.state.item);
+        //     let files = (item as any).files || [];
+        //     (item as any).files = files.concat([file]);
+        //     onChange(item);
+        // };
+        // console.log('sdfsd', this.state.item);
+        // let subjectFile = <WebUploader onChange={subjectUpload} multiple={true}/>;
+        return <div className={'modal-content target-modal-add'}>
+            {modalHeader('新增靶场题目')}
+            <div className={'modal-body'}>
+                {this.renderPairTextArea("item.name", "名称")}
+                {this.renderPairTextArea("item.title", "描述")}
+                {this.renderPairInputText("item.answer", "答案")}
+                {this.renderPairInputText("item.score", "分数")}
+                {this.renderPairInputText("item.baseDir", "路径")}
+                <div className={'target-upload'}><span className={'upload-title'}>靶场文件</span>{targets}</div>
+                <div className={'target-upload'}><span className={'upload-title'}>课件</span>{file}</div>
+                {this.renderPairSelect("item.cate0Id", "一级类别", Kit.optionValueList(this.props.data.cate0, "name", "id"))}
+                {this.renderPairSelect("item.cate1Id", "二级类别", Kit.optionValueList(this.props.data.cate1.filter(c => c.parentId == this.state.item.cate0Id), "name", "id"))}
             </div>
-            <div>
-                <span>课件</span>
-                {file}
+            <div className={'modal-footer'}>
+                <button onClick={onCancel} className={'btn btn-default'}>取消</button>
+                <button onClick={onSubmit} className={'btn btn-primary'}>确定</button>
             </div>
-            {this.renderPairSelect("item.cate0Id", "一级类别", Kit.optionValueList(this.props.data.cate0, "name", "id"))}
-            {this.renderPairSelect("item.cate1Id", "二级类别", Kit.optionValueList(this.props.data.cate1.filter(c => c.parentId == this.state.item.cate0Id), "name", "id"))}
-            <button onClick={onSubmit}>确定</button>
-            <button onClick={onCancel}>取消</button>
         </div>
     }
 
@@ -99,7 +117,7 @@ class TargetListInner extends CurdComponent<Target> {
         }, {
             name: "二级类别", render: "cate1.name",
         }, {
-            name: "操作", render: (item: Target) => <div>
+            name: "操作", render: (item: Target) => <div className={'target-table-oprate-btns'}>
                 <a href={`/target/${item.baseDir}/index.html`} target="_blank">预览</a>
                 <a href={JVOID0} onClick={onUpdate.bind(null, item)}>修改</a>
                 <a href={JVOID0} onClick={onDelete.bind(null, item)}>删除</a>
@@ -112,11 +130,13 @@ class TargetListInner extends CurdComponent<Target> {
                   onCreate: EH,
                   onUpdate: TEH<Target>,
                   onDelete: TEH<Target>): any {
-        return <div>
-            <h1>靶场题目</h1>
-            {renderTable()}
-            <button onClick={onCreate}>添加</button>
-            {renderRoute()}
+        return <div className={'target-con'}>
+            <div>{'当前位置：' + _adminLeftLocation}</div>
+            <div className={'box'}>
+                <button onClick={onCreate} className={'btn bg-orange btn-add'}>新增</button>
+                {renderTable()}
+                {renderRoute()}
+            </div>
         </div>
     }
 

@@ -5,6 +5,7 @@ import {Team} from "../../def/entity";
 import {JVOID0} from "../../def/data";
 import {ajaxGet, ajaxPut} from "../../common/kit";
 import {Table} from "../../common/Table";
+import "./style.less";
 
 export class UserTeamJoin extends Component<RouteComponentProps<any>, { teams: Array<Team> }> {
 
@@ -45,9 +46,13 @@ export class UserTeamJoin extends Component<RouteComponentProps<any>, { teams: A
         let back = () => {
             this.props.history.push(`/user/${this.getUid()}/team`)
         };
-        return <div>
-            <Table className="table" headers={headers} list={this.state.teams}/>
-            <a href={JVOID0} onClick={back}>返回</a>
+        return <div className='user-team-join-con'>
+            <div>当前位置:查看队伍 > 加入队伍</div>
+            <div className={'box'}>
+                <a href={JVOID0} onClick={back} className='back'>返回</a>
+                <Table className="table table-bordered table-striped dataTable" headers={headers}
+                       list={this.state.teams}/>
+            </div>
         </div>;
     }
 }

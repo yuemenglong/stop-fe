@@ -10,6 +10,8 @@ import {Modal} from "../../../common/modal";
 import _ = require("lodash");
 import {RenderPairComponent} from "../../../component/RenderPair/index";
 import {Link} from "react-router-dom";
+import {Table} from "../../../common/Table";
+import './style.less';
 
 
 interface SProps extends SelectorProps<Question> {
@@ -33,15 +35,25 @@ class Selector extends SelectorComponent<Question, SProps> {
     }
 
     renderContent(renderItem: (item: Question, idx: number) => any, checkedAll: boolean, onChangeAll: () => void): any {
-        return <div>
-            <table className="table">
-                <tbody>
-                {this.props.list.map(renderItem)}
-                </tbody>
-            </table>
-            <input type="checkbox" checked={checkedAll} onChange={onChangeAll}/>
-            <span>全选</span>
-            <button onClick={this.props.onCancel}>完成</button>
+        return <div className='modal-content'>
+            <div className='modal-header'>选择题目</div>
+            <div className='modal-body'>
+                <table className="table table-striped table-bordered dataTable">
+                    <thead>
+                    <tr>{['', '题目内容', '题型'].map((header: string, i: number) => {
+                        return <td key={i}>{header}</td>
+                    })}</tr>
+                    </thead>
+                    <tbody>{this.props.list.map(renderItem)}</tbody>
+                </table>
+            </div>
+            <div className='modal-footer'>
+                <div className={'checked-all'}>
+                    <input type="checkbox" checked={checkedAll} onChange={onChangeAll}/>
+                    <span>全选</span>
+                </div>
+                <button onClick={this.props.onCancel} className='btn btn-primary'>确认</button>
+            </div>
         </div>;
     }
 
@@ -117,7 +129,7 @@ export class QuizEdit extends RenderPairComponent<RouteComponentProps<any>, Stat
             let selectors = null;
             this.setState({questions, selected, selectors})
         };
-        return <Modal>
+        return <Modal className='teacher-quiz-edit-modal-con'>
             <Selector list={this.state.selectors}
                       onChange={onChange}
                       selected={this.state.selected}
@@ -125,6 +137,58 @@ export class QuizEdit extends RenderPairComponent<RouteComponentProps<any>, Stat
                       onCancel={onCancel}
             />
         </Modal>
+    }
+
+    renderHeaders() {
+        return <tr>{['一级类别', '二级类别', '共有题目(个)', '已选题目(个)', '已选题目内容', '操作'].map((item: string, idx: number) => {
+            return <td key={idx}>{item}</td>
+        })}</tr>
+    }
+
+    renderItems(item: Category, idx: number) {
+        let onClick = (cate1Id) => {
+            ajaxGet(`/admin/question/list?cate1Id=${cate1Id}`, (res) => {
+                let questions = this.state.questions.filter(q => q.cate1Id != cate1Id);
+                let selected = this.state.questions.filter(q => q.cate1Id == cate1Id);
+                this.setState({selectors: res, selected, questions})
+            })
+        };
+        let children = (c: Category) => {
+            let cId = _.get(c, 'id', '');
+            let cateCount = "";
+            // let cateCount = this.state.cateCount;
+            let questions = this.state.selected.filter(q => q.cate1Id == cId);
+            let choice = match(this.isInit(), {
+                true: <a href={JVOID0} onClick={onClick.bind(null, cId)}>选择</a>,
+                false: null,
+            });
+            let questionsCon = questions.map(q => {
+                return <div key={q.id}>{q.title}</div>
+            });
+            let values = [_.get(c, 'name', ''), _.get(cateCount, cId, 0),
+                _.get(questions, 'length', 0), questionsCon, choice];
+            return values.map((v: any, i: number) => {
+                let title = i + 1 == values.length ? '' : v;
+                return <td key={i} title={title}>{v}</td>
+            })
+        };
+        let childLength = _.get(item, 'children.length', 0);
+        let oneClazzName = _.get(item, 'name', '');
+        let tr1 = <tr key={idx}>
+            <td rowSpan={childLength} title={oneClazzName}>{oneClazzName}</td>
+            {children(item.children[0])}
+        </tr>;
+        let tr2 = item.children.slice(1).map((child: Category, i: number) => {
+            return <tr key={i}>{children(child)}</tr>
+        });
+        return childLength > 1 ? [tr1, tr2] : tr1;
+    }
+
+    renderQuestion() {
+        return <table className='table table-striped table-bordered dataTable teacher-quiz-edit-tables'>
+            <thead>{this.renderHeaders()}</thead>
+            <tbody>{this.state.cates.map(this.renderItems.bind(this))}</tbody>
+        </table>
     }
 
     renderQuestions() {
@@ -175,15 +239,21 @@ export class QuizEdit extends RenderPairComponent<RouteComponentProps<any>, Stat
                 this.props.history.push(`/teacher/quiz`);
             })
         };
-        let subBtn = this.isInit() ? <button onClick={submit}>提交</button> : null;
-        return <div>
-            {this.renderPairInputText("quiz.name", "名称")}
-            {this.renderPairSelect("quiz.clazzId", "选择班级", Kit.optionValueList(this.state.clazzes))}
-            {this.renderPairDatePicker("quiz.limitDate", "截止日期")}
-            {this.renderQuestions()}
-            {this.renderSelector()}
-            {subBtn}
-            <Link to={`/teacher/quiz`}>返回</Link>
+        let subBtn = this.isInit() ? <button onClick={submit} className='btn btn-primary'>提交</button> : null;
+        let location = this.state.disabled ? "查看题目" : '新增题目';
+        return <div className='teacher-quiz-edit-con'>
+            <div>{"当前位置：考试任务 > " + location}</div>
+            <div className={'box'}>
+                {this.renderPairInputText("quiz.name", "名称")}
+                {this.renderPairSelect("quiz.clazzId", "选择班级", Kit.optionValueList(this.state.clazzes))}
+                {this.renderPairDatePicker("quiz.limitDate", "截止日期")}
+                {this.renderQuestion()}
+                {this.renderSelector()}
+                <div className={'quiz-edit-btns'}>
+                    {subBtn}
+                    <Link to={`/teacher/quiz`}>返回</Link>
+                </div>
+            </div>
         </div>
     }
 

@@ -5,6 +5,7 @@ import {Course, Category} from "../../../def/entity";
 import {RouteComponentProps} from "react-router";
 import {Def} from "../../../def/data";
 import {RenderPairComponent} from "../../../component/RenderPair/index";
+import "./style.less";
 
 class State {
     course: Course = new Course();
@@ -77,14 +78,15 @@ export class CourseInfo extends RenderPairComponent<RouteComponentProps<any>, St
                 )
             }
         };
-        return <div>
-            <h1>课程</h1>
+        return <div className={'teacher-course-info'}>
             {this.renderPairInputText("course.name", "课程名")}
             {this.renderPairTextArea("course.description", "课程描述")}
-            {this.renderPairCheckGroup("course.difficulty", "难度", Def.courseDifficultyMap)}
+            {this.renderPairCheckGroup("course.difficulty", "难度", Def.courseDifficultyMap, 'difficulty-checks')}
             {this.renderPairSelect("course.cate0Id", "一级类别", Kit.optionValueList(this.state.cate0, "name", "id"))}
             {this.renderPairSelect("course.cate1Id", "二级类别", Kit.optionValueList(this.state.cate1.filter(c => c.parentId == this.state.course.cate0Id), "name", "id"))}
-            <button onClick={submit}>保存</button>
+            <div className={'btn-save'}>
+                <button onClick={submit} className={"btn btn-primary"}>保存</button>
+            </div>
         </div>
     }
 }

@@ -1,0 +1,59 @@
+.teacher-quiz-edit-con {
+  .box {
+    top: 10px;
+    padding: 15px;
+    .ellipsis {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    input[name="quiz.name"] {
+      width: 179px;
+    }
+    .teacher-quiz-edit-tables {
+      thead {
+        td:nth-child(1), td:nth-child(2) {
+          width: 200px;
+          .ellipsis;
+        }
+        td:nth-child(3), td:nth-child(4) {
+          width: 100px;
+        }
+        td:nth-last-child(2) {
+          width: 330px;
+          .ellipsis;
+        }
+        td:nth-last-child(1) {
+          width: 50px;
+        }
+      }
+    }
+    .quiz-edit-btns {
+      margin-top: 15px;
+      text-align: center;
+      .btn {
+        margin-right: 10px;
+        vertical-align: text-bottom;
+      }
+    }
+    .teacher-quiz-edit-modal-con {
+      .checked-all {
+        float: left;
+      }
+      .modal-body {
+        table {
+          thead {
+            td:nth-child(2) {
+              min-width: 200px;
+              max-width: 1000px;
+              .ellipsis;
+            }
+            td:nth-child(3) {
+              min-width: 100px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

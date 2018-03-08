@@ -4,6 +4,7 @@ import {EH, TEH} from "../../../common/render-component";
 import {RenderPairComponent} from "../../../component/RenderPair/index";
 import {Def} from "../../../def/data";
 import {Kit} from "../../../common/kit";
+import './style.less';
 
 class State {
     question: Question = new Question();
@@ -14,6 +15,7 @@ interface Props {
     onChange: TEH<Question>;
     onSubmit: EH;
     onCancel: EH;
+    modalHeader: (item: string) => void;
     cate0: any;
     cate1: any;
 }
@@ -69,20 +71,25 @@ export class QuestionInfo extends RenderPairComponent<Props, State> {
         if (!this.props.question.id) {
             return this.renderPairCheckGroup("ty", "题目类型", map)
         } else {
-            return <span>{map[this.props.question.ty]}</span>
+            return <span className={'question-type'}>{map[this.props.question.ty]}</span>
         }
     }
 
     render() {
-        return <div>
-            {this.renderType()}
-            {this.renderPairSelect("cate0Id", "一级类别", Kit.optionValueList(this.props.cate0, "name", "id"))}
-            {this.renderPairSelect("cate1Id", "二级类别", Kit.optionValueList(this.props.cate1.filter(c => c.parentId == this.props.question.cate0Id), "name", "id"))}
-            {this.renderPairTextArea("title", "题目")}
-            {this.renderPairInputText("score", "分值")}
-            {this.renderContent()}
-            <button onClick={this.props.onSubmit}>保存</button>
-            <button onClick={this.props.onCancel}>取消</button>
+        return <div  className={'modal-content question-modal-add'}>
+            {this.props.modalHeader('新增题目')}
+            <div className={'modal-body'}>
+                {this.renderType()}
+                {this.renderPairSelect("cate0Id", "一级类别", Kit.optionValueList(this.props.cate0, "name", "id"))}
+                {this.renderPairSelect("cate1Id", "二级类别", Kit.optionValueList(this.props.cate1.filter(c => c.parentId == this.props.question.cate0Id), "name", "id"))}
+                {this.renderPairTextArea("title", "题目")}
+                {this.renderPairInputText("score", "分值")}
+                {this.renderContent()}
+            </div>
+            <div className={'modal-footer'}>
+                <button onClick={this.props.onCancel} className={'btn btn-default'}>取消</button>
+                <button onClick={this.props.onSubmit} className={'btn btn-primary'}>保存</button>
+            </div>
         </div>
     }
 }

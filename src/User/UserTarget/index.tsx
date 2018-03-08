@@ -8,6 +8,8 @@ import {WebUploader} from "../../component/WebUploader/index";
 import {Target, FileInfo} from "../../def/entity";
 import {ajaxGet, Kit} from "../../common/kit";
 import {update} from "../../common/updater";
+import {_getUid, _userLeftLocation} from "../../common/common-method";
+import "./style.less";
 
 class TargetListInner extends CurdComponent<Target> {
     constructor(props) {
@@ -67,10 +69,12 @@ class TargetListInner extends CurdComponent<Target> {
                   onCreate: EH,
                   onUpdate: TEH<Target>,
                   onDelete: TEH<Target>): any {
-        return <div>
-            <h1>靶场题目</h1>
-            {renderTable()}
-            {renderRoute()}
+        return <div className='user-target-main-con'>
+            <div>{"当前位置：" + _userLeftLocation(_getUid())}</div>
+            <div className='box'>
+                {renderTable()}
+                {renderRoute()}
+            </div>
         </div>
     }
 
@@ -116,7 +120,7 @@ export class UserTargetList extends ListPageComponent<Target> {
         let onChange = (list) => {
             this.setState({list})
         };
-        return <div>
+        return <div className='user-target-content'>
             <TargetListInner
                 list={this.state.list}
                 onChange={onChange}

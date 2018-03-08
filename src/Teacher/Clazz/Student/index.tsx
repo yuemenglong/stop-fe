@@ -7,6 +7,7 @@ import {CurdComponent, CurdState} from "../../../common/curd-component";
 import {EH, TEH} from "../../../common/render-component";
 import {JVOID0} from "../../../def/data";
 import {ClazzStudentSelector} from "../Selector/index";
+import './style.less';
 
 class State {
     students: Array<Student> = [];
@@ -36,10 +37,13 @@ class ClazzStudentInner extends CurdComponent<Student> {
     }
 
     renderContent(renderTable: () => any, renderModal: () => any, onCreate: EH, onUpdate: TEH<Student>, onDelete: TEH<Student>): any {
-        return <div>
-            <a href={JVOID0} onClick={onCreate}>添加学生</a>
-            {renderTable()}
-            {renderModal()}
+        return <div className={'teacher-clazz-student-con'}>
+            <div>当前位置:班级列表 > 学生信息</div>
+            <div className={'box'}>
+                <a href={JVOID0} onClick={onCreate} className={'btn bg-orange btn-add'}>添加学生</a>
+                {renderTable()}
+                {renderModal()}
+            </div>
         </div>
     }
 
@@ -47,12 +51,13 @@ class ClazzStudentInner extends CurdComponent<Student> {
         return new Student();
     }
 
-    renderModalContent(onChange: TEH<Student>, onSubmit: EH, onCancel: EH): any {
+    renderModalContent(onChange: TEH<Student>, onSubmit: EH, onCancel: EH, modalHeader: (item: string) => void): any {
         let onSelect = (selected) => {
             this.props.onChange(this.props.list.concat(selected));
             onCancel();
         };
-        return <ClazzStudentSelector onCancel={onCancel} onSelect={onSelect} match={this.props.match}/>;
+        return <ClazzStudentSelector onCancel={onCancel} onSelect={onSelect} match={this.props.match}
+                                     modalHeader={modalHeader}/>;
     }
 
     getRenderRootMode(): { root: any; mode: string; onChange?: Function } {

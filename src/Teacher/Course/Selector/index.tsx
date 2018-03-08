@@ -3,6 +3,7 @@ import {ajaxPut} from "../../../common/kit";
 import {ListPageComponent, ListPageProps, ListPageState} from "../../../common/list-page-component";
 import {Table} from "../../../common/Table";
 import {JVOID0} from "../../../def/data";
+import "./style.less";
 
 interface Props extends ListPageProps {
     ty: string,
@@ -10,6 +11,7 @@ interface Props extends ListPageProps {
     selected: Array<any>,
     onSelect: (any) => any,
     onCancel: () => any,
+    modalHeader: (item: string) => void;
 }
 
 export class CourseItemSelector extends ListPageComponent<any, Props> {
@@ -75,11 +77,16 @@ export class CourseItemSelector extends ListPageComponent<any, Props> {
 
     renderPage(renderPagination: () => any, refresh: (e?: any) => void, swtch: (page: number) => void): any {
         let headers = this.getHeaders();
-        return <div>
-            <h1>选择列表</h1>
-            <Table className="table" list={this.state.list} headers={headers}/>
-            <button onClick={this.props.onCancel}>完成</button>
-            {renderPagination()}
+        return <div className='modal-content teacher-course-selector-content'>
+            {this.props.modalHeader('新增列表')}
+            <div className='modal-body'>
+                <Table className="table table-bordered table-striped dataTable"
+                       list={this.state.list} headers={headers}/>
+                {renderPagination()}
+            </div>
+            <div className='modal-footer'>
+                <button onClick={this.props.onCancel} className='btn btn-primary'>确定</button>
+            </div>
         </div>;
     }
 }

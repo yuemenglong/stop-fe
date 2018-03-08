@@ -23,22 +23,38 @@ class Conf {
         this.targetPath = targetPath;
     }
 }
+const adminConf = new Conf(92, "localhost", 8080,
+    "D:/upload",
+    "D:/upload/ppt",
+    "D:/upload/video",
+    "D:/target");
+const teacherConf = new Conf(91, "localhost", 8080,
+    "D:/upload",
+    "D:/upload/ppt",
+    "D:/upload/video",
+    "D:/target");
+const userConf = new Conf(90, "localhost", 8080,
+    "D:/upload",
+    "D:/upload/ppt",
+    "D:/upload/video",
+    "D:/target");
 
-const adminConf = new Conf(82, "localhost", 8080,
-    "D:/upload",
-    "D:/upload/ppt",
-    "D:/upload/video",
-    "D:/target");
-const teacherConf = new Conf(81, "localhost", 8080,
-    "D:/upload",
-    "D:/upload/ppt",
-    "D:/upload/video",
-    "D:/target");
-const userConf = new Conf(80, "localhost", 8080,
-    "D:/upload",
-    "D:/upload/ppt",
-    "D:/upload/video",
-    "D:/target");
+
+// const adminConf = new Conf(82, "localhost", 8080,
+//     "D:/upload",
+//     "D:/upload/ppt",
+//     "D:/upload/video",
+//     "D:/target");
+// const teacherConf = new Conf(81, "localhost", 8080,
+//     "D:/upload",
+//     "D:/upload/ppt",
+//     "D:/upload/video",
+//     "D:/target");
+// const userConf = new Conf(80, "localhost", 8080,
+//     "D:/upload",
+//     "D:/upload/ppt",
+//     "D:/upload/video",
+//     "D:/target");
 // const userConf = new Conf(80, "localhost", 8080, "D:\\upload");
 
 export {userConf, teacherConf, adminConf}

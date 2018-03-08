@@ -8,6 +8,8 @@ import {WebUploader} from "../../component/WebUploader/index";
 import {FileInfo, Video} from "../../def/entity";
 import {ajaxGet, Kit} from "../../common/kit";
 import {update} from "../../common/updater";
+import {_adminLeftLocation} from "../../common/common-method";
+import './style.less';
 
 class VideoListInner extends CurdComponent<Video> {
     constructor(props) {
@@ -21,7 +23,8 @@ class VideoListInner extends CurdComponent<Video> {
 
     renderModalContent(onChange: TEH<Video>,
                        onSubmit: EH,
-                       onCancel: EH): any {
+                       onCancel: EH,
+                       modalHeader: (item: string) => void): any {
         let onUpload = (file: FileInfo) => {
             let item = _.clone(this.state.item);
             item.file = file;
@@ -31,18 +34,24 @@ class VideoListInner extends CurdComponent<Video> {
             // extensions: ".mp4",
             // mimeTypes: "video/mp4"
         };
-        let file = <WebUploader onChange={onUpload} accept={accept} server="/video"/>;
         let fileName = _.get(this.state, "item.file.fileName");
+        let inb = {display: "inline-block"};
+        let file = <div style={inb}><WebUploader onChange={onUpload} accept={accept} server="/video"/></div>;
         if (fileName) {
-            file = <div>{fileName}</div>
+            file = <div style={inb}>{fileName}</div>;
         }
-        return <div>
-            {this.renderPairInputText("item.name", "名称")}
-            {file}
-            {this.renderPairSelect("item.cate0Id", "一级类别", Kit.optionValueList(this.props.data.cate0, "name", "id"))}
-            {this.renderPairSelect("item.cate1Id", "二级类别", Kit.optionValueList(this.props.data.cate1.filter(c => c.parentId == this.state.item.cate0Id), "name", "id"))}
-            <button onClick={onSubmit}>确定</button>
-            <button onClick={onCancel}>取消</button>
+        return <div className={'modal-content video-modal-add'}>
+            {modalHeader('新增视频')}
+            <div className={'modal-body'}>
+                {this.renderPairInputText("item.name", "名称")}
+                <div className={'video-upload'}><span className={'upload-title'}>文件</span>{file}</div>
+                {this.renderPairSelect("item.cate0Id", "一级类别", Kit.optionValueList(this.props.data.cate0, "name", "id"))}
+                {this.renderPairSelect("item.cate1Id", "二级类别", Kit.optionValueList(this.props.data.cate1.filter(c => c.parentId == this.state.item.cate0Id), "name", "id"))}
+            </div>
+            <div className={'modal-footer'}>
+                <button onClick={onCancel} className={'btn btn-default'}>取消</button>
+                <button onClick={onSubmit} className={'btn btn-primary'}>确定</button>
+            </div>
         </div>
     }
 
@@ -58,7 +67,7 @@ class VideoListInner extends CurdComponent<Video> {
         }, {
             name: "大小", render: "file.size",
         }, {
-            name: "操作", render: (item: Video) => <div>
+            name: "操作", render: (item: Video) => <div className={'video-table-btns'}>
                 <a href={`/video?fileId=${item.file.fileId}`} target="_blank">播放</a>
                 <a href={JVOID0} onClick={onUpdate.bind(null, item)}>修改</a>
                 <a href={JVOID0} onClick={onDelete.bind(null, item)}>删除</a>
@@ -66,16 +75,14 @@ class VideoListInner extends CurdComponent<Video> {
         }];
     }
 
-    renderContent(renderTable: () => any,
-                  renderRoute: () => any,
-                  onCreate: EH,
-                  onUpdate: TEH<Video>,
-                  onDelete: TEH<Video>): any {
-        return <div>
-            <h1>视频</h1>
-            {renderTable()}
-            <button onClick={onCreate}>添加</button>
-            {renderRoute()}
+    renderContent(renderTable: () => any, renderModal: () => any, onCreate: EH, onUpdate: TEH<Video>, onDelete: TEH<Video>) {
+        return <div className='video-con'>
+            <div>{'当前位置：' + _adminLeftLocation}</div>
+            <div className={'box'}>
+                <button onClick={onCreate} className={'btn bg-orange btn-add'}>新增</button>
+                {renderTable()}
+                {renderModal()}
+            </div>
         </div>
     }
 

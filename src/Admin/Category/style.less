@@ -1,0 +1,66 @@
+.category-con {
+  .box {
+    top: 10px;
+    padding: 0px 15px;
+  }
+  //新增课程一级体系按钮
+  .btn-add {
+    float: right;
+    margin: 10px 10px 10px 0px;
+  }
+  //课程体系最外层表格
+  .category-table {
+    thead {
+      th:nth-child(1) {
+        width: 200px;
+      }
+      th:nth-child(2) {
+        width: 380px;
+      }
+      th:nth-child(3) {
+        width: 200px;
+      }
+    }
+    tbody {
+      .cate-two-con {
+        width: 380px;
+        word-wrap: break-word;
+        a {
+          margin-right: 10px;
+        }
+      }
+    }
+    .category-table-btn {
+      a {
+        margin-right: 20px;
+      }
+    }
+  }
+  //编辑课程二级体系modal框
+  .two-cate-modal {
+    .render-pair-input-text {
+      display: inline-block;
+      margin: 15px 20px 0px 0px;
+    }
+    .btn-add-two-cate {
+      padding: 2px 10px;
+      vertical-align: bottom;
+    }
+    //表格
+    .category-table-two {
+      tbody {
+        display: block;
+        max-height: 500px;
+        overflow-y: auto;
+      }
+      thead, tbody tr {
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+      }
+      //thead {
+      //  width: calc( 100% - 3em )
+      //}
+    }
+  }
+}

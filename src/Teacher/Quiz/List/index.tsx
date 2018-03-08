@@ -7,6 +7,8 @@ import {Quiz} from "../../../def/entity";
 import {JVOID0} from "../../../def/data";
 import {CurdComponent, CurdState} from "../../../common/curd-component";
 import {EH, TEH} from "../../../common/render-component";
+import {_teacherLeftLocation} from "../../../common/common-method";
+import './style.less';
 
 class QuizListInner extends CurdComponent<Quiz> {
     constructor(props) {
@@ -23,26 +25,28 @@ class QuizListInner extends CurdComponent<Quiz> {
     }
 
     getHeaderRender(onCreate: EH, onUpdate: TEH<Quiz>, onDelete: TEH<Quiz>): Array<{ name: string; render: any }> {
-        return [{
-            name: "名称", render: "name",
-        }, {
-            name: "班级", render: "clazz.name",
-        }, {
-            name: "截止日期", render: "limitDate",
-        }, {
-            name: "操作", render: (item) => {
-                return <div>
+        return [
+            {name: "名称", render: "name"},
+            {name: "班级", render: "clazz.name"},
+            // {name: "截止日期", render: "limitDate"},
+            {
+                name: "操作", render: (item) => {
+                return <div className='teacher-quiz-table-btns'>
                     <a href={JVOID0} onClick={onDelete.bind(null, item)}>删除</a>
                     <Link to={`/teacher/quiz/${item.id}`}>查看题目</Link>
                     <Link to={`/teacher/quiz/${item.id}/jobs`}>查看完成情况</Link>
                 </div>
             }
-        }]
+            }]
     }
 
     renderContent(renderTable: () => any, renderModal: () => any, onCreate: EH, onUpdate: TEH<Quiz>, onDelete: TEH<Quiz>): any {
-        return <div>
-            {renderTable()}
+        return <div className={'teacher-quiz-list-content'}>
+            <div>{"当前位置：" + _teacherLeftLocation}</div>
+            <div className={'box'}>
+                <Link to={`/teacher/quiz/init`} className='btn bg-orange btn-add'>新增</Link>
+                {renderTable()}
+            </div>
         </div>
     }
 
@@ -82,13 +86,11 @@ export class QuizList extends ListPageComponent<Quiz> {
             this.setState({list})
         };
         return <div>
-            <h1>考试任务列表</h1>
             <QuizListInner
                 match={this.props.match}
                 history={this.props.history}
                 onChange={onChange}
                 list={this.state.list}/>
-            <Link to={`/teacher/quiz/init`}>新增</Link>
         </div>
     }
 

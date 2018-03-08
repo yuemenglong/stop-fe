@@ -10,7 +10,9 @@ import {ajaxGet, Kit} from "../../../common/kit";
 import {update} from "../../../common/updater";
 import {DatePicker} from "../../../component/DatePicker/index";
 import {Link} from "react-router-dom";
-import _ = require("lodash");
+import * as _ from "lodash";
+import {_teacherLeftLocation} from "../../../common/common-method";
+import './style.less';
 
 class StudyJobListInner extends CurdComponent<StudyJob> {
 
@@ -45,7 +47,7 @@ class StudyJobListInner extends CurdComponent<StudyJob> {
             {name: "班级", render: (item) => (this.state.data.clazzMap || {})[item.clazzId]},
             {
                 name: "操作", render: (job: StudyJob) => {
-                return <div>
+                return <div className={'study-job-table-btns'}>
                     <a href={JVOID0} onClick={onUpdate.bind(null, job)}>编辑</a>
                     <a href={JVOID0} onClick={onDelete.bind(null, job)}>删除</a>
                     <Link to={`/teacher/study-job/${job.id}/student`}>完成情况</Link>
@@ -56,10 +58,13 @@ class StudyJobListInner extends CurdComponent<StudyJob> {
     }
 
     renderContent(renderTable: () => any, renderRoute: () => any, onCreate: EH, onUpdate: TEH<StudyJob>, onDelete: TEH<StudyJob>): any {
-        return <div>
-            {renderTable()}
-            {renderRoute()}
-            <button onClick={onCreate}>新增</button>
+        return <div className={'teacher-study-job-list'}>
+            <div>{"当前位置：" + _teacherLeftLocation}</div>
+            <div className={'box'}>
+                <button onClick={onCreate} className={'btn bg-orange btn-add'}>新增</button>
+                {renderTable()}
+                {renderRoute()}
+            </div>
         </div>
     }
 
@@ -67,16 +72,21 @@ class StudyJobListInner extends CurdComponent<StudyJob> {
         return new StudyJob();
     }
 
-    renderModalContent(onChange: TEH<StudyJob>, onSubmit: EH, onCancel: EH): any {
+    renderModalContent(onChange: TEH<StudyJob>, onSubmit: EH, onCancel: EH, modalHeader: (item: string) => void): any {
         let courseList = Kit.optionValueList(this.state.data.courses, "name");
-        let clazzList = Kit.optionValueList(this.state.data.clazzes, "name");
-        return <div>
-            {this.renderPairInputText("item.name", "名称")}
-            {this.renderPairSelect("item.courseId", "课程", courseList)}
-            {this.renderPairSelect("item.clazzId", "班级", clazzList)}
-            {this.renderPairDatePicker("item.limitDate", "截止日期")}
-            <button onClick={onSubmit}>确定</button>
-            <button onClick={onCancel}>取消</button>
+        let clazzList = Kit.optionValueList(this.state.data.clazzs, "name");
+        return <div className={'modal-content'}>
+            {modalHeader('新增学习任务')}
+            <div className={'modal-body'}>
+                {this.renderPairInputText("item.name", "名称")}
+                {this.renderPairSelect("item.courseId", "课程", courseList)}
+                {this.renderPairSelect("item.clazzId", "班级", clazzList)}
+                {this.renderPairDatePicker("item.limitDate", "截止日期")}
+            </div>
+            <div className={'modal-footer'}>
+                <button onClick={onCancel} className='btn btn-default'>取消</button>
+                <button onClick={onSubmit} className='btn btn-primary'>确定</button>
+            </div>
         </div>;
     }
 

@@ -2,13 +2,16 @@ import * as React from "react";
 import {Component} from "react";
 import {CurdComponent, CurdProps, CurdState} from "../../common/curd-component";
 import {Category} from "../../def/entity";
-import {EH, TEH} from "../../common/render-component";
+import {EH, TEH, validateRegex} from "../../common/render-component";
 import {JVOID0} from "../../def/data";
 import {ajaxDelete, ajaxGet, ajaxPost} from "../../common/kit";
 import {Table} from "../../common/Table";
 import {update, updates} from "../../common/updater";
 import {Modal} from "../../common/modal";
 import {RenderPairComponent} from "../../component/RenderPair/index";
+import './style.less';
+import * as _ from "lodash";
+import {_adminLeftLocation} from "../../common/common-method";
 
 class Categor2Inner extends RenderPairComponent<{
     cate: Category,
@@ -54,14 +57,27 @@ class Categor2Inner extends RenderPairComponent<{
             ajaxPost(`${location.pathname}`, c, (res) => {
                 let cate = update(this.props.cate, "children[]", res);
                 this.props.onChange(cate);
-                this.setState({name: ""})
+                this.setState({name: ""});
+                $('.category-table-two tbody').scrollTop($('.category-table-two tbody')[0].scrollHeight)
             })
         };
-        return <div>
-            <Table className="table" list={this.props.cate.children} headers={headerRender} getKey={(c) => c.id}/>;
-            {this.renderPairInputText("name", "二级体系名称")}
-            <button onClick={onSaveSub}>新增二级体系</button>
-            <button onClick={this.props.onCancel}>关闭</button>
+        let children = this.props.cate.children;
+        let table = !_.get(children, 'length') ? false :
+            <Table className="table  table-bordered table-striped dataTable category-table-two"
+                   list={this.props.cate.children} headers={headerRender} getKey={(c) => c.id}/>;
+        return <div className={'modal-content two-cate-modal'}>
+            <div className={'modal-header'}>
+                <button type={'button'} className={'close'} onClick={this.props.onCancel}>×</button>
+                <h4 className={'modal-title'} style={{textAlign: 'left'}}>编辑课程二级体系</h4>
+            </div>
+            <div className={'modal-body'}>
+                {table}
+                {this.renderPairInputText("name", "二级体系名称")}
+                <button onClick={onSaveSub} className={'btn bg-orange btn-add-two-cate'}>新增二级体系</button>
+            </div>
+            <div className={'modal-footer'}>
+                <button onClick={this.props.onCancel} className={'btn btn-default'}>关闭</button>
+            </div>
         </div>
     }
 }
@@ -92,14 +108,16 @@ class CategoryInner extends CurdComponent<Category, CurdProps<Category>, InnerSt
             {name: "一级体系", render: "name"},
             {
                 name: "二级体系", render: (item: Category) => {
-                return item.children.map(c => {
-                    return <a key={c.id}>{c.name}</a>
-                })
+                return <div className={'cate-two-con'}>{
+                    item.children.map(c => {
+                        return <a key={c.id}>{c.name}</a>
+                    })
+                }</div>
             }
             },
             {
                 name: "操作", render: (item: Category) => {
-                return <div>
+                return <div className={'category-table-btn'}>
                     <a href={JVOID0} onClick={onUpdate.bind(null, item)}>编辑</a>
                     <a href={JVOID0} onClick={onCate2.bind(null, item)}>编辑二级体系</a>
                     <a href={JVOID0} onClick={onDelete.bind(null, item)}>删除</a>
@@ -109,12 +127,15 @@ class CategoryInner extends CurdComponent<Category, CurdProps<Category>, InnerSt
         ]
     }
 
-    renderContent(renderTable: () => any, renderModal: () => any, onCreate: EH, onUpdate: TEH<Category>, onDelete: TEH<Category>): any {
-        return <div>
-            {renderTable()}
-            {renderModal()}
-            {this.renderCate2Modal()}
-            <button onClick={onCreate}>新增</button>
+    renderContent(renderTable: (clssName: string) => any, renderModal: () => any, onCreate: EH, onUpdate: TEH<Category>, onDelete: TEH<Category>): any {
+        return <div className={'category-con'}>
+            <div>{'当前位置：' + _adminLeftLocation}</div>
+            <div className={'box'}>
+                <button type={'button'} className={'btn bg-orange btn-add'} onClick={onCreate}>新增</button>
+                {renderTable("category-table")}
+                {renderModal()}
+                {this.renderCate2Modal()}
+            </div>
         </div>
     }
 
@@ -136,16 +157,29 @@ class CategoryInner extends CurdComponent<Category, CurdProps<Category>, InnerSt
         let onCancel = () => {
             this.setState({cate2: null})
         };
-        return <Modal>
+        return <Modal className={'modal-dialog'}>
             <Categor2Inner cate={this.state.cate2} onChange={onChange} onCancel={onCancel}/>
         </Modal>
     }
 
-    renderModalContent(onChange: TEH<Category>, onSubmit: EH, onCancel: EH): any {
-        return <div>
-            {this.renderPairInputText("item.name", "名称")}
-            <button onClick={onSubmit}>保存</button>
-            <button onClick={onCancel}>取消</button>
+
+    getRenderValidator() {
+        let re = validateRegex;
+        return {
+            item: {
+                name: re(/\S+/, "请输入名称")
+            }
+        }
+    }
+
+    renderModalContent(onChange: TEH<Category>, onSubmit: EH, onCancel: EH, modalHeader: (item: string) => void): any {
+        return <div className={'modal-content'}>
+            {modalHeader('新增' + this.props.title + '一级体系')}
+            <div className={'modal-body'}>{this.renderPairInputText("item.name", "名称")}</div>
+            <div className={'modal-footer'}>
+                <button onClick={onCancel} className={'btn btn-default'}>取消</button>
+                <button onClick={onSubmit} className={'btn btn-primary'}>保存</button>
+            </div>
         </div>
     }
 
@@ -163,6 +197,7 @@ class Props {
     ty: string;
     match?: any;
     history?: any;
+    title?: string;
 }
 
 export class CategoryList extends Component<Props, State> {
@@ -181,11 +216,8 @@ export class CategoryList extends Component<Props, State> {
         let onChange = (list) => {
             this.setState({list})
         };
-        return <CategoryInner
-            list={this.state.list}
-            history={this.props.history} onChange={onChange}
-            data={{ty: this.props.ty}}
-        />
+        return <CategoryInner list={this.state.list} history={this.props.history} onChange={onChange}
+                              data={{ty: this.props.ty}} title={this.props.title}/>
     }
 }
 
